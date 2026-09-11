@@ -1,0 +1,296 @@
+/* =============================================================================
+ *  SOMBRAS DA REPUBLICA  --  SERVIDOR
+ * =============================================================================
+ *  Regra de ouro deste arquivo: O SERVIDOR MANDA.
+ *
+ *  Na versao anterior o navegador decidia sozinho quem era o Mestre, e o
+ *  servidor obedecia qualquer um que mandasse o evento certo. Qualquer aluno
+ *  com o console aberto conseguia pular a sessao para o final.
+ *
+ *  Agora:
+ *    - a senha do Mestre e conferida AQUI, nunca no navegador;
+ *    - so quem passou pela senha consegue avancar a historia;
+ *    - o servidor confere se a carta de destino realmente existe e se e um
+ *      destino valido da carta atual (nao da para pular cenas);
+ *    - clique duplo do Mestre nao avanca duas vezes (controle de versao).
+ * ========================================================================== */
+
+import express from 'express';
+import { createServer } from 'node:http';
+import { Server } from 'socket.io';
+import path from 'node:path';
+import fs from 'node:fs';
+import os from 'node:os';
+import { fileURLToPath } from 'node:url';
+
+import {
+  cartas,
+  CENA_INICIAL,
+  CENA_FINAL,
+  montarCarta,
+  destinosValidos,
+  acharEscolha,
+  apurarVotos,
+  tendenciaDominante,
+} from '../src/regras.js';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const RAIZ = path.join(__dirname, '..');
+
+/* -----------------------------------------------------------------------------
+ *  Leitor de .env caseiro (evita instalar mais uma dependencia)
+ * -------------------------------------------------------------------------- */
+function carregarEnv() {
+  const arquivo = path.join(RAIZ, '.env');
+  if (!fs.existsSync(arquivo)) return;
+  for (const linha of fs.readFileSync(arquivo, 'utf8').split('\n')) {
+    const limpa = linha.trim();
+    if (!limpa || limpa.startsWith('#')) continue;
+    const igual = limpa.indexOf('=');
+    if (igual === -1) continue;
+    const chave = limpa.slice(0, igual).trim();
+    const valor = limpa.slice(igual + 1).trim().replace(/^["']|["']$/g, '');
+    if (!(chave in process.env)) process.env[chave] = valor;
+  }
+}
+carregarEnv();
+
+const PORTA = Number(process.env.PORT) || 3000;
+const SENHA_MESTRE = process.env.SENHA_MESTRE || 'mestre1889';
+const SENHA_PADRAO = !process.env.SENHA_MESTRE;
+
+/* -----------------------------------------------------------------------------
+ *  HTTP
+ * -------------------------------------------------------------------------- */
+const app = express();
+const http = createServer(app);
+
+app.disable('x-powered-by');
+
+// Só a pasta public fica exposta. Antes a raiz inteira era servida,
+// o que deixava package.json e node_modules acessiveis para qualquer um.
+app.use(express.static(path.join(RAIZ, 'public'), { dotfiles: 'ignore' }));
+
+// O navegador importa a historia e as regras direto do mesmo arquivo que o
+// servidor usa. Uma fonte de verdade, sem etapa de build.
+app.use('/src', express.static(path.join(RAIZ, 'src'), { dotfiles: 'ignore' }));
+
+app.get('/saude', (_req, res) => {
+  res.json({ ok: true, cena: estado.cena, jogadores: contarPapeis().jogadores });
+});
+
+/* -----------------------------------------------------------------------------
+ *  Socket.IO
+ *  Mantemos o fallback de polling: em wifi de escola e atras de proxy o
+ *  WebSocket puro as vezes simplesmente nao conecta.
+ * -------------------------------------------------------------------------- */
+const io = new Server(http, {
+  transports: ['websocket', 'polling'],
+  pingTimeout: 20000,
+});
+
+/* -----------------------------------------------------------------------------
+ *  ESTADO DA SESSAO (a unica verdade do jogo)
+ * -------------------------------------------------------------------------- */
+const estadoInicial = () => ({
+  cena: CENA_INICIAL,
+  historico: [], // [{ cartaId, escolhaId, filosofo }]
+  votos: {}, // { socketId: escolhaId } -- zerado a cada carta
+  versao: 0, // sobe a cada avanco; protege contra clique duplo
+});
+
+let estado = estadoInicial();
+
+function contarPapeis() {
+  let jogadores = 0;
+  let mestres = 0;
+  for (const s of io.sockets.sockets.values()) {
+    if (s.data.papel === 'mestre') mestres += 1;
+    else if (s.data.papel === 'jogador') jogadores += 1;
+  }
+  return { jogadores, mestres, total: jogadores + mestres };
+}
+
+function snapshot() {
+  return {
+    cena: estado.cena,
+    historico: estado.historico,
+    versao: estado.versao,
+    tendencia: tendenciaDominante(estado.historico),
+    apuracao: apurarVotos(estado.cena, estado.votos),
+    presenca: contarPapeis(),
+  };
+}
+
+function transmitirEstado() {
+  io.emit('estado', snapshot());
+}
+
+function transmitirApuracao() {
+  io.emit('apuracao', {
+    versao: estado.versao,
+    apuracao: apurarVotos(estado.cena, estado.votos),
+    presenca: contarPapeis(),
+  });
+}
+
+/* -----------------------------------------------------------------------------
+ *  Conexoes
+ * -------------------------------------------------------------------------- */
+io.on('connection', (socket) => {
+  socket.data.papel = 'jogador';
+  socket.data.tentativasSenha = 0;
+  socket.data.ultimoVoto = 0;
+
+  socket.emit('bem-vindo', { papel: 'jogador', estado: snapshot() });
+  transmitirEstado();
+
+  /* ---- virar Mestre: a senha e conferida AQUI, no servidor --------------- */
+  socket.on('autenticar_mestre', (dados, resposta) => {
+    const responder = typeof resposta === 'function' ? resposta : () => {};
+
+    socket.data.tentativasSenha += 1;
+    if (socket.data.tentativasSenha > 6) {
+      return responder({ ok: false, erro: 'Tentativas demais. Recarregue a página.' });
+    }
+
+    const senha = dados && typeof dados.senha === 'string' ? dados.senha : '';
+    if (senha !== SENHA_MESTRE) {
+      return responder({ ok: false, erro: 'Senha incorreta.' });
+    }
+
+    socket.data.papel = 'mestre';
+    responder({ ok: true, papel: 'mestre', estado: snapshot() });
+    transmitirEstado();
+  });
+
+  socket.on('entrar_como_jogador', (_dados, resposta) => {
+    socket.data.papel = 'jogador';
+    if (typeof resposta === 'function') resposta({ ok: true, papel: 'jogador', estado: snapshot() });
+    transmitirEstado();
+  });
+
+  /* ---- voto de jogador --------------------------------------------------- */
+  socket.on('votar', (dados) => {
+    // trava simples contra spam de voto
+    const agora = Date.now();
+    if (agora - socket.data.ultimoVoto < 250) return;
+    socket.data.ultimoVoto = agora;
+
+    const escolhaId = dados && typeof dados.escolhaId === 'string' ? dados.escolhaId : null;
+    if (!escolhaId) return;
+
+    // o voto so vale para a carta que esta no ar agora
+    if (!acharEscolha(estado.cena, escolhaId)) return;
+
+    estado.votos[socket.id] = escolhaId;
+    transmitirApuracao();
+  });
+
+  /* ---- Mestre avanca a historia ------------------------------------------ */
+  socket.on('mestre_avancar', (dados, resposta) => {
+    const responder = typeof resposta === 'function' ? resposta : () => {};
+    if (socket.data.papel !== 'mestre') {
+      return responder({ ok: false, erro: 'Apenas o Mestre pode avançar a sessão.' });
+    }
+
+    // Clique duplo: o segundo clique chega com a versao antiga e e ignorado.
+    if (dados && typeof dados.versao === 'number' && dados.versao !== estado.versao) {
+      return responder({ ok: false, erro: 'Essa decisão já foi registrada.' });
+    }
+
+    const escolhaId = dados && typeof dados.escolhaId === 'string' ? dados.escolhaId : null;
+    const escolha = acharEscolha(estado.cena, escolhaId);
+    if (!escolha) {
+      return responder({ ok: false, erro: 'Essa escolha não existe nesta carta.' });
+    }
+
+    // Ninguem pula cenas: o destino tem que existir e ser um destino
+    // declarado da carta atual.
+    if (!cartas[escolha.destino] || !destinosValidos(estado.cena).includes(escolha.destino)) {
+      return responder({ ok: false, erro: 'Destino inválido.' });
+    }
+
+    estado.historico.push({
+      cartaId: estado.cena,
+      escolhaId: escolha.id,
+      filosofo: escolha.filosofo || null,
+    });
+    estado.cena = escolha.destino;
+    estado.votos = {};
+    estado.versao += 1;
+
+    responder({ ok: true });
+    transmitirEstado();
+  });
+
+  /* ---- Mestre volta uma carta (salva-vidas de apresentacao) --------------- */
+  socket.on('mestre_voltar', (_dados, resposta) => {
+    const responder = typeof resposta === 'function' ? resposta : () => {};
+    if (socket.data.papel !== 'mestre') {
+      return responder({ ok: false, erro: 'Apenas o Mestre pode voltar.' });
+    }
+    if (estado.historico.length === 0) {
+      return responder({ ok: false, erro: 'A sessão já está no começo.' });
+    }
+
+    const ultimo = estado.historico.pop();
+    estado.cena = ultimo.cartaId;
+    estado.votos = {};
+    estado.versao += 1;
+
+    responder({ ok: true });
+    transmitirEstado();
+  });
+
+  /* ---- Mestre reinicia ---------------------------------------------------- */
+  socket.on('mestre_reiniciar', (_dados, resposta) => {
+    const responder = typeof resposta === 'function' ? resposta : () => {};
+    if (socket.data.papel !== 'mestre') {
+      return responder({ ok: false, erro: 'Apenas o Mestre pode reiniciar.' });
+    }
+    const versao = estado.versao + 1;
+    estado = estadoInicial();
+    estado.versao = versao;
+    responder({ ok: true });
+    transmitirEstado();
+  });
+
+  socket.on('disconnect', () => {
+    delete estado.votos[socket.id];
+    transmitirEstado();
+  });
+});
+
+/* -----------------------------------------------------------------------------
+ *  Sobe o servidor
+ * -------------------------------------------------------------------------- */
+function ipsDaRede() {
+  const lista = [];
+  for (const interfaces of Object.values(os.networkInterfaces())) {
+    for (const i of interfaces || []) {
+      if (i.family === 'IPv4' && !i.internal) lista.push(i.address);
+    }
+  }
+  return lista;
+}
+
+http.listen(PORTA, '0.0.0.0', () => {
+  const cartasTotal = Object.keys(cartas).length;
+  console.log('');
+  console.log('  SOMBRAS DA REPUBLICA -- servidor no ar');
+  console.log('  ---------------------------------------------------');
+  console.log(`  Cartas carregadas : ${cartasTotal}  (inicio: ${CENA_INICIAL}, final: ${CENA_FINAL})`);
+  console.log(`  Neste computador  : http://localhost:${PORTA}`);
+  for (const ip of ipsDaRede()) {
+    console.log(`  Para os celulares : http://${ip}:${PORTA}`);
+  }
+  console.log('  ---------------------------------------------------');
+  if (SENHA_PADRAO) {
+    console.log('  ATENCAO: usando a senha padrao do Mestre ("mestre1889").');
+    console.log('  Crie um arquivo .env com SENHA_MESTRE=suasenha antes de apresentar.');
+  } else {
+    console.log('  Senha do Mestre personalizada carregada.');
+  }
+  console.log('');
+});

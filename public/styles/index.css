@@ -1,0 +1,648 @@
+/* =============================================================================
+ *  SOMBRAS DA REPUBLICA -- estilo
+ *  Escrito mobile-first: as regras basicas valem para o celular e so depois
+ *  a tela grande recebe ajustes. Como a turma inteira entra pelo telefone,
+ *  esse e o tamanho que tem que ficar certo primeiro.
+ * ========================================================================== */
+
+:root {
+  --preto: #030303;
+  --preto-carta: #0b0b0b;
+  --preto-caixa: #111;
+  --texto: #d6d6d6;
+  --texto-fraco: #8a8a8a;
+  --borda: #242424;
+  --vinho: #7a0b0b;
+  --vinho-claro: #b81d1d;
+  --ouro: #c9a227;
+  --azul: #4a7fb5;
+
+  --raio: 4px;
+  --gutter: 16px;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+/* IMPORTANTE: varios blocos aqui usam "display: flex", e display vence o
+   atributo hidden do HTML. Sem esta regra, o mapa e o lobby continuariam
+   desenhados por cima da tela mesmo "escondidos", engolindo os cliques.
+   Esta linha faz o hidden funcionar de verdade em todo o projeto. */
+[hidden] { display: none !important; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background-color: var(--preto);
+  color: var(--texto);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 16px;
+  line-height: 1.6;
+  /* respeita o entalhe e a barra de gestos dos celulares */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+           env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* Foco visivel de verdade: da para jogar so com teclado. */
+:focus-visible {
+  outline: 2px solid var(--ouro);
+  outline-offset: 2px;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* -----------------------------------------------------------------------------
+ *  BOTOES
+ * -------------------------------------------------------------------------- */
+.botao {
+  font-family: inherit;
+  font-size: 15px;
+  color: #fff;
+  background-color: var(--preto-caixa);
+  border: 1px solid var(--vinho);
+  border-radius: var(--raio);
+  padding: 14px 18px;
+  min-height: 48px; /* alvo de toque confortavel no celular */
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: background-color .2s ease, border-color .2s ease, transform .1s ease;
+  width: 100%;
+}
+
+.botao:active { transform: translateY(1px); }
+.botao:disabled { opacity: .4; cursor: not-allowed; }
+
+.botao-confirmar { background-color: #1c0505; border-color: var(--vinho-claro); }
+
+.botao-secundario {
+  border-color: var(--borda);
+  color: var(--texto-fraco);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 14px;
+}
+
+/* -----------------------------------------------------------------------------
+ *  BARRA DE CONEXAO
+ * -------------------------------------------------------------------------- */
+.barra-conexao {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 30000;
+  background-color: #4a2a00;
+  color: #ffd9a0;
+  text-align: center;
+  padding: 8px var(--gutter);
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+.barra-conexao[data-estado="offline"] { background-color: #4a0000; color: #ffb3b3; }
+
+/* -----------------------------------------------------------------------------
+ *  LOBBY
+ * -------------------------------------------------------------------------- */
+.lobby {
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+  background-color: rgba(0, 0, 0, .96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--gutter);
+  overflow-y: auto;
+}
+
+.lobby-caixa {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.lobby-selo {
+  color: var(--vinho-claro);
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin: 0 0 10px;
+}
+
+.lobby-titulo {
+  font-size: 28px;
+  color: #fff;
+  margin: 0;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+.lobby-sub {
+  color: var(--texto-fraco);
+  font-style: italic;
+  margin: 8px 0 32px;
+}
+
+.lobby-pergunta { color: var(--texto-fraco); margin: 0 0 18px; font-size: 15px; }
+
+.lobby-botoes { display: flex; flex-direction: column; gap: 12px; }
+.botao-mestre { border-color: #4a3a00; }
+
+/* Formulario da senha (substitui o prompt do navegador) */
+.form-mestre { margin-top: 24px; text-align: left; }
+.form-mestre label {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--texto-fraco);
+  margin-bottom: 8px;
+}
+.form-linha { display: flex; flex-direction: column; gap: 10px; }
+
+.form-mestre input {
+  font-family: inherit;
+  font-size: 16px; /* 16px evita o zoom automatico do iOS ao focar */
+  padding: 13px 14px;
+  background-color: #000;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  color: #fff;
+  width: 100%;
+}
+.form-mestre input:focus { border-color: var(--ouro); outline: none; }
+
+.form-erro { color: #ff8080; font-size: 14px; margin: 10px 0 0; }
+
+.link-voltar {
+  background: none;
+  border: none;
+  color: var(--texto-fraco);
+  font-family: inherit;
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 12px 0 0;
+}
+
+/* -----------------------------------------------------------------------------
+ *  ESTRUTURA DO JOGO
+ *  (o body antigo era flex sem direcao, o que jogava o painel e o jogo
+ *   lado a lado e espremia tudo no celular)
+ * -------------------------------------------------------------------------- */
+.app { display: flex; flex-direction: column; min-height: 100svh; }
+
+.painel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px var(--gutter);
+  background-color: #000;
+  border-bottom: 1px solid var(--borda);
+  z-index: 100;
+}
+
+.etiqueta {
+  background-color: #161616;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 6px 10px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--texto-fraco);
+  white-space: nowrap;
+}
+.etiqueta span { color: #fff; font-weight: bold; }
+
+.etiqueta-botao {
+  font-family: inherit;
+  cursor: pointer;
+  color: var(--texto);
+  min-height: 34px;
+}
+
+.etiqueta-mestre { border-color: #5a4500; color: var(--ouro); }
+
+.container {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 20px var(--gutter) 48px;
+  flex: 1;
+}
+
+.titulo-jogo {
+  text-align: center;
+  font-size: 18px;
+  color: #fff;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--vinho);
+  padding-bottom: 14px;
+  margin: 0 0 24px;
+}
+
+/* -----------------------------------------------------------------------------
+ *  CARTA
+ * -------------------------------------------------------------------------- */
+.carta-cabecalho { text-align: center; margin-bottom: 20px; }
+
+.carta-cabecalho h2 {
+  font-size: 20px;
+  color: #fff;
+  letter-spacing: 1px;
+  margin: 0 0 10px;
+  line-height: 1.3;
+}
+
+.carta-momento {
+  font-size: 14px;
+  color: var(--vinho-claro);
+  font-style: italic;
+  margin: 0;
+}
+
+.carta-texto { font-size: 16px; line-height: 1.75; }
+
+/* Selo das cartas de consequência: diz de quem foi o caminho escolhido */
+.selo-filosofo {
+  display: inline-block;
+  margin-bottom: 12px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: 1px solid currentColor;
+  border-radius: var(--raio);
+  padding: 4px 10px;
+  font-style: normal;
+}
+
+.selo-variante {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--texto-fraco);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 3px 8px;
+  font-style: normal;
+}
+
+.pergunta-central {
+  text-align: center;
+  font-size: 17px;
+  font-weight: bold;
+  color: #fff;
+  margin: 24px 0;
+  padding: 16px;
+  background-color: var(--preto-carta);
+  border-left: 3px solid var(--vinho);
+  border-right: 3px solid var(--vinho);
+}
+
+/* -----------------------------------------------------------------------------
+ *  ESCOLHAS / VOTACAO
+ * -------------------------------------------------------------------------- */
+.area-escolhas { display: flex; flex-direction: column; gap: 14px; }
+
+.escolha {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--preto-carta);
+  color: var(--texto);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 18px;
+  text-align: left;
+  font-family: inherit;
+  font-size: 15px;
+  cursor: pointer;
+  width: 100%;
+  transition: border-color .2s ease, background-color .2s ease;
+}
+
+
+/* barra que cresce conforme os votos chegam */
+.escolha-barra {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background-color: rgba(122, 11, 11, .22);
+  transition: width .35s ease;
+  pointer-events: none;
+}
+
+.escolha > *:not(.escolha-barra) { position: relative; }
+
+.escolha-titulo {
+  font-size: 15px;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 10px;
+}
+
+.filosofo-tag { font-weight: bold; font-style: normal; }
+.filosofo-tag[data-filosofo="aristoteles"] { color: var(--ouro); }
+.filosofo-tag[data-filosofo="kant"] { color: var(--azul); }
+.filosofo-tag[data-filosofo="maquiavel"] { color: var(--vinho-claro); }
+
+.escolha-citacao {
+  font-style: italic;
+  color: var(--texto-fraco);
+  border-left: 2px solid #3a3a3a;
+  padding-left: 10px;
+  margin-bottom: 12px;
+  font-size: 15px;
+}
+
+.escolha-desc { font-size: 14px; line-height: 1.55; margin-bottom: 12px; }
+
+.escolha-rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--texto-fraco);
+  border-top: 1px solid #1c1c1c;
+  padding-top: 10px;
+}
+
+.contagem-votos { color: #fff; font-weight: bold; }
+
+/* Mostrado ao jogador nas cartas de leitura (sem votação) */
+.nota-espera {
+  text-align: center;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--texto-fraco);
+  border: 1px dashed var(--borda);
+  border-radius: var(--raio);
+  padding: 16px;
+  margin: 0;
+}
+
+.escolha[data-meu-voto="true"] { border-color: var(--ouro); }
+.escolha[data-meu-voto="true"] .escolha-rodape { color: var(--ouro); }
+
+.escolha[data-selecionada="true"] {
+  border-color: var(--vinho-claro);
+  box-shadow: inset 0 0 0 1px var(--vinho-claro);
+}
+
+/* -----------------------------------------------------------------------------
+ *  PAINEL DO MESTRE
+ * -------------------------------------------------------------------------- */
+.painel-mestre {
+  margin-top: 28px;
+  padding: 18px;
+  border: 1px solid #5a4500;
+  border-radius: var(--raio);
+  background-color: #0d0a00;
+}
+
+.painel-mestre-titulo {
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ouro);
+  margin: 0 0 8px;
+}
+
+.painel-mestre-dica { font-size: 14px; color: var(--texto-fraco); margin: 0 0 16px; }
+
+.painel-mestre-acoes { display: flex; flex-direction: column; gap: 10px; }
+
+/* -----------------------------------------------------------------------------
+ *  FINAL
+ * -------------------------------------------------------------------------- */
+.caminho-final {
+  text-align: center;
+  margin: 24px 0;
+  padding: 18px;
+  background-color: var(--preto-carta);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+}
+
+.caminho-rotulo {
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--texto-fraco);
+  margin: 0 0 14px;
+}
+
+.caminho-lista {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.caminho-item {
+  border: 1px solid currentColor;
+  border-radius: var(--raio);
+  padding: 4px 10px;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.caminho-resumo { font-size: 14px; color: var(--texto-fraco); margin: 0; }
+.caminho-resumo strong { color: #fff; }
+
+.citacao-final {
+  font-size: 18px;
+  text-align: center;
+  font-style: italic;
+  color: var(--vinho-claro);
+  margin-top: 28px;
+  border-top: 1px solid var(--borda);
+  padding-top: 20px;
+  line-height: 1.6;
+}
+
+/* -----------------------------------------------------------------------------
+ *  MAPA
+ * -------------------------------------------------------------------------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 25000;
+  background-color: rgba(0, 0, 0, .95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--gutter);
+  overflow-y: auto;
+}
+
+.modal-caixa {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  background-color: var(--preto-carta);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  padding: 46px 16px 16px;
+}
+
+.modal-fechar {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  color: var(--texto-fraco);
+  font-size: 30px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-titulo {
+  font-size: 15px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #fff;
+  text-align: center;
+  margin: 0 0 14px;
+}
+
+/* inline-block faz o wrapper ter exatamente o tamanho da imagem,
+   que e o que mantem o marcador em cima do ponto certo */
+.mapa-area { position: relative; display: inline-block; width: 100%; }
+
+.mapa-imagem {
+  width: 100%;
+  border: 1px solid #2a2a2a;
+  filter: sepia(15%) brightness(90%) contrast(110%);
+}
+
+.marcador {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  margin: 0;
+  border: 2px solid #ff2b2b;
+  border-radius: 50%;
+  background-color: rgba(255, 0, 0, .2);
+  box-shadow: 0 0 14px rgba(255, 0, 0, .8);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.marcador::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 1px solid #ff2b2b;
+  border-radius: 50%;
+  animation: pulsar 1.6s infinite;
+}
+
+@keyframes pulsar {
+  from { transform: scale(1); opacity: 1; }
+  to   { transform: scale(2.4); opacity: 0; }
+}
+
+.mapa-legenda {
+  text-align: center;
+  font-size: 13px;
+  color: var(--texto-fraco);
+  margin: 14px 0 0;
+}
+
+/* -----------------------------------------------------------------------------
+ *  AVISOS (no lugar do alert(), que travava a pagina)
+ * -------------------------------------------------------------------------- */
+.avisos {
+  position: fixed;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: calc(var(--gutter) + env(safe-area-inset-bottom));
+  z-index: 28000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  pointer-events: none;
+}
+
+.aviso {
+  background-color: #1a1a1a;
+  border: 1px solid var(--borda);
+  border-left: 3px solid var(--vinho-claro);
+  border-radius: var(--raio);
+  color: var(--texto);
+  padding: 12px 16px;
+  font-size: 14px;
+  max-width: 460px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .8);
+  animation: entrarAviso .25s ease;
+}
+
+@keyframes entrarAviso {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* -----------------------------------------------------------------------------
+ *  TELAS MAIORES
+ * -------------------------------------------------------------------------- */
+@media (min-width: 640px) {
+  /* Na tela grande sobra altura, entao o painel pode ficar fixo no topo.
+     No celular ele ocupa tres linhas e roubaria espaco da carta. */
+  .painel { position: sticky; top: 0; }
+
+  .lobby-titulo { font-size: 36px; }
+  .titulo-jogo { font-size: 22px; }
+  .carta-cabecalho h2 { font-size: 24px; }
+  .container { padding: 32px var(--gutter) 60px; }
+  .lobby-botoes { flex-direction: row; }
+  .form-linha { flex-direction: row; }
+  .form-mestre input { flex: 1; }
+  .form-mestre .botao { width: auto; white-space: nowrap; }
+  .painel-mestre-acoes { flex-direction: row; }
+  .modal-caixa { padding: 50px 24px 24px; }
+}
+
+/* -----------------------------------------------------------------------------
+ *  EFEITOS DE PASSAR O MOUSE
+ *  Ficam dentro deste media query de proposito: em celular nao existe "passar
+ *  o mouse", e sem essa protecao o navegador do telefone deixa o ultimo botao
+ *  tocado preso no estado de hover -- o que fazia parecer que uma opcao estava
+ *  selecionada quando nao estava.
+ * -------------------------------------------------------------------------- */
+@media (hover: hover) and (pointer: fine) {
+  .botao:hover { background-color: #1a0606; border-color: var(--vinho-claro); }
+  .botao-confirmar:not(:disabled):hover { background-color: var(--vinho); }
+  .botao-secundario:hover { border-color: #444; color: #fff; background-color: #151515; }
+  .botao-mestre:hover { border-color: var(--ouro); background-color: #1a1400; }
+  .link-voltar:hover { color: #fff; }
+  .etiqueta-botao:hover { border-color: var(--vinho-claro); color: #fff; }
+  .escolha:hover { border-color: var(--vinho); background-color: #121212; }
+  .modal-fechar:hover { color: #fff; }
+}
+
+/* Respeita quem pediu menos animacao no sistema. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

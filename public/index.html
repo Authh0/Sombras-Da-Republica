@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#030303">
+  <meta name="description" content="RPG cooperativo sobre a Proclamação da República de 1889 e a Trindade Filosófica: Aristóteles, Kant e Maquiavel.">
+  <title>Sombras da República: A Trindade Filosófica</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🃏</text></svg>">
+  <link rel="stylesheet" href="styles/index.css">
+</head>
+<body>
+
+  <!-- ===================== AVISO DE CONEXÃO ===================== -->
+  <div id="barra-conexao" class="barra-conexao" role="status" aria-live="polite" hidden>
+    <span id="barra-conexao-texto">Reconectando…</span>
+  </div>
+
+  <!-- ===================== LOBBY ===================== -->
+  <div id="lobby" class="lobby">
+    <div class="lobby-caixa">
+      <p class="lobby-selo">1889 · Rio de Janeiro</p>
+      <h1 class="lobby-titulo">Sombras da República</h1>
+      <p class="lobby-sub">A Trindade Filosófica</p>
+
+      <p class="lobby-pergunta">Escolha o seu papel na sessão:</p>
+
+      <div class="lobby-botoes">
+        <button type="button" class="botao botao-jogador" id="btn-jogador">
+          <span aria-hidden="true">👤</span> Entrar como Jogador
+        </button>
+        <button type="button" class="botao botao-mestre" id="btn-mestre">
+          <span aria-hidden="true">👑</span> Entrar como Mestre
+        </button>
+      </div>
+
+      <!-- Formulário do Mestre: substitui o prompt() antigo, que travava
+           a página e era bloqueado em alguns navegadores de celular. -->
+      <form id="form-mestre" class="form-mestre" hidden>
+        <label for="campo-senha">Acesso restrito — senha do Mestre</label>
+        <div class="form-linha">
+          <input type="password" id="campo-senha" name="senha" autocomplete="current-password"
+                 inputmode="text" placeholder="••••••••" required>
+          <button type="submit" class="botao botao-confirmar">Entrar</button>
+        </div>
+        <p class="form-erro" id="erro-senha" role="alert" hidden></p>
+        <button type="button" class="link-voltar" id="btn-cancelar-mestre">Voltar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================== JOGO ===================== -->
+  <div id="app" class="app" hidden>
+
+    <header class="painel" id="painel">
+      <div class="etiqueta" id="etiqueta-papel">👤 Jogador</div>
+      <div class="etiqueta">Fase: <span id="valor-fase">—</span></div>
+      <div class="etiqueta">Essência: <span id="valor-essencia">Observador</span></div>
+      <div class="etiqueta">🌐 <span id="valor-online">0</span> na sessão</div>
+      <button type="button" class="etiqueta etiqueta-botao" id="btn-mapa">🗺️ Mapa</button>
+    </header>
+
+    <main class="container">
+      <h1 class="titulo-jogo">Sombras da República</h1>
+
+      <section id="area-historia" class="area-historia" aria-live="polite"></section>
+
+      <section id="area-escolhas" class="area-escolhas"></section>
+
+      <!-- Painel que só o Mestre enxerga -->
+      <section id="painel-mestre" class="painel-mestre" hidden>
+        <h2 class="painel-mestre-titulo">👑 Controles do Mestre</h2>
+        <p class="painel-mestre-dica" id="dica-mestre">
+          Toque em uma opção para selecioná-la e depois confirme.
+        </p>
+        <div class="painel-mestre-acoes">
+          <button type="button" class="botao botao-confirmar" id="btn-confirmar" disabled>
+            Confirmar decisão
+          </button>
+          <button type="button" class="botao botao-secundario" id="btn-voltar">↩ Voltar uma carta</button>
+          <button type="button" class="botao botao-secundario" id="btn-reiniciar">⟲ Reiniciar sessão</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ===================== MAPA ===================== -->
+  <div id="modal-mapa" class="modal" hidden>
+    <div class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+      <button type="button" class="modal-fechar" id="btn-fechar-mapa" aria-label="Fechar mapa">&times;</button>
+      <h2 id="modal-titulo" class="modal-titulo">Mapa Tático Regional</h2>
+      <div class="mapa-area">
+        <img src="images/mapa.jpg" alt="Mapa tático da região" class="mapa-imagem">
+        <div id="marcador" class="marcador" hidden></div>
+      </div>
+      <p class="mapa-legenda" id="mapa-legenda">Posição atual do grupo.</p>
+    </div>
+  </div>
+
+  <!-- ===================== AVISOS ===================== -->
+  <div id="avisos" class="avisos" role="status" aria-live="polite"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

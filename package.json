@@ -1,0 +1,42 @@
+{
+  "name": "sombras-da-republica",
+  "version": "2.0.0",
+  "description": "RPG cooperativo de mesa sobre a Proclamacao da Republica (1889) e a Trindade Filosofica: Aristoteles, Kant e Maquiavel.",
+  "main": "server/server.js",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js",
+    "check-historia": "node tools/check-historia.js",
+    "teste": "node tools/teste-sessao.js",
+    "test": "node tools/check-historia.js && node tools/teste-regras.js && node tools/teste-sessao.js",
+    "teste-regras": "node tools/teste-regras.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marianos-cod/Sombras-da-Republica.git"
+  },
+  "keywords": [
+    "rpg",
+    "historia",
+    "filosofia",
+    "republica",
+    "educacao"
+  ],
+  "author": "Mariano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marianos-cod/Sombras-da-Republica/issues"
+  },
+  "homepage": "https://github.com/marianos-cod/Sombras-da-Republica#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "socket.io-client": "^4.8.3"
+  }
+}
