@@ -18,6 +18,25 @@ export { cartas, FILOSOFOS, CENA_INICIAL, CENA_FINAL };
 export const IDS_FILOSOFOS = Object.keys(FILOSOFOS);
 
 /* -----------------------------------------------------------------------------
+ *  As fases, na ordem em que aparecem na historia.
+ *  A lista e montada a partir das cartas, entao se voces criarem uma fase nova
+ *  em historia.js ela entra sozinha na trilha do topo da tela -- nao precisa
+ *  mexer em mais nada.
+ * -------------------------------------------------------------------------- */
+export const FASES = (() => {
+  const ordem = [];
+  for (const id of Object.keys(cartas)) {
+    const fase = cartas[id].fase;
+    if (fase && !ordem.includes(fase)) ordem.push(fase);
+  }
+  return ordem;
+})();
+
+export function indiceDaFase(fase) {
+  return FASES.indexOf(fase);
+}
+
+/* -----------------------------------------------------------------------------
  *  Conta quantas vezes cada filosofo foi escolhido ate agora.
  *  historico = [{ cartaId, escolhaId, filosofo }, ...]
  * -------------------------------------------------------------------------- */

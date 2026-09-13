@@ -18,6 +18,10 @@ import {
   apurarVotos,
   destinosValidos,
   acharEscolha,
+  FASES,
+  indiceDaFase,
+  CENA_INICIAL,
+  CENA_FINAL,
 } from '../src/regras.js';
 
 let passaram = 0;
@@ -135,6 +139,29 @@ conferir(
 conferir(
   'as tres consequencias da carta 5 chegam ao final',
   ['r5a', 'r5b', 'r5c'].every((id) => destinosValidos(id)[0] === 'final')
+);
+
+/* ---- trilha das fases ----------------------------------------------------- */
+console.log('\n  6) Trilha das fases');
+conferir('as fases sao montadas a partir das cartas', FASES.length > 0);
+conferir('nao ha fase repetida na trilha', new Set(FASES).size === FASES.length);
+conferir(
+  'a trilha comeca na fase da carta inicial',
+  FASES[0] === cartas[CENA_INICIAL].fase
+);
+conferir(
+  'a trilha termina na fase da carta final',
+  FASES[FASES.length - 1] === cartas[CENA_FINAL].fase
+);
+conferir('a fase da carta 1 vem depois da inicial', indiceDaFase(cartas.carta1.fase) > 0);
+conferir('fase desconhecida devolve -1', indiceDaFase('Fase Que Nao Existe') === -1);
+conferir(
+  'toda carta tem uma fase que esta na trilha',
+  Object.keys(cartas).every((id) => indiceDaFase(cartas[id].fase) !== -1)
+);
+conferir(
+  'a consequencia fica na mesma fase da carta que a gerou',
+  indiceDaFase(cartas.r1a.fase) === indiceDaFase(cartas.carta1.fase)
 );
 
 /* ---- relatorio ----------------------------------------------------------- */

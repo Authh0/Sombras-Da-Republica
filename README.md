@@ -35,9 +35,9 @@ mas usa a senha padrão e avisa no terminal.
 | `npm start` | Sobe o jogo |
 | `npm run dev` | Sobe reiniciando sozinho quando vocês salvam um arquivo |
 | `npm run check-historia` | **Confere a história inteira.** Rode sempre antes de apresentar |
-| `npm run teste-regras` | Testa a lógica: tendência, variantes, apuração (30 checagens, 1 segundo) |
-| `npm run teste` | Joga uma sessão completa sozinho com Mestre e 2 jogadores (37 checagens) |
-| `npm test` | Os três acima, em sequência — 67 checagens no total |
+| `npm run teste-regras` | Testa a lógica: tendência, variantes, fases (38 checagens, 1 segundo) |
+| `npm run teste` | Joga uma sessão completa sozinho com Mestre e 2 jogadores (48 checagens) |
+| `npm test` | Os três acima, em sequência — 86 checagens no total |
 
 ---
 
@@ -131,12 +131,35 @@ um roteador no celular de vocês** e a turma conectar nele.
 
 - **Tocar numa opção** seleciona; **Confirmar decisão** é que avança. Dois toques de
   propósito, para ninguém pular uma carta sem querer.
-- **↩ Voltar uma carta** desfaz o último passo — o salva-vidas se o Mestre errar o clique.
-- **⟲ Reiniciar sessão** volta ao prólogo e limpa o caminho.
+- A **trilha de losangos** no topo mostra em que fase das sete a sessão está.
+- **Voltar uma carta** desfaz o último passo — o salva-vidas se o Mestre errar o clique.
+- **Reiniciar sessão** volta ao prólogo e limpa o caminho. Pede confirmação antes,
+  para não apagar a sessão da turma com um toque errado.
+- **Sair** devolve qualquer participante à tela inicial. **A sessão da turma continua
+  exatamente onde estava** — quem saiu apenas deixa de participar. Para voltar como
+  Mestre é preciso digitar a senha de novo, porque sair também tira o poder de Mestre
+  no servidor, não só no navegador.
 - O painel mostra quantos votaram e qual opção está na frente. **Empate é o Mestre
   quem desempata.**
 
 ---
+
+## Aparência
+
+A interface é desenhada como um documento de 1889: papel escurecido, tipografia
+com serifa, filetes com losango, capitular abrindo cada carta.
+
+**Fontes.** Playfair Display nos títulos (é uma serifa "didone", o estilo dos jornais
+e cartazes do século XIX) e Libre Baskerville no corpo, que foi desenhada para leitura
+em tela pequena. As duas ficam **dentro do projeto**, em `public/fonts/` — nada é
+carregado do Google Fonts, então nenhum filtro de rede derruba a tipografia no meio da
+apresentação. Ambas são SIL Open Font License e as licenças estão junto dos arquivos.
+
+**Emblemas.** Cada filósofo tem um medalhão desenhado em SVG, em `public/js/emblemas.js`:
+a balança em equilíbrio (Aristóteles), o céu estrelado sobre o horizonte com um ponto
+abaixo dele (Kant) e a raposa coroada (Maquiavel). São desenhos próprios do projeto,
+escritos em código — não há imagem copiada de lugar nenhum, nada precisa ser creditado,
+e cada um pesa cerca de 2 KB, então carregam na hora mesmo em internet ruim.
 
 ## Estrutura
 
@@ -145,6 +168,8 @@ public/            o que o navegador baixa
   index.html
   styles/index.css
   js/app.js        só desenha a tela e manda pedidos
+  js/emblemas.js   os três medalhões em SVG
+  fonts/           Playfair Display e Libre Baskerville
   images/mapa.jpg
 src/
   historia.js      TODO O CONTEÚDO DO JOGO (é aqui que vocês editam)

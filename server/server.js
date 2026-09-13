@@ -101,12 +101,16 @@ const estadoInicial = () => ({
 
 let estado = estadoInicial();
 
+/* Conta apenas quem realmente entrou na sessao. Quem esta parado na tela
+   inicial, ou quem voltou para o menu, nao aparece no "na sessao" -- senao o
+   numero exibido para a turma contaria gente que nao esta jogando. */
 function contarPapeis() {
   let jogadores = 0;
   let mestres = 0;
   for (const s of io.sockets.sockets.values()) {
+    if (!s.data.noJogo) continue;
     if (s.data.papel === 'mestre') mestres += 1;
-    else if (s.data.papel === 'jogador') jogadores += 1;
+    else jogadores += 1;
   }
   return { jogadores, mestres, total: jogadores + mestres };
 }
@@ -139,6 +143,7 @@ function transmitirApuracao() {
  * -------------------------------------------------------------------------- */
 io.on('connection', (socket) => {
   socket.data.papel = 'jogador';
+  socket.data.noJogo = false; // ainda esta na tela inicial
   socket.data.tentativasSenha = 0;
   socket.data.ultimoVoto = 0;
 
@@ -160,13 +165,30 @@ io.on('connection', (socket) => {
     }
 
     socket.data.papel = 'mestre';
+    socket.data.noJogo = true;
+    socket.data.tentativasSenha = 0; // acertou: zera o contador de tentativas
     responder({ ok: true, papel: 'mestre', estado: snapshot() });
     transmitirEstado();
   });
 
   socket.on('entrar_como_jogador', (_dados, resposta) => {
     socket.data.papel = 'jogador';
+    socket.data.noJogo = true;
     if (typeof resposta === 'function') resposta({ ok: true, papel: 'jogador', estado: snapshot() });
+    transmitirEstado();
+  });
+
+  /* ---- sair da sessao e voltar ao menu ------------------------------------
+   * O papel volta a ser jogador AQUI, no servidor. Se so o navegador
+   * "esquecesse" que era Mestre, a conexao continuaria autorizada e quem
+   * saiu ainda conseguiria avancar a historia pelo console.
+   * A sessao da turma nao e tocada: cena e historico continuam como estavam.
+   * -------------------------------------------------------------------- */
+  socket.on('sair', (_dados, resposta) => {
+    socket.data.papel = 'jogador';
+    socket.data.noJogo = false;
+    delete estado.votos[socket.id]; // quem foi para o menu nao vota
+    if (typeof resposta === 'function') resposta({ ok: true });
     transmitirEstado();
   });
 

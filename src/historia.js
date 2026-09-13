@@ -154,7 +154,7 @@ No Brasil do fim do século XIX, a política não era feita só de ideias. Ela t
    * ========================================================================= */
   carta1: {
     fase: 'A Faísca',
-    titulo: '🃏 Carta 1 — O Apoio ao Movimento',
+    titulo: 'Carta 1 — O Apoio ao Movimento',
     momento: 'Um militar influente procura vocês.',
     mapa: { top: '58%', left: '46%' },
     texto: `Ele fala com segurança e diz que o momento de agir chegou. Segundo ele, o Império está fraco demais para continuar, e apenas uma ruptura rápida pode evitar mais caos.<br><br>
@@ -244,7 +244,7 @@ A decisão é pragmática. Vocês entendem que, numa crise como essa, quem não 
    * ========================================================================= */
   carta2: {
     fase: 'O Baile',
-    titulo: '🃏 Carta 2 — O Que Contar ao Povo',
+    titulo: 'Carta 2 — O Que Contar ao Povo',
     momento: 'A decisão de apoiar ou rejeitar o movimento já começou a espalhar efeitos.',
     mapa: { top: '68%', left: '68%' },
     texto: `As pessoas comentam, desconfiam e tentam entender o que está acontecendo. Jornais recebem informações contraditórias. Alguns querem publicar tudo. Outros preferem esperar.<br><br>
@@ -340,7 +340,7 @@ A atitude é estratégica. Vocês percebem que controlar a narrativa também é 
    * ========================================================================= */
   carta3: {
     fase: 'A Conspiração',
-    titulo: '🃏 Carta 3 — Quem Vai Se Beneficiar',
+    titulo: 'Carta 3 — Quem Vai Se Beneficiar',
     momento: 'A queda do Império já parece próxima.',
     mapa: { top: '25%', left: '68%' },
     texto: `O problema é que nem todos querem a mesma República. Alguns desejam ordem. Outros desejam liberdade. Outros querem apenas manter poder e influência, mudando o nome do regime sem mudar a estrutura por trás dele.<br><br>
@@ -434,7 +434,7 @@ Essa decisão mostra que, em tempos de mudança, quem hesita perde espaço. Voc�
    * ========================================================================= */
   carta4: {
     fase: 'O Dia 15',
-    titulo: '🃏 Carta 4 — O Nascimento da Nova Ordem',
+    titulo: 'Carta 4 — O Nascimento da Nova Ordem',
     momento: 'Chega 15 de novembro de 1889.',
     mapa: { top: '40%', left: '50%' },
     texto: `As tropas se movem, os boatos aumentam e o Império finalmente cede. A República está prestes a ser proclamada.<br><br>
@@ -529,7 +529,7 @@ Com a queda da monarquia, o problema não termina. Na verdade, ele apenas muda d
    * ========================================================================= */
   carta5: {
     fase: 'Os Interesses',
-    titulo: '🃏 Carta 5 — A República dos Interesses',
+    titulo: 'Carta 5 — A República dos Interesses',
     momento: 'A República já foi proclamada, mas o jogo do poder está longe de terminar.',
     mapa: { top: '62%', left: '34%' },
     texto: `Agora o foco se desloca para o interior, para os coronéis, para os acordos locais e para o controle do voto. Em muitos lugares, a mudança no nome do regime não muda a vida de quem trabalha, de quem obedece e de quem depende dos grandes proprietários.`,

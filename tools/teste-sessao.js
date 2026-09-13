@@ -107,9 +107,18 @@ async function principal() {
   /* ---- 2. estado inicial ------------------------------------------------- */
   console.log('\n  2) Estado inicial');
   await esperar(200);
+  conferir(
+    'quem ainda nao entrou nao conta na sessao',
+    jogador1.ultimoEstado?.presenca?.total === 1
+  );
+
+  await pedir(jogador1, 'entrar_como_jogador', {});
+  await pedir(jogador2, 'entrar_como_jogador', {});
+  await esperar(200);
+
   conferir('sessao comeca no prologo', jogador1.ultimoEstado?.cena === 'prologo');
   conferir('historico comeca vazio', jogador1.ultimoEstado?.historico.length === 0);
-  conferir('tres conectados na sessao', jogador1.ultimoEstado?.presenca?.total === 3);
+  conferir('tres na sessao depois de todos entrarem', jogador1.ultimoEstado?.presenca?.total === 3);
 
   /* ---- 3. O ATAQUE que funcionava antes ---------------------------------- */
   console.log('\n  3) Jogador comum tentando controlar a sessao');
@@ -228,8 +237,65 @@ async function principal() {
     ['r1b', 'r2b', 'r3b', 'r4b', 'r5b'].every((c) => visitadas.includes(c))
   );
 
-  /* ---- 12. desconexao ---------------------------------------------------- */
-  console.log('\n  12) Alguem fecha o celular');
+  /* ---- 12. sair para o menu ---------------------------------------------- */
+  console.log('\n  12) Sair para o menu principal');
+  const cenaAntesDeSair = mestre.ultimoEstado.cena;
+  const passosAntesDeSair = mestre.ultimoEstado.historico.length;
+
+  await pedir(mestre, 'sair', {});
+  await esperar(250);
+
+  conferir('a sessao da turma continua na mesma carta', jogador1.ultimoEstado?.cena === cenaAntesDeSair);
+  conferir(
+    'o historico nao e apagado por alguem sair',
+    jogador1.ultimoEstado?.historico.length === passosAntesDeSair
+  );
+  conferir('quem saiu deixa de contar na sessao', jogador1.ultimoEstado?.presenca?.total === 2);
+
+  // o teste que importa: sair precisa TIRAR o poder de Mestre no servidor
+  const depoisDeSair = await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' });
+  conferir(
+    'quem saiu NAO comanda mais a sessao',
+    depoisDeSair && depoisDeSair.ok === false
+  );
+
+  const reiniciarDepoisDeSair = await pedir(mestre, 'mestre_reiniciar', {});
+  conferir(
+    'quem saiu NAO consegue reiniciar',
+    reiniciarDepoisDeSair && reiniciarDepoisDeSair.ok === false
+  );
+
+  // e precisa dar para voltar, digitando a senha de novo
+  const reentrou = await pedir(mestre, 'autenticar_mestre', { senha: SENHA });
+  await esperar(200);
+  conferir('da para voltar como Mestre com a senha', reentrou && reentrou.ok === true);
+  conferir('volta a contar na sessao', jogador1.ultimoEstado?.presenca?.total === 3);
+
+  const voltouAoPoder = await pedir(mestre, 'mestre_voltar', {});
+  conferir('e os comandos de Mestre voltam a funcionar', voltouAoPoder && voltouAoPoder.ok === true);
+
+  /* ---- 13. jogador que sai deixa de votar --------------------------------- */
+  console.log('\n  13) Voto de quem saiu');
+  await pedir(mestre, 'mestre_reiniciar', {});
+  await esperar(200);
+  await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' }); // abertura
+  await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' }); // carta1
+  await esperar(250);
+
+  jogador1.emit('votar', { escolhaId: 'a' });
+  jogador2.emit('votar', { escolhaId: 'a' });
+  await esperar(400);
+  conferir('dois votos contados', mestre.ultimoEstado?.apuracao?.total === 2);
+
+  await pedir(jogador2, 'sair', {});
+  await esperar(300);
+  conferir('o voto de quem saiu e descartado', mestre.ultimoEstado?.apuracao?.total === 1);
+
+  await pedir(jogador2, 'entrar_como_jogador', {});
+  await esperar(200);
+
+  /* ---- 14. desconexao ---------------------------------------------------- */
+  console.log('\n  14) Alguem fecha o celular');
   jogador2.close();
   await esperar(400);
   conferir('a contagem de presentes cai para 2', mestre.ultimoEstado?.presenca?.total === 2);

@@ -1,24 +1,84 @@
 /* =============================================================================
  *  SOMBRAS DA REPUBLICA -- estilo
- *  Escrito mobile-first: as regras basicas valem para o celular e so depois
- *  a tela grande recebe ajustes. Como a turma inteira entra pelo telefone,
- *  esse e o tamanho que tem que ficar certo primeiro.
+ * =============================================================================
+ *  A referencia visual e um documento de 1889: papel escurecido, tipografia
+ *  com serifa, filetes duplos, capitular abrindo o texto e pequenos losangos
+ *  no lugar de icones. Nada aqui tenta parecer aplicativo moderno.
+ *
+ *  Escrito mobile-first: as regras basicas valem para o celular e so depois a
+ *  tela grande recebe ajustes. Como a turma inteira entra pelo telefone, e
+ *  esse o tamanho que precisa ficar certo primeiro.
  * ========================================================================== */
 
-:root {
-  --preto: #030303;
-  --preto-carta: #0b0b0b;
-  --preto-caixa: #111;
-  --texto: #d6d6d6;
-  --texto-fraco: #8a8a8a;
-  --borda: #242424;
-  --vinho: #7a0b0b;
-  --vinho-claro: #b81d1d;
-  --ouro: #c9a227;
-  --azul: #4a7fb5;
+/* -----------------------------------------------------------------------------
+ *  FONTES
+ *  Servidas pelo proprio projeto (pasta public/fonts). Playfair Display para
+ *  titulos -- e uma serifa "didone", o estilo dos jornais e cartazes do
+ *  seculo XIX. Libre Baskerville para o corpo, porque foi desenhada para ser
+ *  lida em tela em tamanho pequeno.
+ *  Ambas sao SIL Open Font License; as licencas estao em public/fonts/.
+ * -------------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/playfair-display-latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../fonts/playfair-display-latin-900-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/libre-baskerville-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/libre-baskerville-latin-400-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Libre Baskerville';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/libre-baskerville-latin-700-normal.woff2') format('woff2');
+}
 
-  --raio: 4px;
-  --gutter: 16px;
+/* -----------------------------------------------------------------------------
+ *  PALETA
+ *  Nenhum preto puro e nenhum branco puro: tudo puxa para o quente, como
+ *  tinta sobre papel envelhecido.
+ * -------------------------------------------------------------------------- */
+:root {
+  --tinta: #0c0a07;
+  --tinta-2: #14110c;
+  --papel: #16120c;
+  --papel-alto: #1c1710;
+  --texto: #ddd6c6;
+  --texto-fraco: #968d7b;
+  --texto-tenue: #6b6355;
+  --linha: #332d22;
+  --linha-forte: #4a4132;
+
+  --vinho: #7d1717;
+  --vinho-claro: #b83232;
+  --ouro: #c9a227;
+  --azul: #6f9fd0;
+  --vermelho: #c23b3b;
+
+  --raio: 2px;
+  --gutter: 18px;
+  --medida: 62ch;
 }
 
 *,
@@ -27,8 +87,7 @@
 
 /* IMPORTANTE: varios blocos aqui usam "display: flex", e display vence o
    atributo hidden do HTML. Sem esta regra, o mapa e o lobby continuariam
-   desenhados por cima da tela mesmo "escondidos", engolindo os cliques.
-   Esta linha faz o hidden funcionar de verdade em todo o projeto. */
+   desenhados por cima da tela mesmo "escondidos", engolindo os cliques. */
 [hidden] { display: none !important; }
 
 html { -webkit-text-size-adjust: 100%; }
@@ -36,12 +95,14 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   min-height: 100svh;
-  background-color: var(--preto);
+  background-color: var(--tinta);
+  /* leve halo no topo, como a luz de um lampiao sobre a mesa */
+  background-image: radial-gradient(120% 70% at 50% -10%, #1b1610 0%, var(--tinta) 62%);
+  background-attachment: fixed;
   color: var(--texto);
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
   font-size: 16px;
-  line-height: 1.6;
-  /* respeita o entalhe e a barra de gestos dos celulares */
+  line-height: 1.7;
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
            env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
@@ -49,41 +110,116 @@ body {
 /* Foco visivel de verdade: da para jogar so com teclado. */
 :focus-visible {
   outline: 2px solid var(--ouro);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 img { max-width: 100%; height: auto; display: block; }
 
 /* -----------------------------------------------------------------------------
+ *  ORNAMENTOS
+ * -------------------------------------------------------------------------- */
+
+/* Filete: duas linhas que desvanecem nas pontas, com um losango no meio.
+   O losango e o caractere ◆ escrito no HTML -- assim ele fica entre os dois
+   pseudo-elementos e o conjunto se centraliza sozinho em qualquer largura. */
+.filete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 16px auto;
+  max-width: 260px;
+  color: var(--linha-forte);
+  font-size: 8px;
+  line-height: 1;
+}
+.filete::before,
+.filete::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, currentColor, transparent);
+}
+
+.filete-duplo { position: relative; }
+.filete-duplo::before,
+.filete-duplo::after { height: 3px; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; background: none; }
+
+/* Selo pequeno em versalete, usado em "Rio de Janeiro · 1889" */
+.selo-epoca {
+  font-size: 11px;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: var(--vinho-claro);
+  margin: 0 0 14px;
+  text-align: center;
+}
+
+/* -----------------------------------------------------------------------------
  *  BOTOES
  * -------------------------------------------------------------------------- */
 .botao {
-  font-family: inherit;
-  font-size: 15px;
-  color: #fff;
-  background-color: var(--preto-caixa);
-  border: 1px solid var(--vinho);
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: 14px;
+  color: var(--texto);
+  background-color: var(--papel-alto);
+  border: 1px solid var(--linha-forte);
   border-radius: var(--raio);
-  padding: 14px 18px;
-  min-height: 48px; /* alvo de toque confortavel no celular */
+  padding: 15px 20px;
+  min-height: 50px;
   cursor: pointer;
-  letter-spacing: 1px;
+  letter-spacing: .14em;
   text-transform: uppercase;
-  transition: background-color .2s ease, border-color .2s ease, transform .1s ease;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease;
   width: 100%;
 }
 
 .botao:active { transform: translateY(1px); }
-.botao:disabled { opacity: .4; cursor: not-allowed; }
+.botao:disabled { opacity: .35; cursor: not-allowed; }
 
-.botao-confirmar { background-color: #1c0505; border-color: var(--vinho-claro); }
+.botao-jogador,
+.botao-mestre { position: relative; }
+
+.botao-confirmar {
+  background-color: #240808;
+  border-color: var(--vinho);
+  color: #f0e4e4;
+}
 
 .botao-secundario {
-  border-color: var(--borda);
+  border-color: var(--linha);
   color: var(--texto-fraco);
   text-transform: none;
-  letter-spacing: 0;
+  letter-spacing: .02em;
   font-size: 14px;
+  min-height: 46px;
+}
+
+.botao-painel {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--texto-fraco);
+  background: none;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  padding: 8px 14px;
+  min-height: 36px;
+  cursor: pointer;
+  transition: color .2s ease, border-color .2s ease;
+}
+
+.link-discreto {
+  background: none;
+  border: none;
+  color: var(--texto-tenue);
+  font-family: inherit;
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  padding: 14px 0 0;
 }
 
 /* -----------------------------------------------------------------------------
@@ -93,14 +229,15 @@ img { max-width: 100%; height: auto; display: block; }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 30000;
-  background-color: #4a2a00;
-  color: #ffd9a0;
+  background-color: #3d2607;
+  color: #f0d5a0;
   text-align: center;
-  padding: 8px var(--gutter);
-  font-size: 13px;
-  letter-spacing: 1px;
+  padding: 9px var(--gutter);
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
 }
-.barra-conexao[data-estado="offline"] { background-color: #4a0000; color: #ffb3b3; }
+.barra-conexao[data-estado="offline"] { background-color: #3d0808; color: #f0b8b8; }
 
 /* -----------------------------------------------------------------------------
  *  LOBBY
@@ -109,217 +246,361 @@ img { max-width: 100%; height: auto; display: block; }
   position: fixed;
   inset: 0;
   z-index: 20000;
-  background-color: rgba(0, 0, 0, .96);
+  background-color: var(--tinta);
+  background-image: radial-gradient(110% 60% at 50% 0%, #1e1811 0%, var(--tinta) 60%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--gutter);
+  padding: 32px var(--gutter);
   overflow-y: auto;
 }
 
 .lobby-caixa {
   width: 100%;
-  max-width: 420px;
+  max-width: 430px;
   text-align: center;
 }
 
-.lobby-selo {
-  color: var(--vinho-claro);
-  font-size: 12px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  margin: 0 0 10px;
+.lobby-emblemas {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  margin-bottom: 26px;
+  opacity: .5;
 }
 
 .lobby-titulo {
-  font-size: 28px;
-  color: #fff;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  font-size: 42px;
+  line-height: 1.04;
+  color: #f2ece0;
   margin: 0;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  line-height: 1.2;
+  letter-spacing: .01em;
 }
 
 .lobby-sub {
-  color: var(--texto-fraco);
   font-style: italic;
-  margin: 8px 0 32px;
+  color: var(--texto-fraco);
+  margin: 0 0 34px;
+  font-size: 16px;
 }
 
-.lobby-pergunta { color: var(--texto-fraco); margin: 0 0 18px; font-size: 15px; }
+.lobby-pergunta {
+  color: var(--texto-tenue);
+  margin: 0 0 18px;
+  font-size: 13px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
 
 .lobby-botoes { display: flex; flex-direction: column; gap: 12px; }
-.botao-mestre { border-color: #4a3a00; }
 
-/* Formulario da senha (substitui o prompt do navegador) */
-.form-mestre { margin-top: 24px; text-align: left; }
+.lobby-rodape {
+  margin: 26px 0 0;
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+  min-height: 1em;
+}
+
+/* Formulario da senha */
+.form-mestre { margin-top: 26px; text-align: left; }
 .form-mestre label {
   display: block;
-  font-size: 12px;
-  letter-spacing: 2px;
+  font-size: 11px;
+  letter-spacing: .2em;
   text-transform: uppercase;
-  color: var(--texto-fraco);
-  margin-bottom: 8px;
+  color: var(--texto-tenue);
+  margin-bottom: 9px;
 }
 .form-linha { display: flex; flex-direction: column; gap: 10px; }
 
 .form-mestre input {
   font-family: inherit;
   font-size: 16px; /* 16px evita o zoom automatico do iOS ao focar */
-  padding: 13px 14px;
-  background-color: #000;
-  border: 1px solid var(--borda);
+  padding: 14px;
+  background-color: #0a0805;
+  border: 1px solid var(--linha-forte);
   border-radius: var(--raio);
-  color: #fff;
+  color: var(--texto);
   width: 100%;
 }
 .form-mestre input:focus { border-color: var(--ouro); outline: none; }
 
-.form-erro { color: #ff8080; font-size: 14px; margin: 10px 0 0; }
-
-.link-voltar {
-  background: none;
-  border: none;
-  color: var(--texto-fraco);
-  font-family: inherit;
-  font-size: 14px;
-  text-decoration: underline;
-  cursor: pointer;
-  padding: 12px 0 0;
-}
+.form-erro { color: #e88a8a; font-size: 14px; margin: 12px 0 0; }
 
 /* -----------------------------------------------------------------------------
  *  ESTRUTURA DO JOGO
- *  (o body antigo era flex sem direcao, o que jogava o painel e o jogo
- *   lado a lado e espremia tudo no celular)
  * -------------------------------------------------------------------------- */
 .app { display: flex; flex-direction: column; min-height: 100svh; }
 
 .painel {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
+  flex-direction: column;
+  gap: 10px;
   padding: 12px var(--gutter);
-  background-color: #000;
-  border-bottom: 1px solid var(--borda);
+  background-color: #090704;
+  border-bottom: 1px solid var(--linha);
   z-index: 100;
 }
 
-.etiqueta {
-  background-color: #161616;
-  border: 1px solid var(--borda);
-  border-radius: var(--raio);
-  padding: 6px 10px;
-  font-size: 11px;
-  letter-spacing: 1px;
+.painel-marca {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+}
+
+.painel-marca-nome {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--texto-fraco);
+  color: #e8e0d0;
+}
+
+.painel-marca-ano {
+  font-size: 11px;
+  letter-spacing: .2em;
+  color: var(--vinho-claro);
+}
+
+.painel-status {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.etiqueta {
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  padding: 5px 9px;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
   white-space: nowrap;
 }
-.etiqueta span { color: #fff; font-weight: bold; }
-
-.etiqueta-botao {
-  font-family: inherit;
-  cursor: pointer;
-  color: var(--texto);
-  min-height: 34px;
-}
+.etiqueta b { color: var(--texto); font-weight: 400; }
 
 .etiqueta-mestre { border-color: #5a4500; color: var(--ouro); }
+.etiqueta-mestre b { color: var(--ouro); }
+
+.painel-acoes { display: flex; justify-content: center; gap: 8px; }
+
+/* Trilha das fases */
+.trilha {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 12px var(--gutter) 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.trilha::-webkit-scrollbar { display: none; }
+
+.trilha-passo {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex: none;
+}
+
+.trilha-ponto {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--linha-forte);
+  transform: rotate(45deg);
+  flex: none;
+}
+
+.trilha-passo[data-estado="passou"] .trilha-ponto { background-color: var(--linha-forte); }
+.trilha-passo[data-estado="atual"] .trilha-ponto {
+  background-color: var(--vinho-claro);
+  border-color: var(--vinho-claro);
+  box-shadow: 0 0 10px rgba(184, 50, 50, .55);
+}
+
+.trilha-traco {
+  width: 26px;
+  height: 1px;
+  background-color: var(--linha);
+  flex: none;
+}
+
+.trilha-nome {
+  display: none;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+  margin-left: 7px;
+}
+.trilha-passo[data-estado="atual"] .trilha-nome { display: inline; color: var(--texto-fraco); }
 
 .container {
   width: 100%;
-  max-width: 760px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 20px var(--gutter) 48px;
+  padding: 22px var(--gutter) 56px;
   flex: 1;
 }
 
-.titulo-jogo {
-  text-align: center;
-  font-size: 18px;
-  color: #fff;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  border-bottom: 1px solid var(--vinho);
-  padding-bottom: 14px;
-  margin: 0 0 24px;
+/* -----------------------------------------------------------------------------
+ *  A CARTA
+ * -------------------------------------------------------------------------- */
+.carta {
+  position: relative;
+  background-color: var(--papel);
+  background-image: radial-gradient(100% 60% at 50% 0%, #1d1811 0%, var(--papel) 70%);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  padding: 26px 20px 30px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .55);
 }
 
-/* -----------------------------------------------------------------------------
- *  CARTA
- * -------------------------------------------------------------------------- */
-.carta-cabecalho { text-align: center; margin-bottom: 20px; }
+/* filete interno duplo, como a moldura impressa de um documento */
+.carta::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  pointer-events: none;
+  opacity: .55;
+}
+
+.carta-cabecalho { text-align: center; margin-bottom: 22px; position: relative; }
+
+.carta-selo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.carta-fase {
+  font-size: 10px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+  margin: 0 0 10px;
+}
 
 .carta-cabecalho h2 {
-  font-size: 20px;
-  color: #fff;
-  letter-spacing: 1px;
-  margin: 0 0 10px;
-  line-height: 1.3;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 1.18;
+  color: #f2ece0;
+  margin: 0;
+  letter-spacing: .005em;
 }
 
 .carta-momento {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--vinho-claro);
   font-style: italic;
   margin: 0;
+  line-height: 1.55;
 }
 
-.carta-texto { font-size: 16px; line-height: 1.75; }
+.carta-texto {
+  font-size: 16px;
+  line-height: 1.8;
+  max-width: var(--medida);
+  margin: 0 auto;
+  text-align: justify;
+  hyphens: auto;
+}
 
-/* Selo das cartas de consequência: diz de quem foi o caminho escolhido */
+/* Capitular: a letra grande que abre o texto, marca registrada da
+   impressao do periodo. */
+.carta-texto::first-letter {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  font-size: 3.4em;
+  line-height: .84;
+  float: left;
+  margin: 4px 10px 0 0;
+  color: var(--vinho-claro);
+}
+
+.carta-texto i, .carta-texto em { color: var(--texto-fraco); }
+.carta-texto b, .carta-texto strong { color: #f0e9db; }
+
 .selo-filosofo {
-  display: inline-block;
-  margin-bottom: 12px;
-  font-size: 11px;
-  letter-spacing: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 10px;
+  letter-spacing: .22em;
   text-transform: uppercase;
   border: 1px solid currentColor;
   border-radius: var(--raio);
-  padding: 4px 10px;
+  padding: 5px 12px;
   font-style: normal;
 }
 
 .selo-variante {
   display: inline-block;
   margin-top: 12px;
-  font-size: 11px;
-  letter-spacing: 2px;
+  font-size: 10px;
+  letter-spacing: .2em;
   text-transform: uppercase;
-  color: var(--texto-fraco);
-  border: 1px solid var(--borda);
+  color: var(--texto-tenue);
+  border: 1px solid var(--linha);
   border-radius: var(--raio);
-  padding: 3px 8px;
-  font-style: normal;
+  padding: 4px 10px;
 }
 
 .pergunta-central {
+  position: relative;
   text-align: center;
   font-size: 17px;
-  font-weight: bold;
-  color: #fff;
-  margin: 24px 0;
-  padding: 16px;
-  background-color: var(--preto-carta);
-  border-left: 3px solid var(--vinho);
-  border-right: 3px solid var(--vinho);
+  line-height: 1.6;
+  color: #f2ece0;
+  margin: 26px auto 0;
+  padding: 20px 18px;
+  max-width: var(--medida);
+  background-color: rgba(0, 0, 0, .32);
+  border-top: 1px solid var(--vinho);
+  border-bottom: 1px solid var(--vinho);
 }
 
+/* aspas decorativas discretas nos cantos da pergunta */
+.pergunta-central::before,
+.pergunta-central::after {
+  content: "";
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--vinho);
+  transform: rotate(45deg);
+  background-color: var(--papel);
+}
+.pergunta-central::before { top: -5px; left: 50%; margin-left: -4.5px; }
+.pergunta-central::after { bottom: -5px; left: 50%; margin-left: -4.5px; }
+
 /* -----------------------------------------------------------------------------
- *  ESCOLHAS / VOTACAO
+ *  ESCOLHAS E VOTACAO
  * -------------------------------------------------------------------------- */
-.area-escolhas { display: flex; flex-direction: column; gap: 14px; }
+.area-escolhas { display: flex; flex-direction: column; gap: 14px; margin-top: 22px; }
 
 .escolha {
   position: relative;
   overflow: hidden;
-  background-color: var(--preto-carta);
+  background-color: var(--tinta-2);
   color: var(--texto);
-  border: 1px solid var(--borda);
+  border: 1px solid var(--linha);
+  border-left: 3px solid var(--linha-forte);
   border-radius: var(--raio);
-  padding: 18px;
+  padding: 18px 18px 14px;
   text-align: left;
   font-family: inherit;
   font-size: 15px;
@@ -328,99 +609,130 @@ img { max-width: 100%; height: auto; display: block; }
   transition: border-color .2s ease, background-color .2s ease;
 }
 
+.escolha[data-filosofo="aristoteles"] { border-left-color: var(--ouro); }
+.escolha[data-filosofo="kant"] { border-left-color: var(--azul); }
+.escolha[data-filosofo="maquiavel"] { border-left-color: var(--vermelho); }
 
 /* barra que cresce conforme os votos chegam */
 .escolha-barra {
   position: absolute;
   inset: 0 auto 0 0;
   width: 0;
-  background-color: rgba(122, 11, 11, .22);
-  transition: width .35s ease;
+  background-color: rgba(125, 23, 23, .2);
+  transition: width .4s ease;
   pointer-events: none;
 }
 
 .escolha > *:not(.escolha-barra) { position: relative; }
 
-.escolha-titulo {
-  font-size: 15px;
-  font-weight: bold;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: .5px;
-  margin-bottom: 10px;
+.escolha-topo {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
-.filosofo-tag { font-weight: bold; font-style: normal; }
+.escolha-emblema { flex: none; margin-top: 2px; }
+.escolha-emblema[data-filosofo="aristoteles"] { color: var(--ouro); }
+.escolha-emblema[data-filosofo="kant"] { color: var(--azul); }
+.escolha-emblema[data-filosofo="maquiavel"] { color: var(--vermelho); }
+
+.escolha-titulo {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 1.3;
+  color: #f2ece0;
+}
+
+.escolha-letra {
+  color: var(--texto-tenue);
+  font-weight: 400;
+}
+
+.filosofo-tag {
+  display: block;
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-weight: 400;
+  margin-top: 5px;
+}
 .filosofo-tag[data-filosofo="aristoteles"] { color: var(--ouro); }
 .filosofo-tag[data-filosofo="kant"] { color: var(--azul); }
-.filosofo-tag[data-filosofo="maquiavel"] { color: var(--vinho-claro); }
+.filosofo-tag[data-filosofo="maquiavel"] { color: var(--vermelho); }
 
 .escolha-citacao {
   font-style: italic;
   color: var(--texto-fraco);
-  border-left: 2px solid #3a3a3a;
-  padding-left: 10px;
+  border-left: 2px solid var(--linha-forte);
+  padding-left: 12px;
   margin-bottom: 12px;
-  font-size: 15px;
+  font-size: 14.5px;
+  line-height: 1.6;
 }
 
-.escolha-desc { font-size: 14px; line-height: 1.55; margin-bottom: 12px; }
+.escolha-desc { font-size: 14px; line-height: 1.65; margin-bottom: 14px; color: var(--texto); }
 
 .escolha-rodape {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  font-size: 12px;
-  letter-spacing: 1px;
+  font-size: 10px;
+  letter-spacing: .16em;
   text-transform: uppercase;
-  color: var(--texto-fraco);
-  border-top: 1px solid #1c1c1c;
-  padding-top: 10px;
+  color: var(--texto-tenue);
+  border-top: 1px solid var(--linha);
+  padding-top: 11px;
 }
 
-.contagem-votos { color: #fff; font-weight: bold; }
+.contagem-votos { color: var(--texto); }
+
+.escolha[data-meu-voto="true"] { background-color: #18140d; }
+.escolha[data-meu-voto="true"] .escolha-rodape { color: var(--ouro); }
+.escolha[data-meu-voto="true"] .contagem-votos { color: var(--ouro); }
+
+.escolha[data-selecionada="true"] {
+  border-color: var(--vinho-claro);
+  background-color: #17100d;
+}
 
 /* Mostrado ao jogador nas cartas de leitura (sem votação) */
 .nota-espera {
   text-align: center;
   font-size: 14px;
   font-style: italic;
-  color: var(--texto-fraco);
-  border: 1px dashed var(--borda);
+  color: var(--texto-tenue);
+  border: 1px dashed var(--linha);
   border-radius: var(--raio);
-  padding: 16px;
+  padding: 18px;
   margin: 0;
-}
-
-.escolha[data-meu-voto="true"] { border-color: var(--ouro); }
-.escolha[data-meu-voto="true"] .escolha-rodape { color: var(--ouro); }
-
-.escolha[data-selecionada="true"] {
-  border-color: var(--vinho-claro);
-  box-shadow: inset 0 0 0 1px var(--vinho-claro);
 }
 
 /* -----------------------------------------------------------------------------
  *  PAINEL DO MESTRE
  * -------------------------------------------------------------------------- */
 .painel-mestre {
-  margin-top: 28px;
-  padding: 18px;
-  border: 1px solid #5a4500;
+  margin-top: 26px;
+  padding: 20px 18px;
+  border: 1px solid #4a3a0c;
   border-radius: var(--raio);
-  background-color: #0d0a00;
+  background-color: #100d05;
 }
 
 .painel-mestre-titulo {
-  font-size: 14px;
-  letter-spacing: 2px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .22em;
   text-transform: uppercase;
   color: var(--ouro);
-  margin: 0 0 8px;
+  margin: 0 0 10px;
 }
 
-.painel-mestre-dica { font-size: 14px; color: var(--texto-fraco); margin: 0 0 16px; }
+.painel-mestre-dica { font-size: 14px; color: var(--texto-fraco); margin: 0 0 18px; line-height: 1.6; }
 
 .painel-mestre-acoes { display: flex; flex-direction: column; gap: 10px; }
 
@@ -429,59 +741,88 @@ img { max-width: 100%; height: auto; display: block; }
  * -------------------------------------------------------------------------- */
 .caminho-final {
   text-align: center;
-  margin: 24px 0;
-  padding: 18px;
-  background-color: var(--preto-carta);
-  border: 1px solid var(--borda);
+  margin: 26px auto 0;
+  padding: 22px 18px;
+  max-width: var(--medida);
+  background-color: rgba(0, 0, 0, .3);
+  border: 1px solid var(--linha);
   border-radius: var(--raio);
 }
 
 .caminho-rotulo {
-  font-size: 12px;
-  letter-spacing: 2px;
+  font-size: 10px;
+  letter-spacing: .3em;
   text-transform: uppercase;
-  color: var(--texto-fraco);
-  margin: 0 0 14px;
+  color: var(--texto-tenue);
+  margin: 0 0 18px;
 }
 
 .caminho-lista {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .caminho-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   border: 1px solid currentColor;
   border-radius: var(--raio);
-  padding: 4px 10px;
-  font-size: 13px;
-  letter-spacing: 1px;
+  padding: 6px 11px;
+  font-size: 12px;
+  letter-spacing: .1em;
 }
 
-.caminho-resumo { font-size: 14px; color: var(--texto-fraco); margin: 0; }
-.caminho-resumo strong { color: #fff; }
+.caminho-resumo { font-size: 14px; color: var(--texto-fraco); margin: 0; line-height: 1.7; }
+.caminho-resumo strong { font-weight: 700; }
+
+.placar {
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+  margin: 20px 0 4px;
+}
+
+.placar-item { text-align: center; }
+.placar-numero {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  font-size: 28px;
+  line-height: 1;
+  display: block;
+}
+.placar-nome {
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+  display: block;
+  margin-top: 6px;
+}
 
 .citacao-final {
   font-size: 18px;
   text-align: center;
   font-style: italic;
   color: var(--vinho-claro);
-  margin-top: 28px;
-  border-top: 1px solid var(--borda);
-  padding-top: 20px;
-  line-height: 1.6;
+  margin: 30px auto 0;
+  max-width: var(--medida);
+  padding-top: 22px;
+  border-top: 1px solid var(--linha);
+  line-height: 1.65;
 }
 
 /* -----------------------------------------------------------------------------
- *  MAPA
+ *  MODAIS (mapa e confirmacao)
  * -------------------------------------------------------------------------- */
 .modal {
   position: fixed;
   inset: 0;
   z-index: 25000;
-  background-color: rgba(0, 0, 0, .95);
+  background-color: rgba(4, 3, 2, .93);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -493,34 +834,42 @@ img { max-width: 100%; height: auto; display: block; }
   position: relative;
   width: 100%;
   max-width: 900px;
-  background-color: var(--preto-carta);
-  border: 1px solid var(--borda);
+  background-color: var(--papel);
+  border: 1px solid var(--linha-forte);
   border-radius: var(--raio);
-  padding: 46px 16px 16px;
+  padding: 48px 18px 22px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .8);
 }
+
+.modal-estreita { max-width: 420px; padding-top: 30px; text-align: center; }
 
 .modal-fechar {
   position: absolute;
   top: 6px;
   right: 8px;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   background: none;
   border: none;
-  color: var(--texto-fraco);
+  color: var(--texto-tenue);
   font-size: 30px;
   line-height: 1;
   cursor: pointer;
 }
 
 .modal-titulo {
-  font-size: 15px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #fff;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: .04em;
+  color: #f2ece0;
   text-align: center;
-  margin: 0 0 14px;
+  margin: 0;
 }
+
+.modal-texto { font-size: 15px; color: var(--texto-fraco); line-height: 1.7; margin: 0 0 22px; }
+
+.modal-acoes { display: flex; flex-direction: column; gap: 10px; }
 
 /* inline-block faz o wrapper ter exatamente o tamanho da imagem,
    que e o que mantem o marcador em cima do ponto certo */
@@ -528,19 +877,18 @@ img { max-width: 100%; height: auto; display: block; }
 
 .mapa-imagem {
   width: 100%;
-  border: 1px solid #2a2a2a;
-  filter: sepia(15%) brightness(90%) contrast(110%);
+  border: 1px solid var(--linha-forte);
+  filter: sepia(22%) brightness(88%) contrast(112%);
 }
 
 .marcador {
   position: absolute;
   width: 26px;
   height: 26px;
-  margin: 0;
-  border: 2px solid #ff2b2b;
+  border: 2px solid #ff3b3b;
   border-radius: 50%;
-  background-color: rgba(255, 0, 0, .2);
-  box-shadow: 0 0 14px rgba(255, 0, 0, .8);
+  background-color: rgba(255, 0, 0, .18);
+  box-shadow: 0 0 16px rgba(255, 0, 0, .75);
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
@@ -549,9 +897,9 @@ img { max-width: 100%; height: auto; display: block; }
   content: "";
   position: absolute;
   inset: -5px;
-  border: 1px solid #ff2b2b;
+  border: 1px solid #ff3b3b;
   border-radius: 50%;
-  animation: pulsar 1.6s infinite;
+  animation: pulsar 1.8s infinite;
 }
 
 @keyframes pulsar {
@@ -561,9 +909,10 @@ img { max-width: 100%; height: auto; display: block; }
 
 .mapa-legenda {
   text-align: center;
-  font-size: 13px;
-  color: var(--texto-fraco);
-  margin: 14px 0 0;
+  font-size: 12px;
+  letter-spacing: .1em;
+  color: var(--texto-tenue);
+  margin: 16px 0 0;
 }
 
 /* -----------------------------------------------------------------------------
@@ -583,15 +932,15 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .aviso {
-  background-color: #1a1a1a;
-  border: 1px solid var(--borda);
+  background-color: var(--papel-alto);
+  border: 1px solid var(--linha-forte);
   border-left: 3px solid var(--vinho-claro);
   border-radius: var(--raio);
   color: var(--texto);
-  padding: 12px 16px;
+  padding: 13px 17px;
   font-size: 14px;
   max-width: 460px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, .8);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .85);
   animation: entrarAviso .25s ease;
 }
 
@@ -600,24 +949,48 @@ img { max-width: 100%; height: auto; display: block; }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Carta entrando, discreta: some junto com prefers-reduced-motion */
+@keyframes entrarCarta {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.carta[data-animar="sim"] { animation: entrarCarta .32s ease both; }
+
 /* -----------------------------------------------------------------------------
  *  TELAS MAIORES
  * -------------------------------------------------------------------------- */
-@media (min-width: 640px) {
-  /* Na tela grande sobra altura, entao o painel pode ficar fixo no topo.
-     No celular ele ocupa tres linhas e roubaria espaco da carta. */
-  .painel { position: sticky; top: 0; }
+@media (min-width: 680px) {
+  :root { --gutter: 28px; }
 
-  .lobby-titulo { font-size: 36px; }
-  .titulo-jogo { font-size: 22px; }
-  .carta-cabecalho h2 { font-size: 24px; }
-  .container { padding: 32px var(--gutter) 60px; }
+  /* Na tela grande sobra altura, entao o painel pode ficar fixo no topo.
+     No celular ele ocuparia espaco demais da carta. */
+  .painel {
+    position: sticky;
+    top: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .painel-marca { justify-content: flex-start; }
+  .painel-status { flex: 1; }
+
+  .lobby-titulo { font-size: 58px; }
   .lobby-botoes { flex-direction: row; }
   .form-linha { flex-direction: row; }
   .form-mestre input { flex: 1; }
   .form-mestre .botao { width: auto; white-space: nowrap; }
+
+  .carta { padding: 38px 40px 42px; }
+  .carta-cabecalho h2 { font-size: 31px; }
+  .carta-texto { font-size: 16.5px; }
+  .pergunta-central { font-size: 18px; padding: 24px; }
+
   .painel-mestre-acoes { flex-direction: row; }
-  .modal-caixa { padding: 50px 24px 24px; }
+  .modal-caixa { padding: 52px 28px 28px; }
+  .modal-acoes { flex-direction: row; justify-content: center; }
+  .modal-acoes .botao { width: auto; min-width: 170px; }
+  .trilha-nome { display: inline; }
+  .container { padding: 30px var(--gutter) 70px; }
 }
 
 /* -----------------------------------------------------------------------------
@@ -628,14 +1001,14 @@ img { max-width: 100%; height: auto; display: block; }
  *  selecionada quando nao estava.
  * -------------------------------------------------------------------------- */
 @media (hover: hover) and (pointer: fine) {
-  .botao:hover { background-color: #1a0606; border-color: var(--vinho-claro); }
-  .botao-confirmar:not(:disabled):hover { background-color: var(--vinho); }
-  .botao-secundario:hover { border-color: #444; color: #fff; background-color: #151515; }
-  .botao-mestre:hover { border-color: var(--ouro); background-color: #1a1400; }
-  .link-voltar:hover { color: #fff; }
-  .etiqueta-botao:hover { border-color: var(--vinho-claro); color: #fff; }
-  .escolha:hover { border-color: var(--vinho); background-color: #121212; }
-  .modal-fechar:hover { color: #fff; }
+  .botao:hover { background-color: #241d13; border-color: var(--texto-tenue); }
+  .botao-confirmar:not(:disabled):hover { background-color: #3a0d0d; border-color: var(--vinho-claro); }
+  .botao-secundario:hover { border-color: var(--linha-forte); color: var(--texto); }
+  .botao-mestre:hover { border-color: var(--ouro); }
+  .botao-painel:hover { color: var(--texto); border-color: var(--texto-tenue); }
+  .link-discreto:hover { color: var(--texto); }
+  .escolha:hover { border-color: var(--linha-forte); background-color: #191510; }
+  .modal-fechar:hover { color: var(--texto); }
 }
 
 /* Respeita quem pediu menos animacao no sistema. */
