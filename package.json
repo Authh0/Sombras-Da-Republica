@@ -13,7 +13,8 @@
     "check-historia": "node tools/check-historia.js",
     "teste": "node tools/teste-sessao.js",
     "test": "node tools/check-historia.js && node tools/teste-regras.js && node tools/teste-sessao.js",
-    "teste-regras": "node tools/teste-regras.js"
+    "teste-regras": "node tools/teste-regras.js",
+    "roteiro": "node tools/gerar-roteiro.js"
   },
   "repository": {
     "type": "git",

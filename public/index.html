@@ -89,6 +89,17 @@
     <nav class="trilha" id="trilha" aria-label="Progresso da sessão"></nav>
 
     <main class="container">
+
+      <!-- Roteiro: só o Mestre enxerga. Fica ANTES da carta de propósito —
+           é a primeira coisa que ele precisa ver ao virar uma carta. -->
+      <section id="roteiro-mestre" class="roteiro" hidden>
+        <div class="roteiro-topo">
+          <h2 class="roteiro-titulo">Roteiro do Mestre — leia em voz alta</h2>
+          <button type="button" class="botao-painel" id="btn-roteiro" aria-expanded="true">Esconder</button>
+        </div>
+        <div class="roteiro-texto" id="roteiro-texto"></div>
+      </section>
+
       <article id="area-historia" class="carta" aria-live="polite"></article>
       <section id="area-escolhas" class="area-escolhas"></section>
 

@@ -13,6 +13,7 @@
 import {
   cartas,
   montarCarta,
+  narracaoDoMestre,
   tendenciaDominante,
   contarFilosofos,
   apurarVotos,
@@ -141,8 +142,51 @@ conferir(
   ['r5a', 'r5b', 'r5c'].every((id) => destinosValidos(id)[0] === 'final')
 );
 
+/* ---- roteiro do Mestre ---------------------------------------------------- */
+console.log('\n  6) Roteiro do Mestre');
+
+const semTags = (t) => t.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+
+conferir(
+  'toda carta alcancavel tem roteiro',
+  Object.keys(cartas).every((id) => semTags(narracaoDoMestre(id, [])).length > 0)
+);
+conferir(
+  'o roteiro da carta 1 traz o texto e a pergunta',
+  semTags(narracaoDoMestre('carta1', [])).includes('Um militar influente procura vocês') &&
+    semTags(narracaoDoMestre('carta1', [])).includes('apoiar a derrubada da monarquia')
+);
+conferir(
+  'a linha de rotulo da consequencia NAO entra no roteiro',
+  !semTags(narracaoDoMestre('r1a', [])).includes('O grupo escolheu a prudência')
+);
+conferir(
+  'mas o texto da consequencia entra inteiro',
+  semTags(narracaoDoMestre('r1a', [])).includes('Vocês entendem que uma mudança política')
+);
+conferir(
+  'a Carta 4 usa a ordem do documento: pergunta no meio',
+  (() => {
+    const t = semTags(narracaoDoMestre('carta4', []));
+    return t.indexOf('o que vale mais') < t.indexOf('Vocês estão diante do desfecho');
+  })()
+);
+conferir(
+  'a abertura traz a frase inteira, sem corte',
+  semTags(narracaoDoMestre('abertura', [])).includes(
+    'A crise deixa de ser apenas a queda de um regime e passa a ser uma disputa por interesses'
+  )
+);
+conferir(
+  'a ponte para a Carta 5 aparece nas tres consequencias da Carta 4',
+  ['r4a', 'r4b', 'r4c'].every((id) =>
+    semTags(narracaoDoMestre(id, [])).includes('Com a queda da monarquia, o problema não termina')
+  )
+);
+conferir('carta inexistente devolve roteiro vazio', narracaoDoMestre('nao-existe', []) === '');
+
 /* ---- trilha das fases ----------------------------------------------------- */
-console.log('\n  6) Trilha das fases');
+console.log('\n  7) Trilha das fases');
 conferir('as fases sao montadas a partir das cartas', FASES.length > 0);
 conferir('nao ha fase repetida na trilha', new Set(FASES).size === FASES.length);
 conferir(

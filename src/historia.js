@@ -86,6 +86,10 @@ export const CENA_FINAL = 'final';
  *    momento   -> linha em italico logo abaixo do titulo
  *    texto     -> corpo da carta (aceita HTML simples: <br>, <b>, <i>)
  *    pergunta  -> a pergunta em destaque, na caixa com bordas vermelhas
+ *    narracao  -> OPCIONAL. O que o Mestre le em voz alta, quando isso precisa
+ *                 ser diferente do que aparece na tela (ordem ou corte). Se
+ *                 ficar de fora, o roteiro e montado sozinho a partir de
+ *                 momento + texto + pergunta.
  *    mapa      -> posicao do marcador no mapa tatico (ou null para esconder)
  *    variantes -> versoes alternativas do texto por tendencia (opcional)
  *    escolhas  -> as opcoes de voto
@@ -131,7 +135,7 @@ Vocês estão no centro dessa disputa. A História ainda não decidiu como vai l
   abertura: {
     fase: 'O Tabuleiro',
     titulo: 'A Disputa de Interesses',
-    momento: 'A crise deixa de ser apenas a queda de um regime.',
+    momento: 'A crise deixa de ser apenas a queda de um regime e passa a ser uma disputa por interesses.',
     mapa: null,
     texto: `O Império enfraquece, mas isso não significa que todos desejem o mesmo futuro. Uns querem proteger privilégios antigos. Outros querem acelerar a mudança para assumir o controle do que vem depois. Há quem veja a República como esperança, mas também há quem a enxergue apenas como uma nova forma de manter o poder nas mesmas mãos.<br><br>
 No Brasil do fim do século XIX, a política não era feita só de ideias. Ela também era feita de alianças, favores, medo, influência e vantagens. A República nasce nesse ambiente: uma mudança histórica que, ao mesmo tempo em que promete renovação, esconde disputas intensas entre militares, elites, coronéis e grupos que não queriam perder espaço.`,
@@ -441,6 +445,12 @@ Essa decisão mostra que, em tempos de mudança, quem hesita perde espaço. Voc�
 Vocês estão diante do desfecho. O que fizerem agora vai definir não só o fato histórico em si, mas também a forma como esse novo Brasil vai ser organizado e dominado.`,
     pergunta:
       'Mas mesmo no instante final, a pergunta continua de pé: o que vale mais, a prudência, o dever ou a estratégia?',
+    /* O documento do Mestre traz a pergunta NO MEIO desta carta, e a tela a
+       mostra no fim, na caixa destacada. Para o Mestre nao ler fora de ordem,
+       a narracao dele e escrita aqui na ordem do documento original. */
+    narracao: `Chega 15 de novembro de 1889.<br><br>
+As tropas se movem, os boatos aumentam e o Império finalmente cede. A República está prestes a ser proclamada. Mas mesmo no instante final, a pergunta continua de pé: o que vale mais, a prudência, o dever ou a estratégia?<br><br>
+Vocês estão diante do desfecho. O que fizerem agora vai definir não só o fato histórico em si, mas também a forma como esse novo Brasil vai ser organizado e dominado.`,
     variantes: {
       aristoteles: { momento: '', texto: '', pergunta: '' },
       kant: { momento: '', texto: '', pergunta: '' },

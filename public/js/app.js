@@ -16,6 +16,7 @@ import {
   FASES,
   indiceDaFase,
   montarCarta,
+  narracaoDoMestre,
   tendenciaDominante,
   contarFilosofos,
 } from '/src/regras.js';
@@ -48,6 +49,10 @@ const el = {
 
   areaHistoria: $('area-historia'),
   areaEscolhas: $('area-escolhas'),
+
+  roteiro: $('roteiro-mestre'),
+  roteiroTexto: $('roteiro-texto'),
+  btnRoteiro: $('btn-roteiro'),
 
   painelMestre: $('painel-mestre'),
   dicaMestre: $('dica-mestre'),
@@ -83,7 +88,28 @@ const local = {
   selecionada: null, // escolha que o Mestre marcou mas ainda nao confirmou
   servidor: null, // ultimo estado recebido
   cenaDesenhada: null, // evita redesenhar a mesma carta e piscar a tela
+  roteiroAberto: lerPreferencia('roteiroAberto', true),
 };
+
+/* O Mestre que prefere ler no papel esconde o roteiro uma vez e ele continua
+   escondido nas proximas cartas e ate depois de recarregar a pagina.
+   Envolvido em try/catch porque em aba anonima o navegador pode recusar. */
+function lerPreferencia(chave, padrao) {
+  try {
+    const v = localStorage.getItem(chave);
+    return v === null ? padrao : v === 'sim';
+  } catch {
+    return padrao;
+  }
+}
+
+function gravarPreferencia(chave, valor) {
+  try {
+    localStorage.setItem(chave, valor ? 'sim' : 'nao');
+  } catch {
+    /* sem espaco ou sem permissao: a preferencia vale so nesta sessao */
+  }
+}
 
 /* Mantemos o polling como alternativa: em rede de escola e atras de proxy,
    so WebSocket as vezes nao conecta de jeito nenhum. */
@@ -301,6 +327,7 @@ function renderizar() {
     desenharEscolhas(carta, estado);
   }
 
+  atualizarRoteiro(estado);
   atualizarPainelMestre(carta, estado);
   atualizarMapa(carta);
 }
@@ -543,6 +570,23 @@ el.btnReiniciar.addEventListener('click', async () => {
     if (!r || !r.ok) aviso((r && r.erro) || 'Não foi possível reiniciar.');
     else aviso('Sessão reiniciada.');
   });
+});
+
+function atualizarRoteiro(estado) {
+  const ehMestre = local.papel === 'mestre';
+  el.roteiro.hidden = !ehMestre;
+  if (!ehMestre) return;
+
+  el.roteiroTexto.innerHTML = narracaoDoMestre(estado.cena, estado.historico);
+  el.roteiroTexto.hidden = !local.roteiroAberto;
+  el.btnRoteiro.textContent = local.roteiroAberto ? 'Esconder' : 'Mostrar';
+  el.btnRoteiro.setAttribute('aria-expanded', String(local.roteiroAberto));
+}
+
+el.btnRoteiro.addEventListener('click', () => {
+  local.roteiroAberto = !local.roteiroAberto;
+  gravarPreferencia('roteiroAberto', local.roteiroAberto);
+  if (local.servidor) atualizarRoteiro(local.servidor);
 });
 
 function atualizarPainelMestre(carta, estado) {

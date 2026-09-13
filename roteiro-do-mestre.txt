@@ -1,0 +1,747 @@
+SOMBRAS DA REPUBLICA — A Trindade Filosofica
+ROTEIRO DO MESTRE
+==============================================================================
+
+Este documento foi gerado a partir do arquivo da historia do jogo, entao o que
+esta escrito aqui e exatamente o que a turma esta vendo na tela. Se voces
+editarem a historia, rodem "npm run roteiro" de novo e este arquivo se
+atualiza sozinho.
+
+COMO USAR NA APRESENTACAO
+
+1. Leia em voz alta o bloco LEIA da carta que esta na tela.
+2. Nas cartas de decisao, a turma vota no celular. Espere a votacao.
+3. Olhe o resultado no painel e toque na opcao escolhida.
+4. Confirme. A tela vira para a consequencia daquela escolha.
+5. Leia a consequencia. Siga.
+
+O mesmo texto tambem aparece dentro do site, numa area dourada que so o Mestre
+enxerga, no alto da tela. Este arquivo serve para imprimir ou para usar num
+segundo aparelho.
+
+------------------------------------------------------------------------------
+INDICE
+------------------------------------------------------------------------------
+
+   1. [cena] As Sombras do Império
+   2. [cena] A Disputa de Interesses
+   3. [cena] Carta 1 — O Apoio ao Movimento
+   4. [consequencia] Consequência — O Apoio ao Movimento
+   5. [consequencia] Consequência — O Apoio ao Movimento
+   6. [consequencia] Consequência — O Apoio ao Movimento
+   7. [cena] Carta 2 — O Que Contar ao Povo
+   8. [consequencia] Consequência — O Que Contar ao Povo
+   9. [consequencia] Consequência — O Que Contar ao Povo
+  10. [consequencia] Consequência — O Que Contar ao Povo
+  11. [cena] Carta 3 — Quem Vai Se Beneficiar
+  12. [consequencia] Consequência — Quem Vai Se Beneficiar
+  13. [consequencia] Consequência — Quem Vai Se Beneficiar
+  14. [consequencia] Consequência — Quem Vai Se Beneficiar
+  15. [cena] Carta 4 — O Nascimento da Nova Ordem
+  16. [consequencia] Consequência — O Nascimento da Nova Ordem
+  17. [consequencia] Consequência — O Nascimento da Nova Ordem
+  18. [consequencia] Consequência — O Nascimento da Nova Ordem
+  19. [cena] Carta 5 — A República dos Interesses
+  20. [consequencia] Consequência — A República dos Interesses
+  21. [consequencia] Consequência — A República dos Interesses
+  22. [consequencia] Consequência — A República dos Interesses
+  23. [cena] Fim de Jogo
+
+
+==============================================================================
+ 1.  AS SOMBRAS DO IMPÉRIO
+     fase: O Tabuleiro
+==============================================================================
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Rio de Janeiro, 1889.
+
+     O Império do Brasil está enfraquecido. A monarquia ainda existe, mas sua base
+     política já não é sólida. Militares, elites agrárias, coronéis e grupos
+     urbanos começam a disputar espaço e influência. Por fora, a ordem continua;
+     por dentro, o poder já está sendo negociado.
+
+     Neste momento, a questão não é apenas se o regime vai mudar. A questão é quem
+     vai se beneficiar dessa mudança. Em um país marcado por interesses, favores e
+     controle local, cada decisão pode fortalecer um grupo e enfraquecer outro.
+
+     Vocês estão no centro dessa disputa. A História ainda não decidiu como vai
+     lembrar esses dias, e cada escolha pode aproximar o Brasil de uma República de
+     interesses.
+
+     ---------- SEM VOTACAO ----------
+
+     Toque em "Começar a sessão" e confirme.
+     A tela vai para: A Disputa de Interesses
+
+
+==============================================================================
+ 2.  A DISPUTA DE INTERESSES
+     fase: O Tabuleiro
+==============================================================================
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     A crise deixa de ser apenas a queda de um regime e passa a ser uma disputa por
+     interesses.
+
+     O Império enfraquece, mas isso não significa que todos desejem o mesmo futuro.
+     Uns querem proteger privilégios antigos. Outros querem acelerar a mudança para
+     assumir o controle do que vem depois. Há quem veja a República como esperança,
+     mas também há quem a enxergue apenas como uma nova forma de manter o poder nas
+     mesmas mãos.
+
+     No Brasil do fim do século XIX, a política não era feita só de ideias. Ela
+     também era feita de alianças, favores, medo, influência e vantagens. A
+     República nasce nesse ambiente: uma mudança histórica que, ao mesmo tempo em
+     que promete renovação, esconde disputas intensas entre militares, elites,
+     coronéis e grupos que não queriam perder espaço.
+
+     Agora vocês precisam decidir como agir diante disso.
+
+     ---------- SEM VOTACAO ----------
+
+     Toque em "Virar a primeira carta" e confirme.
+     A tela vai para: Carta 1 — O Apoio ao Movimento
+
+
+==============================================================================
+ 3.  CARTA 1 — O APOIO AO MOVIMENTO
+     fase: A Faísca
+==============================================================================
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Um militar influente procura vocês.
+
+     Ele fala com segurança e diz que o momento de agir chegou. Segundo ele, o
+     Império está fraco demais para continuar, e apenas uma ruptura rápida pode
+     evitar mais caos.
+
+     Mas apoiar esse movimento significa entrar numa mudança que não nasceu de um
+     consenso, e sim da disputa entre grupos que querem controlar o futuro.
+
+     A pergunta agora é simples, mas pesada: vocês vão apoiar a derrubada da
+     monarquia ou recusar participar dessa movimentação?
+
+     ---------- A TURMA VOTA ENTRE ----------
+
+     A) Apoiar com equilíbrio  —  Aristóteles
+        depois do voto, va para: Consequência — O Apoio ao Movimento (consequencia A)
+
+     B) Recusar por dever e princípio  —  Kant
+        depois do voto, va para: Consequência — O Apoio ao Movimento (consequencia B)
+
+     C) Apoiar pela eficiência da crise  —  Maquiavel
+        depois do voto, va para: Consequência — O Apoio ao Movimento (consequencia C)
+
+     Em caso de empate, quem decide e voce.
+
+
+==============================================================================
+ 4.  CONSEQUÊNCIA — O APOIO AO MOVIMENTO
+     caminho de ARISTÓTELES
+     fase: A Faísca
+==============================================================================
+
+     >> Leia isto SOMENTE se a turma escolheu a opcao A.
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Vocês entendem que uma mudança política precisa ser pensada com cuidado,
+     porque por trás de cada decisão existem interesses diferentes tentando dominar
+     o país. Não basta derrubar o Império; é preciso observar quem vai se
+     aproveitar disso depois.
+
+     Por isso, vocês aceitam ouvir o militar, mas tentam agir com prudência.
+     Procuram reduzir os excessos e impedir que a mudança seja usada como simples
+     ferramenta de vantagem para poucos.
+
+     Essa postura não impede a crise, mas mostra que vocês não querem entregar o
+     país a uma troca de poder sem reflexão.
+
+     Os dias seguintes deixam claro que nada fica parado por muito tempo. O que era
+     conversa reservada começa a escapar para os corredores, para os jornais e para
+     as ruas.
+
+     ---------- SIGA ----------
+
+     Toque em "Continuar" e confirme.
+     A tela vai para: Carta 2 — O Que Contar ao Povo
+
+
+==============================================================================
+ 5.  CONSEQUÊNCIA — O APOIO AO MOVIMENTO
+     caminho de KANT
+     fase: A Faísca
+==============================================================================
+
+     >> Leia isto SOMENTE se a turma escolheu a opcao B.
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Vocês recusam participar de qualquer movimento que dependa de pressão, traição
+     ou oportunismo. Para vocês, uma mudança política só tem valor se puder ser
+     defendida como correta em si mesma. Não importa se o momento é difícil: agir
+     errado continua sendo errado.
+
+     A recusa incomoda o militar e outros grupos interessados na queda do Império,
+     mas vocês mantêm a posição. Não vale trocar princípio por conveniência.
+
+     Essa firmeza cria tensão, e a discussão passa para outro ponto: o que o povo
+     vai saber sobre essa crise?
+
+     A recusa de vocês não encerra a disputa. Pelo contrário: ela torna ainda mais
+     claro que a crise agora também é uma batalha pela informação.
+
+     ---------- SIGA ----------
+
+     Toque em "Continuar" e confirme.
+     A tela vai para: Carta 2 — O Que Contar ao Povo
+
+
+==============================================================================
+ 6.  CONSEQUÊNCIA — O APOIO AO MOVIMENTO
+     caminho de MAQUIAVEL
+     fase: A Faísca
+==============================================================================
+
+     >> Leia isto SOMENTE se a turma escolheu a opcao C.
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Vocês percebem que a política real não espera pureza. O Império está
+     enfraquecido, os grupos de poder já estão se movendo e hesitar demais pode
+     significar perder a chance de influenciar o futuro.
+
+     Então vocês aceitam a proposta e pensam em como usar esse momento a favor de
+     seus objetivos.
+
+     A decisão é pragmática. Vocês entendem que, numa crise como essa, quem não age
+     acaba sendo guiado pelos interesses dos outros.
+
+     Agora a cidade começa a ouvir rumores. A disputa sai dos bastidores e começa a
+     aparecer nas ruas.
+
+     ---------- SIGA ----------
+
+     Toque em "Continuar" e confirme.
+     A tela vai para: Carta 2 — O Que Contar ao Povo
+
+
+==============================================================================
+ 7.  CARTA 2 — O QUE CONTAR AO POVO
+     fase: O Baile
+==============================================================================
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     A decisão de apoiar ou rejeitar o movimento já começou a espalhar efeitos.
+
+     As pessoas comentam, desconfiam e tentam entender o que está acontecendo.
+     Jornais recebem informações contraditórias. Alguns querem publicar tudo.
+     Outros preferem esperar.
+
+     Há quem diga que a população precisa saber a verdade imediatamente. Há também
+     quem acredite que divulgar rápido demais pode causar pânico e facilitar o
+     controle da situação por certos grupos.
+
+     A pergunta agora é: vocês vão contar tudo, dizer apenas parte da verdade ou
+     usar a informação para influenciar o rumo da crise?
+
+     ---------- A TURMA VOTA ENTRE ----------
+
+     A) Informar com equilíbrio  —  Aristóteles
+        depois do voto, va para: Consequência — O Que Contar ao Povo (consequencia A)
+
+     B) Contar toda a verdade  —  Kant
+        depois do voto, va para: Consequência — O Que Contar ao Povo (consequencia B)
+
+     C) Controlar a informação  —  Maquiavel
+        depois do voto, va para: Consequência — O Que Contar ao Povo (consequencia C)
+
+     Em caso de empate, quem decide e voce.
+
+
+==============================================================================
+ 8.  CONSEQUÊNCIA — O QUE CONTAR AO POVO
+     caminho de ARISTÓTELES
+     fase: O Baile
+==============================================================================
+
+     >> Leia isto SOMENTE se a turma escolheu a opcao A.
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Vocês procuram um meio seguro de lidar com a situação. Não querem mentir, mas
+     também não querem jogar o país no caos sem necessidade. Então tentam organizar
+     a informação de forma equilibrada, evitando exageros e pensando no menor dano
+     possível.
+
+     Essa escolha mostra que vocês percebem que até a verdade pode ser usada como
+     instrumento de interesse. Por isso, o jeito de apresentar a informação também
+     importa.
+
+     Enquanto isso, a cidade continua avançando em direção ao momento decisivo.
+
+     A crise não está mais escondida. Agora ela circula em voz alta, e cada palavra
+     dita pode mudar o rumo dos acontecimentos.
+
+     ---------- SIGA ----------
+
+     Toque em "Continuar" e confirme.
+     A tela vai para: Carta 3 — Quem Vai Se Beneficiar
+
+
+==============================================================================
+ 9.  CONSEQUÊNCIA — O QUE CONTAR AO POVO
+     caminho de KANT
+     fase: O Baile
+==============================================================================
+
+     >> Leia isto SOMENTE se a turma escolheu a opcao B.
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Vocês defendem que a verdade não pode ser manipulada. Se a população precisa
+     saber o que está acontecendo, então ela deve saber de forma limpa, sem
+     distorções. Mesmo que isso cause choque ou acelere a instabilidade, mentir
+     seria pior.
+
+     A decisão é dura, mas clara. Vocês não aceitam tratar as pessoas como
+     ferramenta política. O dever de dizer a verdade vem antes de qualquer cálculo
+     sobre vantagem imediata.
+
+     A cidade reage ao que foi revelado. Agora fica mais difícil esconder os
+     interesses por trás da crise.
+
+     A partir daqui, já não basta falar em mudança. Agora todos precisam encarar o
+     que essa mudança realmente significa.
+
+     ---------- SIGA ----------
+
+     Toque em "Continuar" e confirme.
+     A tela vai para: Carta 3 — Quem Vai Se Beneficiar
+
+
+==============================================================================
+10.  CONSEQUÊNCIA — O QUE CONTAR AO POVO
+     caminho de MAQUIAVEL
+     fase: O Baile
+==============================================================================
+
+     >> Leia isto SOMENTE se a turma escolheu a opcao C.
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Vocês entendem que a informação é uma ferramenta poderosa demais para ser
+     deixada ao acaso. Em vez de apenas divulgar ou esconder, vocês decidem
+     controlar o momento e o efeito da notícia.
+
+     Talvez isso sirva para pressionar alguém. Talvez sirva para proteger um lado.
+     Talvez sirva para preparar o terreno para a mudança.
+
+     A atitude é estratégica. Vocês percebem que controlar a narrativa também é uma
+     forma de controlar o poder.
+
+     O país entra numa fase ainda mais instável. Agora já não se trata só de apoiar
+     ou não uma mudança, mas de decidir quem vai se beneficiar dela.
+
+     ---------- SIGA ----------
+
+     Toque em "Continuar" e confirme.
+     A tela vai para: Carta 3 — Quem Vai Se Beneficiar
+
+
+==============================================================================
+11.  CARTA 3 — QUEM VAI SE BENEFICIAR
+     fase: A Conspiração
+==============================================================================
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     A queda do Império já parece próxima.
+
+     O problema é que nem todos querem a mesma República. Alguns desejam ordem.
+     Outros desejam liberdade. Outros querem apenas manter poder e influência,
+     mudando o nome do regime sem mudar a estrutura por trás dele.
+
+     Vocês percebem que a crise não é apenas sobre derrubar a monarquia. É sobre
+     quem vai ocupar o espaço deixado por ela.
+
+     Agora surge uma nova decisão: vocês vão buscar equilíbrio entre os lados,
+     expor todas as intenções ou usar a mudança para garantir vantagem?
+
+     ---------- A TURMA VOTA ENTRE ----------
+
+     A) Buscar o bem comum e evitar extremos  —  Aristóteles
+        depois do voto, va para: Consequência — Quem Vai Se Beneficiar (consequencia A)
+
+     B) Expor a verdade sem esconder nada  —  Kant
+        depois do voto, va para: Consequência — Quem Vai Se Beneficiar (consequencia B)
+
+     C) Usar a informação para vencer a disputa  —  Maquiavel
+        depois do voto, va para: Consequência — Quem Vai Se Beneficiar (consequencia C)
+
+     Em caso de empate, quem decide e voce.
+
+
+==============================================================================
+12.  CONSEQUÊNCIA — QUEM VAI SE BENEFICIAR
+     caminho de ARISTÓTELES
+     fase: A Conspiração
+==============================================================================
+
+     >> Leia isto SOMENTE se a turma escolheu a opcao A.
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Vocês tentam evitar que o país caia em outro extremo. A mudança precisa
+     acontecer, mas sem virar um terreno de dominação total de um único grupo.
+
+     Em vez de alimentar a disputa mais agressiva, vocês tentam reduzir os danos e
+     buscar um caminho mais justo para todos.
+
+     Essa postura não resolve tudo, mas impede que a crise se transforme em uma
+     troca de poder sem controle. Vocês entendem que governar também é impedir que
+     os interesses destruam o bem comum.
+
+     A República começa a tomar forma, mas ainda sem mostrar com clareza quem
+     realmente vai comandá-la.
+
+     ---------- SIGA ----------
+
+     Toque em "Continuar" e confirme.
+     A tela vai para: Carta 4 — O Nascimento da Nova Ordem
+
+
+==============================================================================
+13.  CONSEQUÊNCIA — QUEM VAI SE BENEFICIAR
+     caminho de KANT
+     fase: A Conspiração
+==============================================================================
+
+     >> Leia isto SOMENTE se a turma escolheu a opcao B.
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Vocês decidem enfrentar a situação com sinceridade total. Se há interesses
+     escondidos, eles devem ser revelados. Se há manipulação, ela deve ser exposta.
+     Se há acordos secretos, ninguém deve fingir que não viu.
+
+     A verdade, porém, cobra um preço. Ao revelar tudo, vocês abalam alianças,
+     enfraquecem certezas e tornam impossível esconder o que estava acontecendo.
+
+     A tensão cresce, mas o princípio permanece intacto: não se constrói justiça
+     sobre mentira.
+
+     A partir desse ponto, a crise deixa de ser apenas política. Ela se torna
+     também moral.
+
+     ---------- SIGA ----------
+
+     Toque em "Continuar" e confirme.
+     A tela vai para: Carta 4 — O Nascimento da Nova Ordem
+
+
+==============================================================================
+14.  CONSEQUÊNCIA — QUEM VAI SE BENEFICIAR
+     caminho de MAQUIAVEL
+     fase: A Conspiração
+==============================================================================
+
+     >> Leia isto SOMENTE se a turma escolheu a opcao C.
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Vocês escolhem agir com cálculo. Se a República vai nascer, então é melhor que
+     ela nasça sob uma direção que vocês consideram favorável.
+
+     A crise deixa de ser apenas um problema e passa a ser uma oportunidade de
+     conduzir o futuro.
+
+     Essa decisão mostra que, em tempos de mudança, quem hesita perde espaço. Vocês
+     passam a pensar não só no que é certo ou prudente, mas no que é eficaz para
+     moldar o resultado.
+
+     O país está prestes a mudar de vez. Falta apenas decidir como vocês vão chegar
+     ao fim disso.
+
+     ---------- SIGA ----------
+
+     Toque em "Continuar" e confirme.
+     A tela vai para: Carta 4 — O Nascimento da Nova Ordem
+
+
+==============================================================================
+15.  CARTA 4 — O NASCIMENTO DA NOVA ORDEM
+     fase: O Dia 15
+==============================================================================
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Chega 15 de novembro de 1889.
+
+     As tropas se movem, os boatos aumentam e o Império finalmente cede. A
+     República está prestes a ser proclamada. Mas mesmo no instante final, a
+     pergunta continua de pé: o que vale mais, a prudência, o dever ou a
+     estratégia?
+
+     Vocês estão diante do desfecho. O que fizerem agora vai definir não só o fato
+     histórico em si, mas também a forma como esse novo Brasil vai ser organizado e
+     dominado.
+
+     ---------- A TURMA VOTA ENTRE ----------
+
+     A) Guiar o país com prudência  —  Aristóteles
+        depois do voto, va para: Consequência — O Nascimento da Nova Ordem (consequencia A)
+
+     B) Agir pelo dever e pela verdade  —  Kant
+        depois do voto, va para: Consequência — O Nascimento da Nova Ordem (consequencia B)
+
+     C) Garantir a vitória custe o que custar  —  Maquiavel
+        depois do voto, va para: Consequência — O Nascimento da Nova Ordem (consequencia C)
+
+     Em caso de empate, quem decide e voce.
+
+
+==============================================================================
+16.  CONSEQUÊNCIA — O NASCIMENTO DA NOVA ORDEM
+     caminho de ARISTÓTELES
+     fase: O Dia 15
+==============================================================================
+
+     >> Leia isto SOMENTE se a turma escolheu a opcao A.
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Vocês escolhem o caminho do equilíbrio. O país precisa mudar, mas não precisa
+     se destruir nessa mudança. Em vez de alimentar o caos, vocês tentam dar ao
+     novo tempo um começo menos violento, mais racional e mais estável.
+
+     A escolha de vocês mostra que a política pode ser feita com cuidado. Não
+     existe solução perfeita, mas existe a tentativa de reduzir os extremos e
+     limitar os abusos.
+
+     A nova ordem nasce com a ideia de que prudência também é força.
+
+     Com a queda da monarquia, o problema não termina. Na verdade, ele apenas muda
+     de forma.
+
+     ---------- SIGA ----------
+
+     Toque em "Continuar" e confirme.
+     A tela vai para: Carta 5 — A República dos Interesses
+
+
+==============================================================================
+17.  CONSEQUÊNCIA — O NASCIMENTO DA NOVA ORDEM
+     caminho de KANT
+     fase: O Dia 15
+==============================================================================
+
+     >> Leia isto SOMENTE se a turma escolheu a opcao B.
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Vocês insistem que a decisão final precisa ser moralmente correta. Mesmo que o
+     momento seja difícil, vocês não abandonam o dever. O importante é não trair
+     aquilo que consideram justo, especialmente quando o poder costuma favorecer
+     poucos.
+
+     Essa postura pode parecer rígida, mas é o que impede que a mudança vire apenas
+     continuação da dominação antiga.
+
+     Vocês deixam claro que nem todo resultado vale qualquer método.
+
+     A República nasce, mas vocês não aceitam que ela se sustente sobre atalhos
+     morais.
+
+     Com a queda da monarquia, o problema não termina. Na verdade, ele apenas muda
+     de forma.
+
+     ---------- SIGA ----------
+
+     Toque em "Continuar" e confirme.
+     A tela vai para: Carta 5 — A República dos Interesses
+
+
+==============================================================================
+18.  CONSEQUÊNCIA — O NASCIMENTO DA NOVA ORDEM
+     caminho de MAQUIAVEL
+     fase: O Dia 15
+==============================================================================
+
+     >> Leia isto SOMENTE se a turma escolheu a opcao C.
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Vocês escolhem a eficiência. O país precisa de direção, e hesitar pode custar
+     tudo. Então vocês aceitam que a mudança política também é uma disputa de
+     poder, e que vencer essa disputa é a única forma de garantir o novo cenário.
+
+     A escolha é dura, mas coerente com a lógica da crise. Vocês fazem o necessário
+     para que o lado de vocês prevaleça.
+
+     A República nasce sob cálculo, interesse e decisão. E é exatamente isso que
+     torna esse momento histórico tão humano.
+
+     Com a queda da monarquia, o problema não termina. Na verdade, ele apenas muda
+     de forma.
+
+     ---------- SIGA ----------
+
+     Toque em "Continuar" e confirme.
+     A tela vai para: Carta 5 — A República dos Interesses
+
+
+==============================================================================
+19.  CARTA 5 — A REPÚBLICA DOS INTERESSES
+     fase: Os Interesses
+==============================================================================
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     A República já foi proclamada, mas o jogo do poder está longe de terminar.
+
+     Agora o foco se desloca para o interior, para os coronéis, para os acordos
+     locais e para o controle do voto. Em muitos lugares, a mudança no nome do
+     regime não muda a vida de quem trabalha, de quem obedece e de quem depende dos
+     grandes proprietários.
+
+     A nova pergunta é: essa República vai servir ao povo ou vai continuar sendo
+     guiada pelos interesses de poucos?
+
+     ---------- A TURMA VOTA ENTRE ----------
+
+     A) Defender limites ao poder local  —  Aristóteles
+        depois do voto, va para: Consequência — A República dos Interesses (consequencia A)
+
+     B) Denunciar a manipulação dos poderosos  —  Kant
+        depois do voto, va para: Consequência — A República dos Interesses (consequencia B)
+
+     C) Entrar no jogo para sobreviver  —  Maquiavel
+        depois do voto, va para: Consequência — A República dos Interesses (consequencia C)
+
+     Em caso de empate, quem decide e voce.
+
+
+==============================================================================
+20.  CONSEQUÊNCIA — A REPÚBLICA DOS INTERESSES
+     caminho de ARISTÓTELES
+     fase: Os Interesses
+==============================================================================
+
+     >> Leia isto SOMENTE se a turma escolheu a opcao A.
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Vocês percebem que uma República de verdade precisa limitar os abusos locais e
+     impedir que o poder continue concentrado nas mesmas mãos. Não basta mudar o
+     regime se os mecanismos de dominação continuarem funcionando do mesmo jeito.
+
+     Por isso, vocês tentam defender uma organização mais justa, em que o país não
+     seja apenas dividido entre manda-chuvas e dependentes.
+
+     Essa atitude mostra que a mudança só vale se atingir também a estrutura do
+     poder.
+
+     A República, para vocês, só faz sentido se trouxer algum equilíbrio real.
+
+     ---------- SIGA ----------
+
+     Toque em "Ver o desfecho" e confirme.
+     A tela vai para: Fim de Jogo
+
+
+==============================================================================
+21.  CONSEQUÊNCIA — A REPÚBLICA DOS INTERESSES
+     caminho de KANT
+     fase: Os Interesses
+==============================================================================
+
+     >> Leia isto SOMENTE se a turma escolheu a opcao B.
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Vocês decidem denunciar a lógica por trás da nova ordem. Se a República está
+     nascendo, mas continua baseada em favores, coerção e controle, então alguém
+     precisa dizer isso em voz alta.
+
+     A denúncia causa desconforto, porque mexe com interesses fortes. Mas vocês
+     mantêm a posição: não existe liberdade verdadeira se o poder continua sendo
+     usado para manipular pessoas e territórios.
+
+     A crise deixa de ser só uma mudança de governo e passa a ser também uma
+     disputa sobre legitimidade.
+
+     Vocês mostram que uma nova ordem não se sustenta apenas com nomes novos. Ela
+     precisa enfrentar os vícios antigos.
+
+     ---------- SIGA ----------
+
+     Toque em "Ver o desfecho" e confirme.
+     A tela vai para: Fim de Jogo
+
+
+==============================================================================
+22.  CONSEQUÊNCIA — A REPÚBLICA DOS INTERESSES
+     caminho de MAQUIAVEL
+     fase: Os Interesses
+==============================================================================
+
+     >> Leia isto SOMENTE se a turma escolheu a opcao C.
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     Vocês escolhem entrar no novo sistema da forma mais eficiente possível. Se o
+     poder agora depende de alianças locais, então vocês constroem alianças. Se o
+     voto é controlado por interesses, vocês aprendem a jogar esse jogo.
+
+     A decisão é pragmática. Vocês não ignoram a realidade: numa República de
+     interesses, quem recusa o jogo pode acabar fora dele.
+
+     Isso mostra que o novo regime nasce com promessas, mas também com velhas
+     estruturas de influência.
+
+     A República muda de forma, mas não abandona de imediato sua lógica de poder.
+
+     ---------- SIGA ----------
+
+     Toque em "Ver o desfecho" e confirme.
+     A tela vai para: Fim de Jogo
+
+
+==============================================================================
+23.  FIM DE JOGO
+     fase: O Legado
+==============================================================================
+
+     ---------- LEIA EM VOZ ALTA ----------
+
+     No fim, o Brasil mudou.
+
+     A monarquia caiu, a República surgiu e o país entrou em uma nova fase. Mas a
+     história que vocês viveram mostra algo importante: essa mudança não foi apenas
+     uma troca de governo.
+
+     Ela foi uma disputa de interesses.
+
+     Cada decisão revelou quem queria prudência, quem queria princípio, quem queria
+     vantagem e quem queria apenas continuar mandando. A República nasceu, mas não
+     nasceu pura. Ela também foi moldada por alianças, controle e pela luta para
+     definir quem teria voz no novo país.
+
+     A grande lição desta experiência é que a História não é feita só de datas e
+     fatos. Ela é feita de escolhas, conflitos e disputas por poder.
+
+     ---------- FIM DA SESSAO ----------
+
+A tela mostra o caminho filosofico percorrido e a contagem de cada filosofo.
+Bom momento para abrir a discussao com a turma.
+
+
+==============================================================================
+fim do roteiro
+==============================================================================

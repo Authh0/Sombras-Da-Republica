@@ -712,6 +712,48 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* -----------------------------------------------------------------------------
+ *  ROTEIRO DO MESTRE
+ *  Fica acima da carta, so na tela dele. A tipografia e maior e mais espacada
+ *  que a do resto: e texto para ser lido em voz alta, de pe, com a turma
+ *  olhando -- nao para ser lido em silencio.
+ * -------------------------------------------------------------------------- */
+.roteiro {
+  margin-bottom: 22px;
+  padding: 18px;
+  border: 1px solid #4a3a0c;
+  border-left: 3px solid var(--ouro);
+  border-radius: var(--raio);
+  background-color: #100d05;
+}
+
+.roteiro-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.roteiro-titulo {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ouro);
+  margin: 0;
+}
+
+.roteiro-texto {
+  font-size: 18px;
+  line-height: 1.95;
+  color: #efe8d8;
+  max-width: var(--medida);
+}
+
+.roteiro-texto i, .roteiro-texto em { color: var(--texto-fraco); }
+
+/* -----------------------------------------------------------------------------
  *  PAINEL DO MESTRE
  * -------------------------------------------------------------------------- */
 .painel-mestre {

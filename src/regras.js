@@ -122,12 +122,43 @@ export function montarCarta(cartaId, historico = []) {
     texto,
     pergunta,
     citacaoFinal: base.citacaoFinal || null,
+    narracao: base.narracao || null,
     mapa: base.mapa || null,
     escolhas: base.escolhas || [],
     tendencia,
     // qual versao esta na tela (aparece como selo na carta)
     varianteUsada: usouVariante ? tendencia : null,
   };
+}
+
+/* -----------------------------------------------------------------------------
+ *  O ROTEIRO DO MESTRE
+ * -----------------------------------------------------------------------------
+ *  Devolve exatamente o que o Mestre le em voz alta nesta carta.
+ *
+ *  Na maioria das cartas o roteiro e o proprio texto da tela, montado na
+ *  ordem em que ele deve ser falado. Duas diferencas de proposito:
+ *
+ *  1. Nas cartas de consequencia, a linha em italico ("O grupo escolheu a
+ *     prudencia") NAO entra: ela e rotulo de tela, escrito para o jogador se
+ *     situar, e nao faz parte do texto do Mestre.
+ *
+ *  2. Quando uma carta tem o campo "narracao", ele manda. E o caso da Carta 4,
+ *     em que o documento do Mestre traz a pergunta no meio e a tela a mostra
+ *     no fim.
+ * -------------------------------------------------------------------------- */
+export function narracaoDoMestre(cartaId, historico = []) {
+  const carta = montarCarta(cartaId, historico);
+  if (!carta) return '';
+  if (carta.narracao) return carta.narracao;
+
+  const partes = [];
+  if (carta.tipo !== 'consequencia' && carta.momento) partes.push(carta.momento);
+  if (carta.texto) partes.push(carta.texto);
+  if (carta.pergunta) partes.push(carta.pergunta);
+  if (carta.citacaoFinal) partes.push(carta.citacaoFinal);
+
+  return partes.join('<br><br>');
 }
 
 /* -----------------------------------------------------------------------------

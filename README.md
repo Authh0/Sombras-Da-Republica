@@ -35,9 +35,10 @@ mas usa a senha padrão e avisa no terminal.
 | `npm start` | Sobe o jogo |
 | `npm run dev` | Sobe reiniciando sozinho quando vocês salvam um arquivo |
 | `npm run check-historia` | **Confere a história inteira.** Rode sempre antes de apresentar |
-| `npm run teste-regras` | Testa a lógica: tendência, variantes, fases (38 checagens, 1 segundo) |
+| `npm run roteiro` | Gera `roteiro-do-mestre.txt` a partir da história, para imprimir |
+| `npm run teste-regras` | Testa a lógica: tendência, variantes, roteiro, fases (46 checagens) |
 | `npm run teste` | Joga uma sessão completa sozinho com Mestre e 2 jogadores (48 checagens) |
-| `npm test` | Os três acima, em sequência — 86 checagens no total |
+| `npm test` | Verificador + os dois testes — 94 checagens no total |
 
 ---
 
@@ -126,6 +127,24 @@ firewall da escola no caminho.
 um roteador no celular de vocês** e a turma conectar nele.
 
 **Levem os dois.** Numa apresentação, plano B vale mais que qualquer refatoração.
+
+### O roteiro do Mestre
+
+O Mestre narra em voz alta; a turma acompanha pelo celular. O texto que ele lê
+aparece **dentro do site**, numa área dourada no alto da tela que só ele enxerga —
+com o botão *Esconder* para quem preferir ler no papel (a escolha fica guardada).
+
+O mesmo texto sai em arquivo com `npm run roteiro`, já na ordem da sessão, com as
+respostas A/B/C separadas e indicando para onde cada voto leva.
+
+> **Os dois são gerados a partir de `src/historia.js`.** Foi assim que a versão
+> anterior do roteiro saiu de sincronia sem ninguém notar: era um documento solto.
+> Agora, editar a história atualiza o roteiro junto.
+
+Duas coisas de propósito não entram no roteiro: as linhas em itálico das cartas de
+consequência (*"O grupo escolheu a prudência"*), que são rótulo de tela, e a ordem
+da Carta 4 — nela a tela mostra a pergunta na caixa destacada no fim, e o Mestre
+a lê no meio, como está no texto original de vocês.
 
 ### Controles do Mestre
 
