@@ -159,58 +159,6 @@ nunca discorda do servidor sobre qual carta está no ar.
 
 ---
 
-## O que mudou da versão 1
-
-A versão anterior tinha problemas que só apareceriam na frente da turma. Todos foram
-reproduzidos antes de consertar, e todos têm teste garantindo que não voltam.
-
-**Segurança da sessão**
-
-- O navegador decidia sozinho quem era Mestre (senha `'123'` escrita no JavaScript do
-  cliente) e o servidor obedecia **qualquer** conexão que mandasse o evento certo.
-  Um aluno com o console aberto pulava a sessão para o final. Agora a senha é
-  conferida no servidor e só quem passou por ela controla a sessão.
-- O servidor não validava a transição: dava para saltar da carta 1 para o final.
-  Agora o destino precisa ser um destino declarado da carta atual.
-- `express.static` servia a pasta raiz inteira — `package.json` e `node_modules`
-  respondiam 200 para qualquer um. Agora só `public/` e `src/` são expostos.
-- Clique duplo do Mestre registrava o caminho filosófico duas vezes. Agora cada
-  avanço carrega um número de versão e o segundo clique é descartado.
-
-**Coisas quebradas**
-
-- `npm start` não existia (sem script `start`, `main` apontando para um arquivo
-  inexistente).
-- O botão do mapa aparecia como um círculo cinza: o CSS pedia `images/mapa.jpg`, mas
-  caminho em CSS é relativo ao arquivo `.css`, então procurava em `styles/images/`.
-- `body` era `display:flex` sem `flex-direction`, então painel e jogo ficavam lado a
-  lado — no celular o jogo era espremido em 230px de largura.
-- O modal do mapa usava quatro classes que não existiam no CSS. O mesmo com
-  `.stat-box` no HTML contra `.stat-tag` no CSS.
-- `alert()` e `prompt()` travavam a página e são bloqueados em alguns navegadores de
-  celular. Viraram formulário e avisos na própria tela.
-- Porta fixa em 3000 sem `process.env.PORT`: não subia em nenhum serviço de hospedagem.
-- `transports: ['websocket']` sem alternativa: em rede com proxy simplesmente não
-  conectava. Agora tem `polling` de reserva.
-- `node_modules` estava versionado no Git (952 arquivos) e não havia `.gitignore`.
-- Licença inconsistente: `LICENSE` dizia MIT, `package.json` dizia ISC.
-
-**Design do jogo**
-
-- As três opções de cada carta levavam todas para a mesma carta seguinte e o final
-  era idêntico em qualquer caminho — a escolha filosófica não mudava nada. Agora a
-  tendência acumulada do grupo escolhe a versão do texto das cartas seguintes.
-- Os jogadores eram espectadores: os botões ficavam desabilitados com um alerta.
-  Agora votam, veem a apuração ao vivo e o Mestre confirma.
-
-**Acessibilidade e celular**
-
-- CSS reescrito mobile-first, com alvos de toque de 48px, foco visível para teclado,
-  `Esc` fechando o mapa, respeito a `prefers-reduced-motion` e à área segura do
-  aparelho. Sem rolagem horizontal em 390px.
-
----
-
 ## Licença
 
 MIT — veja [LICENSE](LICENSE).
