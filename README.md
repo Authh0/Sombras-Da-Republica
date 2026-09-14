@@ -7,68 +7,6 @@ o texto das cartas seguintes.
 
 ---
 
-## Começando em 30 segundos
-
-```bash
-npm install
-npm start
-```
-
-Abra `http://localhost:3000`. O terminal também mostra um endereço com número
-(`http://192.168.x.x:3000`) — **esse** é o que a turma digita no celular.
-
-Antes de apresentar, crie o arquivo de senha:
-
-```bash
-cp .env.example .env
-```
-
-e troque `SENHA_MESTRE` por uma senha de vocês. Sem esse arquivo o jogo funciona,
-mas usa a senha padrão e avisa no terminal.
-
----
-
-## Comandos
-
-| Comando | O que faz |
-|---|---|
-| `npm start` | Sobe o jogo |
-| `npm run dev` | Sobe reiniciando sozinho quando vocês salvam um arquivo |
-| `npm run check-historia` | **Confere a história inteira.** Rode sempre antes de apresentar |
-| `npm run roteiro` | Gera `roteiro-do-mestre.txt` a partir da história, para imprimir |
-| `npm run teste-regras` | Testa a lógica: tendência, variantes, roteiro, fases (46 checagens) |
-| `npm run teste` | Joga uma sessão completa sozinho com Mestre e 2 jogadores (59 checagens) |
-| `npm test` | Verificador + os dois testes — 105 checagens no total |
-
----
-
-## Como editar a história
-
-Todo o conteúdo está em **`src/historia.js`**. É só texto — não precisa saber
-programar para mexer. Cada carta tem título, momento, texto, pergunta e as opções
-de voto.
-
-Depois de editar, rode:
-
-```bash
-npm run check-historia
-```
-
-Ele avisa **antes da apresentação** sobre as coisas que, se passarem, só aparecem
-quando alguém clica no botão errado na frente da turma:
-
-- carta apontando para uma carta que não existe (erro de digitação)
-- carta que ninguém nunca alcança
-- caminho que nunca chega ao final
-- carta sem saída no meio do jogo
-- escolha sem filósofo marcado
-- variante de texto ainda vazia
-
-### Como o meio da história ramifica
-
-O texto de vocês ("Texto DEFINITIVO do Mestre") tem uma **resposta própria para cada
-escolha de cada carta**. É assim que a ramificação funciona:
-
 ```
 CARTA 1  →  o grupo vota  →  RESPOSTA 1A, 1B ou 1C  →  CARTA 2
 ```
@@ -100,16 +38,6 @@ carta3: {
   },
 }
 ```
-
-Preencham só o que quiserem mudar. Campo vazio cai no texto base — **o jogo nunca
-quebra por falta de texto**. Quando uma variante está no ar, aparece um selo dizendo
-qual versão a turma está lendo.
-
-O verificador não enche o saco com variantes que vocês nunca começaram (lista as
-cartas numa linha só). Ele **avisa de verdade** quando uma carta tem variante escrita
-para um filósofo e faltando para outro — aí sim parte da turma veria texto novo e
-parte veria o texto base.
-
 ---
 
 ## No dia da apresentação
