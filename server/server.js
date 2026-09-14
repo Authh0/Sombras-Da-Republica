@@ -97,6 +97,9 @@ const estadoInicial = () => ({
   historico: [], // [{ cartaId, escolhaId, filosofo }]
   votos: {}, // { socketId: escolhaId } -- zerado a cada carta
   versao: 0, // sobe a cada avanco; protege contra clique duplo
+  // O corpo do texto da carta comeca ESCONDIDO para a turma: quem narra e o
+  // Mestre. Ele revela quando quiser, e a revelacao vale para todo mundo.
+  textoRevelado: false,
 });
 
 let estado = estadoInicial();
@@ -120,6 +123,7 @@ function snapshot() {
     cena: estado.cena,
     historico: estado.historico,
     versao: estado.versao,
+    textoRevelado: estado.textoRevelado,
     tendencia: tendenciaDominante(estado.historico),
     apuracao: apurarVotos(estado.cena, estado.votos),
     presenca: contarPapeis(),
@@ -240,6 +244,7 @@ io.on('connection', (socket) => {
     });
     estado.cena = escolha.destino;
     estado.votos = {};
+    estado.textoRevelado = false; // carta nova comeca escondida de novo
     estado.versao += 1;
 
     responder({ ok: true });
@@ -259,6 +264,53 @@ io.on('connection', (socket) => {
     const ultimo = estado.historico.pop();
     estado.cena = ultimo.cartaId;
     estado.votos = {};
+    estado.textoRevelado = false;
+    estado.versao += 1;
+
+    responder({ ok: true });
+    transmitirEstado();
+  });
+
+  /* ---- Mestre revela o texto na tela da turma ------------------------------
+   * Por padrao a turma ve so a abertura da cena e a pergunta -- o corpo do
+   * texto e narrado pelo Mestre. Este evento mostra (ou esconde de novo) o
+   * texto completo na tela de todo mundo, por exemplo depois de narrar, para
+   * quem quiser reler antes de votar.
+   * -------------------------------------------------------------------- */
+  socket.on('mestre_revelar', (dados, resposta) => {
+    const responder = typeof resposta === 'function' ? resposta : () => {};
+    if (socket.data.papel !== 'mestre') {
+      return responder({ ok: false, erro: 'Apenas o Mestre pode revelar o texto.' });
+    }
+
+    estado.textoRevelado =
+      dados && typeof dados.revelar === 'boolean' ? dados.revelar : !estado.textoRevelado;
+
+    responder({ ok: true, textoRevelado: estado.textoRevelado });
+    transmitirEstado();
+  });
+
+  /* ---- Mestre salta para qualquer carta ------------------------------------
+   * Salva-vidas de apresentacao: se o tempo apertar, ele corta caminho.
+   * Diferente do avancar normal, este nao exige que a carta seja um destino
+   * valido da carta atual -- mas continua exigindo ser o Mestre e que a carta
+   * exista de verdade. O historico NAO e inventado: o caminho filosofico
+   * mostrado no final continua sendo so o que a turma realmente escolheu.
+   * -------------------------------------------------------------------- */
+  socket.on('mestre_ir_para', (dados, resposta) => {
+    const responder = typeof resposta === 'function' ? resposta : () => {};
+    if (socket.data.papel !== 'mestre') {
+      return responder({ ok: false, erro: 'Apenas o Mestre pode saltar de carta.' });
+    }
+
+    const cartaId = dados && typeof dados.cartaId === 'string' ? dados.cartaId : null;
+    if (!cartaId || !cartas[cartaId]) {
+      return responder({ ok: false, erro: 'Essa carta não existe.' });
+    }
+
+    estado.cena = cartaId;
+    estado.votos = {};
+    estado.textoRevelado = false;
     estado.versao += 1;
 
     responder({ ok: true });

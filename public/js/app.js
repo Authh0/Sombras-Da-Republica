@@ -11,6 +11,7 @@
  * ========================================================================== */
 
 import {
+  cartas,
   FILOSOFOS,
   CENA_FINAL,
   FASES,
@@ -52,6 +53,7 @@ const el = {
 
   roteiro: $('roteiro-mestre'),
   roteiroTexto: $('roteiro-texto'),
+  roteiroTitulo: $('roteiro-titulo-carta'),
   btnRoteiro: $('btn-roteiro'),
 
   painelMestre: $('painel-mestre'),
@@ -59,6 +61,9 @@ const el = {
   btnConfirmar: $('btn-confirmar'),
   btnVoltar: $('btn-voltar'),
   btnReiniciar: $('btn-reiniciar'),
+  btnRevelar: $('btn-revelar'),
+  campoSalto: $('campo-salto'),
+  btnSalto: $('btn-salto'),
 
   btnMapa: $('btn-mapa'),
   btnSair: $('btn-sair'),
@@ -323,8 +328,8 @@ function renderizar() {
   if (estado.cena === CENA_FINAL) {
     desenharFinal(carta, estado);
   } else {
-    desenharCarta(carta, cartaNova);
-    desenharEscolhas(carta, estado);
+    desenharCarta(carta, cartaNova, !!estado.textoRevelado);
+    desenharEscolhas(carta, estado, !!estado.textoRevelado);
   }
 
   atualizarRoteiro(estado);
@@ -367,7 +372,7 @@ function desenharTrilha(carta) {
   el.trilha.innerHTML = partes.join('');
 }
 
-function desenharCarta(carta, animar) {
+function desenharCarta(carta, animar, revelado) {
   const partes = [];
 
   partes.push('<header class="carta-cabecalho">');
@@ -382,9 +387,17 @@ function desenharCarta(carta, animar) {
   }
 
   partes.push(`<p class="carta-fase">${carta.fase}</p>`);
-  partes.push(`<h2>${carta.titulo}</h2>`);
-  partes.push('<div class="filete">\u25C6</div>');
-  if (carta.momento) partes.push(`<p class="carta-momento">${carta.momento}</p>`);
+
+  /* Numa consequencia ainda nao revelada, a tela da turma fica so com o
+     emblema e o caminho escolhido: o titulo e o resto da cena sao contados
+     pela voz do Mestre. */
+  const soOCaminho = carta.tipo === 'consequencia' && !revelado;
+
+  if (!soOCaminho) {
+    partes.push(`<h2>${carta.titulo}</h2>`);
+    partes.push('<div class="filete">\u25C6</div>');
+    if (carta.momento) partes.push(`<p class="carta-momento">${carta.momento}</p>`);
+  }
 
   if (carta.varianteUsada) {
     const f = FILOSOFOS[carta.varianteUsada];
@@ -392,14 +405,28 @@ function desenharCarta(carta, animar) {
   }
   partes.push('</header>');
 
-  if (carta.texto) partes.push(`<div class="carta-texto">${carta.texto}</div>`);
+  /* O corpo do texto so aparece se o Mestre revelar. Por padrao quem conta a
+     historia e ele, em voz alta -- a tela mostra a abertura da cena e a
+     pergunta, e a turma escuta em vez de ler junto. */
+  if (carta.texto && revelado) {
+    partes.push(`<div class="carta-texto">${carta.texto}</div>`);
+  } else if (carta.texto) {
+    partes.push(
+      '<p class="narrando">' +
+        (carta.tipo === 'consequencia'
+          ? 'O Mestre está narrando a consequência da escolha.'
+          : 'O Mestre está narrando esta cena.') +
+        '</p>'
+    );
+  }
+
   if (carta.pergunta) partes.push(`<div class="pergunta-central">${carta.pergunta}</div>`);
 
   el.areaHistoria.innerHTML = partes.join('');
   el.areaHistoria.dataset.animar = animar ? 'sim' : 'nao';
 }
 
-function desenharEscolhas(carta, estado) {
+function desenharEscolhas(carta, estado, revelado) {
   el.areaEscolhas.innerHTML = '';
   const ehMestre = local.papel === 'mestre';
 
@@ -409,10 +436,15 @@ function desenharEscolhas(carta, estado) {
   const ehPassagem = carta.escolhas.length === 1 && !carta.escolhas[0].filosofo;
 
   if (ehPassagem && !ehMestre) {
-    const nota = document.createElement('p');
-    nota.className = 'nota-espera';
-    nota.textContent = 'Aguarde: o Mestre segue a narrativa.';
-    el.areaEscolhas.appendChild(nota);
+    // Se o texto ainda esta escondido, a propria carta ja diz "o Mestre esta
+    // narrando" -- repetir o aviso aqui embaixo seria dizer a mesma coisa duas
+    // vezes na mesma tela.
+    if (revelado) {
+      const nota = document.createElement('p');
+      nota.className = 'nota-espera';
+      nota.textContent = 'Aguarde: o Mestre segue a narrativa.';
+      el.areaEscolhas.appendChild(nota);
+    }
     return;
   }
 
@@ -577,6 +609,8 @@ function atualizarRoteiro(estado) {
   el.roteiro.hidden = !ehMestre;
   if (!ehMestre) return;
 
+  const carta = montarCarta(estado.cena, estado.historico);
+  el.roteiroTitulo.textContent = carta ? carta.titulo : 'Roteiro do Mestre';
   el.roteiroTexto.innerHTML = narracaoDoMestre(estado.cena, estado.historico);
   el.roteiroTexto.hidden = !local.roteiroAberto;
   el.btnRoteiro.textContent = local.roteiroAberto ? 'Esconder' : 'Mostrar';
@@ -597,8 +631,49 @@ function atualizarPainelMestre(carta, estado) {
   el.btnVoltar.disabled = !estado.historico || estado.historico.length === 0;
   el.btnConfirmar.disabled = !local.selecionada;
   el.btnConfirmar.hidden = estado.cena === CENA_FINAL;
+
+  el.btnRevelar.textContent = estado.textoRevelado
+    ? 'Esconder o texto da tela'
+    : 'Revelar o texto na tela';
+  el.btnRevelar.dataset.revelado = String(!!estado.textoRevelado);
+  el.btnRevelar.hidden = !carta.texto;
+
+  if (el.campoSalto.value !== estado.cena) el.campoSalto.value = estado.cena;
+
   atualizarDicaMestre();
 }
+
+/* A lista de salto e montada a partir da propria historia: carta nova em
+   historia.js entra aqui sozinha. */
+el.campoSalto.innerHTML = Object.entries(cartas)
+  .map(([id, c]) => {
+    const marca = c.tipo === 'consequencia' ? '   · ' : '';
+    return `<option value="${id}">${marca}${c.titulo}</option>`;
+  })
+  .join('');
+
+el.btnRevelar.addEventListener('click', () => {
+  socket.emit('mestre_revelar', {}, (r) => {
+    if (!r || !r.ok) aviso((r && r.erro) || 'Não foi possível revelar o texto.');
+  });
+});
+
+el.btnSalto.addEventListener('click', async () => {
+  const destino = el.campoSalto.value;
+  if (!destino || !cartas[destino]) return;
+
+  const certeza = await confirmar(
+    'Saltar para outra carta?',
+    `A turma inteira vai direto para "${cartas[destino].titulo}". As cartas puladas não entram no caminho filosófico.`,
+    'Sim, saltar'
+  );
+  if (!certeza) return;
+
+  socket.emit('mestre_ir_para', { cartaId: destino }, (r) => {
+    if (!r || !r.ok) aviso((r && r.erro) || 'Não foi possível saltar.');
+    else aviso(`Sessão em "${cartas[destino].titulo}".`);
+  });
+});
 
 function atualizarDicaMestre() {
   const estado = local.servidor;
@@ -671,7 +746,11 @@ function desenharFinal(carta, estado) {
       <p class="carta-momento">${carta.momento}</p>
     </header>
 
-    ${carta.texto ? `<div class="carta-texto">${carta.texto}</div>` : ''}
+    ${
+      carta.texto && estado.textoRevelado
+        ? `<div class="carta-texto">${carta.texto}</div>`
+        : '<p class="narrando">O Mestre está lendo o encerramento.</p>'
+    }
 
     <div class="caminho-final">
       <p class="caminho-rotulo">Caminho filosófico da sessão</p>

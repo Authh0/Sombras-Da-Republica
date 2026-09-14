@@ -94,7 +94,10 @@
            é a primeira coisa que ele precisa ver ao virar uma carta. -->
       <section id="roteiro-mestre" class="roteiro" hidden>
         <div class="roteiro-topo">
-          <h2 class="roteiro-titulo">Roteiro do Mestre — leia em voz alta</h2>
+          <div>
+            <h2 class="roteiro-titulo">Roteiro do Mestre — leia em voz alta</h2>
+            <p class="roteiro-carta" id="roteiro-titulo-carta"></p>
+          </div>
           <button type="button" class="botao-painel" id="btn-roteiro" aria-expanded="true">Esconder</button>
         </div>
         <div class="roteiro-texto" id="roteiro-texto"></div>
@@ -113,9 +116,29 @@
           <button type="button" class="botao botao-confirmar" id="btn-confirmar" disabled>
             Confirmar decisão
           </button>
+          <button type="button" class="botao botao-revelar" id="btn-revelar">
+            Revelar o texto na tela
+          </button>
+        </div>
+
+        <div class="painel-mestre-acoes painel-mestre-secundarias">
           <button type="button" class="botao botao-secundario" id="btn-voltar">Voltar uma carta</button>
           <button type="button" class="botao botao-secundario" id="btn-reiniciar">Reiniciar sessão</button>
         </div>
+
+        <!-- Salto de carta: fica recolhido para não ser tocado sem querer -->
+        <details class="salto">
+          <summary class="salto-abrir">Saltar para outra carta</summary>
+          <p class="salto-aviso">
+            Atalho de emergência, para quando o tempo apertar. O caminho filosófico
+            já registrado não é apagado, mas as cartas puladas não entram nele.
+          </p>
+          <div class="salto-linha">
+            <label class="salto-rotulo" for="campo-salto">Ir para</label>
+            <select id="campo-salto" class="salto-select"></select>
+            <button type="button" class="botao botao-secundario" id="btn-salto">Ir</button>
+          </div>
+        </details>
       </section>
     </main>
   </div>

@@ -744,12 +744,84 @@ img { max-width: 100%; height: auto; display: block; }
   margin: 0;
 }
 
+.roteiro-carta {
+  margin: 5px 0 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 15px;
+  color: var(--texto);
+}
+
 .roteiro-texto {
   font-size: 18px;
   line-height: 1.95;
   color: #efe8d8;
   max-width: var(--medida);
 }
+
+/* Aviso que substitui o corpo do texto enquanto o Mestre narra */
+.narrando {
+  text-align: center;
+  font-size: 14px;
+  font-style: italic;
+  letter-spacing: .04em;
+  color: var(--texto-tenue);
+  margin: 4px auto 0;
+  padding: 14px;
+  max-width: var(--medida);
+}
+
+/* Botão de revelar: muda de cara quando o texto já está na tela da turma */
+.botao-revelar { border-color: var(--linha-forte); }
+.botao-revelar[data-revelado="true"] {
+  border-color: var(--ouro);
+  color: var(--ouro);
+}
+
+/* -----------------------------------------------------------------------------
+ *  SALTO DE CARTA
+ *  Recolhido de proposito: e atalho de emergencia, nao botao de uso normal.
+ * -------------------------------------------------------------------------- */
+.salto { margin-top: 16px; border-top: 1px solid var(--linha); padding-top: 14px; }
+
+.salto-abrir {
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+  list-style: none;
+}
+.salto-abrir::-webkit-details-marker { display: none; }
+.salto-abrir::before { content: "▸ "; }
+.salto[open] .salto-abrir::before { content: "▾ "; }
+
+.salto-aviso {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--texto-tenue);
+  margin: 12px 0 14px;
+}
+
+.salto-linha { display: flex; flex-direction: column; gap: 10px; }
+
+.salto-rotulo {
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--texto-tenue);
+}
+
+.salto-select {
+  font-family: inherit;
+  font-size: 15px;
+  padding: 12px;
+  background-color: #0a0805;
+  border: 1px solid var(--linha-forte);
+  border-radius: var(--raio);
+  color: var(--texto);
+  width: 100%;
+}
+.salto-select:focus { border-color: var(--ouro); outline: none; }
 
 .roteiro-texto i, .roteiro-texto em { color: var(--texto-fraco); }
 
@@ -1028,6 +1100,10 @@ img { max-width: 100%; height: auto; display: block; }
   .pergunta-central { font-size: 18px; padding: 24px; }
 
   .painel-mestre-acoes { flex-direction: row; }
+  .salto-linha { flex-direction: row; align-items: center; }
+  .salto-rotulo { white-space: nowrap; }
+  .salto-select { flex: 1; }
+  .salto-linha .botao { width: auto; min-width: 90px; }
   .modal-caixa { padding: 52px 28px 28px; }
   .modal-acoes { flex-direction: row; justify-content: center; }
   .modal-acoes .botao { width: auto; min-width: 170px; }

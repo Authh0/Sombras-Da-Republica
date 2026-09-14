@@ -37,8 +37,8 @@ mas usa a senha padrão e avisa no terminal.
 | `npm run check-historia` | **Confere a história inteira.** Rode sempre antes de apresentar |
 | `npm run roteiro` | Gera `roteiro-do-mestre.txt` a partir da história, para imprimir |
 | `npm run teste-regras` | Testa a lógica: tendência, variantes, roteiro, fases (46 checagens) |
-| `npm run teste` | Joga uma sessão completa sozinho com Mestre e 2 jogadores (48 checagens) |
-| `npm test` | Verificador + os dois testes — 94 checagens no total |
+| `npm run teste` | Joga uma sessão completa sozinho com Mestre e 2 jogadores (59 checagens) |
+| `npm test` | Verificador + os dois testes — 105 checagens no total |
 
 ---
 
@@ -146,6 +146,20 @@ consequência (*"O grupo escolheu a prudência"*), que são rótulo de tela, e a
 da Carta 4 — nela a tela mostra a pergunta na caixa destacada no fim, e o Mestre
 a lê no meio, como está no texto original de vocês.
 
+### Quem lê o quê
+
+**Por padrão a turma não lê o texto da história — quem narra é o Mestre.** A tela dos
+jogadores mostra a fase, o título, a linha de abertura da cena, a pergunta e as três
+opções. O corpo do texto fica com ele.
+
+Nas **cartas de consequência** a tela é ainda mais enxuta: só o emblema do filósofo,
+*"Caminho de Maquiavel"* e o aviso de que o Mestre está narrando. A turma sabe qual
+caminho venceu, mas a consequência só existe na voz dele.
+
+Quando ele quiser, o botão **Revelar o texto na tela** mostra o texto completo para
+todos — útil depois de narrar, para quem quiser reler antes de votar. Vira carta,
+o texto se esconde de novo sozinho.
+
 ### Controles do Mestre
 
 - **Tocar numa opção** seleciona; **Confirmar decisão** é que avança. Dois toques de
@@ -154,6 +168,10 @@ a lê no meio, como está no texto original de vocês.
 - **Voltar uma carta** desfaz o último passo — o salva-vidas se o Mestre errar o clique.
 - **Reiniciar sessão** volta ao prólogo e limpa o caminho. Pede confirmação antes,
   para não apagar a sessão da turma com um toque errado.
+- **Revelar o texto na tela** mostra (ou esconde) o corpo da carta para a turma inteira.
+- **Saltar para outra carta** fica recolhido no fim do painel: é atalho de emergência
+  para quando o tempo apertar. Pede confirmação, e as cartas puladas **não** entram no
+  caminho filosófico — o registro final continua sendo só o que a turma escolheu.
 - **Sair** devolve qualquer participante à tela inicial. **A sessão da turma continua
   exatamente onde estava** — quem saiu apenas deixa de participar. Para voltar como
   Mestre é preciso digitar a senha de novo, porque sair também tira o poder de Mestre

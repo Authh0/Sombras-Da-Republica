@@ -294,8 +294,52 @@ async function principal() {
   await pedir(jogador2, 'entrar_como_jogador', {});
   await esperar(200);
 
-  /* ---- 14. desconexao ---------------------------------------------------- */
-  console.log('\n  14) Alguem fecha o celular');
+  /* ---- 14. revelar o texto ------------------------------------------------ */
+  console.log('\n  14) Revelar o texto na tela');
+  await esperar(200);
+  conferir('carta comeca com o texto escondido', jogador1.ultimoEstado?.textoRevelado === false);
+
+  const revelarProibido = await pedir(jogador1, 'mestre_revelar', {});
+  conferir('jogador NAO pode revelar o texto', revelarProibido && revelarProibido.ok === false);
+
+  const revelou = await pedir(mestre, 'mestre_revelar', {});
+  await esperar(250);
+  conferir('Mestre revela o texto', revelou && revelou.ok === true);
+  conferir('todos os clientes recebem a revelacao', jogador1.ultimoEstado?.textoRevelado === true);
+
+  await pedir(mestre, 'mestre_revelar', {});
+  await esperar(250);
+  conferir('e consegue esconder de novo', jogador1.ultimoEstado?.textoRevelado === false);
+
+  await pedir(mestre, 'mestre_revelar', { revelar: true });
+  await esperar(200);
+  await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' });
+  await esperar(250);
+  conferir(
+    'a carta seguinte volta a comecar escondida',
+    jogador1.ultimoEstado?.textoRevelado === false
+  );
+
+  /* ---- 15. saltar de carta ------------------------------------------------ */
+  console.log('\n  15) Saltar para outra carta');
+  const saltoProibido = await pedir(jogador1, 'mestre_ir_para', { cartaId: 'final' });
+  conferir('jogador NAO pode saltar de carta', saltoProibido && saltoProibido.ok === false);
+
+  const saltoInvalido = await pedir(mestre, 'mestre_ir_para', { cartaId: 'carta-que-nao-existe' });
+  conferir('carta inexistente e recusada', saltoInvalido && saltoInvalido.ok === false);
+
+  const passosAntesDoSalto = mestre.ultimoEstado.historico.length;
+  const salto = await pedir(mestre, 'mestre_ir_para', { cartaId: 'carta5' });
+  await esperar(250);
+  conferir('Mestre salta para a carta 5', salto && salto.ok === true);
+  conferir('todos os clientes saltaram junto', jogador1.ultimoEstado?.cena === 'carta5');
+  conferir(
+    'o salto NAO inventa escolhas no caminho filosofico',
+    mestre.ultimoEstado?.historico.length === passosAntesDoSalto
+  );
+
+  /* ---- 16. desconexao ---------------------------------------------------- */
+  console.log('\n  16) Alguem fecha o celular');
   jogador2.close();
   await esperar(400);
   conferir('a contagem de presentes cai para 2', mestre.ultimoEstado?.presenca?.total === 2);
