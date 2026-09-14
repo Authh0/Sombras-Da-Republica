@@ -242,12 +242,25 @@ img { max-width: 100%; height: auto; display: block; }
 /* -----------------------------------------------------------------------------
  *  LOBBY
  * -------------------------------------------------------------------------- */
+/* A tela inicial e a cena do 15 de novembro vista do alto do Rio.
+   O titulo e os emblemas NAO estao dentro da imagem: sao texto de verdade
+   desenhado por cima, para continuarem nitidos e do tamanho certo em
+   qualquer tela -- inclusive no celular, onde texto embutido em imagem
+   ficaria pequeno demais ou cortado.
+   O celular recebe uma versao mais leve e mais fechada da cena. */
 .lobby {
   position: fixed;
   inset: 0;
   z-index: 20000;
   background-color: var(--tinta);
-  background-image: radial-gradient(110% 60% at 50% 0%, #1e1811 0%, var(--tinta) 60%);
+  background-image:
+    linear-gradient(180deg, rgba(10, 8, 5, .9) 0%, rgba(10, 8, 5, .52) 38%, rgba(10, 8, 5, .58) 66%, rgba(10, 8, 5, .94) 100%),
+    url('../images/capa-celular.jpg');
+  background-size: cover;
+  /* 72% na horizontal traz o por do sol e o Pao de Acucar para dentro do
+     recorte estreito do celular; centralizado, so apareceria ceu escuro. */
+  background-position: 72% center;
+  background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -255,11 +268,38 @@ img { max-width: 100%; height: auto; display: block; }
   overflow-y: auto;
 }
 
+@media (min-width: 760px) {
+  .lobby {
+    background-image:
+      linear-gradient(180deg, rgba(10, 8, 5, .88) 0%, rgba(10, 8, 5, .52) 40%, rgba(10, 8, 5, .64) 68%, rgba(10, 8, 5, .94) 100%),
+      url('../images/capa.jpg');
+    background-position: center center;
+  }
+}
+
 .lobby-caixa {
+  position: relative;
   width: 100%;
   max-width: 430px;
   text-align: center;
 }
+
+/* Halo escuro atras do conteudo: segura o contraste do texto sobre a cena
+   sem precisar escurecer a imagem inteira e perder o por do sol. */
+.lobby-caixa::before {
+  content: "";
+  position: absolute;
+  inset: -40px -30px;
+  background: radial-gradient(60% 50% at 50% 45%, rgba(8, 6, 4, .85) 0%, rgba(8, 6, 4, 0) 72%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.lobby-titulo,
+.lobby-sub,
+.lobby-pergunta,
+.lobby-rodape,
+.selo-epoca { text-shadow: 0 2px 16px rgba(0, 0, 0, .95), 0 0 40px rgba(0, 0, 0, .8); }
 
 .lobby-emblemas {
   display: flex;
@@ -295,6 +335,8 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .lobby-botoes { display: flex; flex-direction: column; gap: 12px; }
+.lobby-botoes .botao { background-color: rgba(20, 16, 10, .86); }
+.form-mestre input { background-color: rgba(6, 5, 3, .9); }
 
 .lobby-rodape {
   margin: 26px 0 0;

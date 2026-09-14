@@ -192,6 +192,13 @@ em tela pequena. As duas ficam **dentro do projeto**, em `public/fonts/` — nad
 carregado do Google Fonts, então nenhum filtro de rede derruba a tipografia no meio da
 apresentação. Ambas são SIL Open Font License e as licenças estão junto dos arquivos.
 
+**Capa.** A tela inicial tem ao fundo a cena do 15 de novembro vista do alto do Rio
+(`public/images/capa.jpg`, e uma versão mais leve e mais fechada para o celular).
+O título e os emblemas **não estão dentro da imagem**: são texto desenhado por cima,
+para continuarem nítidos e do tamanho certo em qualquer tela — texto embutido em foto
+ficaria minúsculo ou cortado no celular. As duas versões somam cerca de 120 KB e só
+carregam na tela inicial.
+
 **Emblemas.** Cada filósofo tem um medalhão desenhado em SVG, em `public/js/emblemas.js`:
 a balança em equilíbrio (Aristóteles), o céu estrelado sobre o horizonte com um ponto
 abaixo dele (Kant) e a raposa coroada (Maquiavel). São desenhos próprios do projeto,
@@ -207,7 +214,7 @@ public/            o que o navegador baixa
   js/app.js        só desenha a tela e manda pedidos
   js/emblemas.js   os três medalhões em SVG
   fonts/           Playfair Display e Libre Baskerville
-  images/mapa.jpg
+  images/capa.jpg · capa-celular.jpg · mapa.jpg
 src/
   historia.js      TODO O CONTEÚDO DO JOGO (é aqui que vocês editam)
   regras.js        lógica pura: tendência, transições válidas, apuração
