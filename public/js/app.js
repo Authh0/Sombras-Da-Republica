@@ -684,6 +684,12 @@ function atualizarDicaMestre() {
     return;
   }
 
+  // Jogo cooperativo: sem jogador na sessão nao ha como avancar sozinho.
+  if (estado.presenca && estado.presenca.jogadores < 1) {
+    el.dicaMestre.textContent = 'Aguardando pelo menos um jogador entrar na sessão para poder avançar.';
+    return;
+  }
+
   // Carta de leitura, sem decisão: não há votação a relatar.
   const carta = montarCarta(estado.cena, estado.historico);
   if (carta && carta.escolhas.length === 1 && !carta.escolhas[0].filosofo) {
