@@ -90,15 +90,21 @@
    desenhados por cima da tela mesmo "escondidos", engolindo os cliques. */
 [hidden] { display: none !important; }
 
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 
 body {
   margin: 0;
+  /* vh primeiro, svh depois: navegador antigo ignora a linha que nao entende
+     e fica com a de cima, em vez de ficar sem altura minima nenhuma.
+     svh e Safari 15.4+ / Firefox 101+; iPhone com iOS 15.0 a 15.3 ainda existe. */
+  min-height: 100vh;
   min-height: 100svh;
   background-color: var(--tinta);
   /* leve halo no topo, como a luz de um lampiao sobre a mesa */
   background-image: radial-gradient(120% 70% at 50% -10%, #1b1610 0%, var(--tinta) 62%);
-  background-attachment: fixed;
   color: var(--texto);
   font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
   font-size: 16px;
@@ -376,7 +382,12 @@ img { max-width: 100%; height: auto; display: block; }
 /* -----------------------------------------------------------------------------
  *  ESTRUTURA DO JOGO
  * -------------------------------------------------------------------------- */
-.app { display: flex; flex-direction: column; min-height: 100svh; }
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+}
 
 .painel {
   display: flex;
