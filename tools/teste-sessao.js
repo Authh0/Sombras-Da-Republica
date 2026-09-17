@@ -104,34 +104,43 @@ async function principal() {
   const senhaCerta = await pedir(mestre, 'autenticar_mestre', { senha: SENHA });
   conferir('senha certa e aceita', senhaCerta && senhaCerta.ok === true);
 
-  /* ---- 2. jogo cooperativo: Mestre sozinho nao avanca --------------------- */
-  console.log('\n  2) Jogo cooperativo: Mestre sozinho nao avanca');
+  /* ---- 2. jogo cooperativo: precisa de pelo menos dois jogadores --------- */
+  console.log('\n  2) Jogo cooperativo: precisa de pelo menos dois jogadores');
   await esperar(200);
   conferir('ainda ninguem jogador na sessao', mestre.ultimoEstado?.presenca?.jogadores === 0);
 
-  const sozinhoAvancar = await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' });
+  const zeroAvancar = await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' });
   conferir(
-    'Mestre sozinho NAO consegue avancar a historia',
-    sozinhoAvancar && sozinhoAvancar.ok === false
+    'com ZERO jogadores, Mestre NAO consegue avancar',
+    zeroAvancar && zeroAvancar.ok === false
   );
 
-  const sozinhoSaltar = await pedir(mestre, 'mestre_ir_para', { cartaId: 'carta1' });
+  const zeroSaltar = await pedir(mestre, 'mestre_ir_para', { cartaId: 'carta1' });
   conferir(
-    'Mestre sozinho NAO consegue saltar de carta',
-    sozinhoSaltar && sozinhoSaltar.ok === false
-  );
-  await esperar(200);
-  conferir('a sessao continua no prologo sem jogadores', mestre.ultimoEstado?.cena === 'prologo');
-
-  /* ---- 3. estado inicial --------------------------------------------------- */
-  console.log('\n  3) Estado inicial');
-  await esperar(200);
-  conferir(
-    'quem ainda nao entrou nao conta na sessao',
-    jogador1.ultimoEstado?.presenca?.total === 1
+    'com ZERO jogadores, Mestre NAO consegue saltar de carta',
+    zeroSaltar && zeroSaltar.ok === false
   );
 
   await pedir(jogador1, 'entrar_como_jogador', {});
+  await esperar(200);
+  conferir('agora ha exatamente 1 jogador', mestre.ultimoEstado?.presenca?.jogadores === 1);
+
+  const umAvancar = await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' });
+  conferir(
+    'com UM jogador so, Mestre ainda NAO consegue avancar',
+    umAvancar && umAvancar.ok === false
+  );
+
+  const umSaltar = await pedir(mestre, 'mestre_ir_para', { cartaId: 'carta1' });
+  conferir(
+    'com UM jogador so, Mestre ainda NAO consegue saltar de carta',
+    umSaltar && umSaltar.ok === false
+  );
+  await esperar(200);
+  conferir('a sessao continua no prologo com um jogador so', mestre.ultimoEstado?.cena === 'prologo');
+
+  /* ---- 3. estado inicial --------------------------------------------------- */
+  console.log('\n  3) Estado inicial');
   await pedir(jogador2, 'entrar_como_jogador', {});
   await esperar(200);
 

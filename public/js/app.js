@@ -684,9 +684,9 @@ function atualizarDicaMestre() {
     return;
   }
 
-  // Jogo cooperativo: sem jogador na sessão nao ha como avancar sozinho.
-  if (estado.presenca && estado.presenca.jogadores < 1) {
-    el.dicaMestre.textContent = 'Aguardando pelo menos um jogador entrar na sessão para poder avançar.';
+  // Jogo cooperativo: com menos de dois jogadores nao ha votacao de verdade.
+  if (estado.presenca && estado.presenca.jogadores < 2) {
+    el.dicaMestre.textContent = 'Aguardando pelo menos dois jogadores entrarem na sessão para poder avançar.';
     return;
   }
 

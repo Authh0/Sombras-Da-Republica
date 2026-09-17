@@ -220,9 +220,10 @@ io.on('connection', (socket) => {
       return responder({ ok: false, erro: 'Apenas o Mestre pode avançar a sessão.' });
     }
 
-    // Jogo cooperativo: nao avanca sem pelo menos um jogador para votar.
-    if (contarPapeis().jogadores < 1) {
-      return responder({ ok: false, erro: 'É preciso pelo menos um jogador na sessão para avançar.' });
+    // Jogo cooperativo: com 1 jogador so nao ha votacao de verdade, so o
+    // Mestre decidindo por conta -- precisa de pelo menos dois para continuar.
+    if (contarPapeis().jogadores < 2) {
+      return responder({ ok: false, erro: 'É preciso pelo menos dois jogadores na sessão para avançar.' });
     }
 
     // Clique duplo: o segundo clique chega com a versao antiga e e ignorado.
@@ -309,9 +310,9 @@ io.on('connection', (socket) => {
     }
 
     // Mesma regra do avancar normal: o salto nao pode ser usado para terminar
-    // a sessao sozinho, sem nenhum jogador presente.
-    if (contarPapeis().jogadores < 1) {
-      return responder({ ok: false, erro: 'É preciso pelo menos um jogador na sessão para saltar de carta.' });
+    // a sessao sozinho ou com um so jogador, sem votacao de verdade.
+    if (contarPapeis().jogadores < 2) {
+      return responder({ ok: false, erro: 'É preciso pelo menos dois jogadores na sessão para saltar de carta.' });
     }
 
     const cartaId = dados && typeof dados.cartaId === 'string' ? dados.cartaId : null;
