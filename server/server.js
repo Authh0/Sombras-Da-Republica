@@ -32,6 +32,7 @@ import {
   acharEscolha,
   apurarVotos,
   tendenciaDominante,
+  conferirQuorum,
 } from '../src/regras.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -116,6 +117,13 @@ function contarPapeis() {
     else jogadores += 1;
   }
   return { jogadores, mestres, total: jogadores + mestres };
+}
+
+/* O quorum da carta que esta no ar agora. Usa a mesma funcao de regras.js que
+   o navegador usa, entao o motivo mostrado na tela do Mestre e literalmente o
+   motivo pelo qual o servidor recusaria o avanco. */
+function quorumAtual() {
+  return conferirQuorum(estado.cena, contarPapeis(), apurarVotos(estado.cena, estado.votos));
 }
 
 function snapshot() {
@@ -220,12 +228,6 @@ io.on('connection', (socket) => {
       return responder({ ok: false, erro: 'Apenas o Mestre pode avançar a sessão.' });
     }
 
-    // Jogo cooperativo: com 1 jogador so nao ha votacao de verdade, so o
-    // Mestre decidindo por conta -- precisa de pelo menos dois para continuar.
-    if (contarPapeis().jogadores < 2) {
-      return responder({ ok: false, erro: 'É preciso pelo menos dois jogadores na sessão para avançar.' });
-    }
-
     // Clique duplo: o segundo clique chega com a versao antiga e e ignorado.
     if (dados && typeof dados.versao === 'number' && dados.versao !== estado.versao) {
       return responder({ ok: false, erro: 'Essa decisão já foi registrada.' });
@@ -241,6 +243,28 @@ io.on('connection', (socket) => {
     // declarado da carta atual.
     if (!cartas[escolha.destino] || !destinosValidos(estado.cena).includes(escolha.destino)) {
       return responder({ ok: false, erro: 'Destino inválido.' });
+    }
+
+    /* ---- QUORUM: este jogo nao e single-player --------------------------
+     * Numa carta de decisao a turma precisa estar junto: no minimo
+     * MINIMO_JOGADORES conectados E o mesmo numero de votos dados.
+     *
+     * A liberacao manual ("forcar") existe para a apresentacao ao vivo: se o
+     * wifi da escola derrubar meia turma no meio da sessao, o Mestre nao pode
+     * ficar preso na frente da sala. Ela e so do Mestre (o papel ja foi
+     * conferido acima) e fica registrada no log do servidor.
+     * ------------------------------------------------------------------ */
+    const quorum = quorumAtual();
+    const forcar = dados && dados.forcar === true;
+
+    if (!quorum.ok && !forcar) {
+      return responder({ ok: false, erro: quorum.motivo, quorum });
+    }
+    if (!quorum.ok && forcar) {
+      console.log(
+        `  [quorum] liberacao manual do Mestre em "${estado.cena}" ` +
+          `(jogadores=${quorum.jogadores}, votos=${quorum.votos}, minimo=${quorum.minimo}).`
+      );
     }
 
     estado.historico.push({
@@ -307,12 +331,6 @@ io.on('connection', (socket) => {
     const responder = typeof resposta === 'function' ? resposta : () => {};
     if (socket.data.papel !== 'mestre') {
       return responder({ ok: false, erro: 'Apenas o Mestre pode saltar de carta.' });
-    }
-
-    // Mesma regra do avancar normal: o salto nao pode ser usado para terminar
-    // a sessao sozinho ou com um so jogador, sem votacao de verdade.
-    if (contarPapeis().jogadores < 2) {
-      return responder({ ok: false, erro: 'É preciso pelo menos dois jogadores na sessão para saltar de carta.' });
     }
 
     const cartaId = dados && typeof dados.cartaId === 'string' ? dados.cartaId : null;

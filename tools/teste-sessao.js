@@ -16,6 +16,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { io as conectar } from 'socket.io-client';
 
+import { cartaEDecisao, MINIMO_JOGADORES } from '../src/regras.js';
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const RAIZ = path.join(__dirname, '..');
 
@@ -67,6 +69,14 @@ function novoCliente() {
   });
 }
 
+/* Faz a turma votar. Depois da regra de quorum, uma carta de decisao so
+   avanca com MINIMO_JOGADORES conectados E o mesmo numero de votos -- entao
+   o teste tem que votar antes de avancar, igual a turma de verdade. */
+async function votarTodos(jogadores, escolhaId) {
+  for (const j of jogadores) j.emit('votar', { escolhaId });
+  await esperar(300);
+}
+
 /* -------------------------------------------------------------------------- */
 async function principal() {
   console.log('');
@@ -104,43 +114,15 @@ async function principal() {
   const senhaCerta = await pedir(mestre, 'autenticar_mestre', { senha: SENHA });
   conferir('senha certa e aceita', senhaCerta && senhaCerta.ok === true);
 
-  /* ---- 2. jogo cooperativo: precisa de pelo menos dois jogadores --------- */
-  console.log('\n  2) Jogo cooperativo: precisa de pelo menos dois jogadores');
+  /* ---- 2. estado inicial ------------------------------------------------- */
+  console.log('\n  2) Estado inicial');
   await esperar(200);
-  conferir('ainda ninguem jogador na sessao', mestre.ultimoEstado?.presenca?.jogadores === 0);
-
-  const zeroAvancar = await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' });
   conferir(
-    'com ZERO jogadores, Mestre NAO consegue avancar',
-    zeroAvancar && zeroAvancar.ok === false
-  );
-
-  const zeroSaltar = await pedir(mestre, 'mestre_ir_para', { cartaId: 'carta1' });
-  conferir(
-    'com ZERO jogadores, Mestre NAO consegue saltar de carta',
-    zeroSaltar && zeroSaltar.ok === false
+    'quem ainda nao entrou nao conta na sessao',
+    jogador1.ultimoEstado?.presenca?.total === 1
   );
 
   await pedir(jogador1, 'entrar_como_jogador', {});
-  await esperar(200);
-  conferir('agora ha exatamente 1 jogador', mestre.ultimoEstado?.presenca?.jogadores === 1);
-
-  const umAvancar = await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' });
-  conferir(
-    'com UM jogador so, Mestre ainda NAO consegue avancar',
-    umAvancar && umAvancar.ok === false
-  );
-
-  const umSaltar = await pedir(mestre, 'mestre_ir_para', { cartaId: 'carta1' });
-  conferir(
-    'com UM jogador so, Mestre ainda NAO consegue saltar de carta',
-    umSaltar && umSaltar.ok === false
-  );
-  await esperar(200);
-  conferir('a sessao continua no prologo com um jogador so', mestre.ultimoEstado?.cena === 'prologo');
-
-  /* ---- 3. estado inicial --------------------------------------------------- */
-  console.log('\n  3) Estado inicial');
   await pedir(jogador2, 'entrar_como_jogador', {});
   await esperar(200);
 
@@ -149,7 +131,7 @@ async function principal() {
   conferir('tres na sessao depois de todos entrarem', jogador1.ultimoEstado?.presenca?.total === 3);
 
   /* ---- 3. O ATAQUE que funcionava antes ---------------------------------- */
-  console.log('\n  4) Jogador comum tentando controlar a sessao');
+  console.log('\n  3) Jogador comum tentando controlar a sessao');
   const ataque1 = await pedir(jogador1, 'mestre_avancar', { escolhaId: 'a' });
   conferir('jogador NAO consegue avancar a historia', ataque1 && ataque1.ok === false);
 
@@ -163,19 +145,19 @@ async function principal() {
   conferir('depois dos ataques a sessao continua no prologo', jogador1.ultimoEstado?.cena === 'prologo');
 
   /* ---- 4. pulo de cena --------------------------------------------------- */
-  console.log('\n  5) Mestre tentando pular cenas');
+  console.log('\n  4) Mestre tentando pular cenas');
   const pulo = await pedir(mestre, 'mestre_avancar', { escolhaId: 'c' }); // nao existe no prologo
   conferir('escolha inexistente na carta atual e recusada', pulo && pulo.ok === false);
 
   /* ---- 5. avanco legitimo ------------------------------------------------ */
-  console.log('\n  6) Mestre avancando de verdade');
+  console.log('\n  5) Mestre avancando de verdade');
   const avanco = await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' });
   conferir('Mestre avanca do prologo para a abertura', avanco && avanco.ok === true);
   await esperar(200);
   conferir('todos os clientes foram para a abertura', jogador2.ultimoEstado?.cena === 'abertura');
 
   /* ---- 6. clique duplo --------------------------------------------------- */
-  console.log('\n  7) Clique duplo do Mestre');
+  console.log('\n  6) Clique duplo do Mestre');
   const versaoAtual = mestre.ultimoEstado.versao;
   const primeiro = await pedir(mestre, 'mestre_avancar', { escolhaId: 'a', versao: versaoAtual });
   const segundo = await pedir(mestre, 'mestre_avancar', { escolhaId: 'a', versao: versaoAtual });
@@ -186,7 +168,7 @@ async function principal() {
   conferir('historico registrou 2 passos, nao 3', mestre.ultimoEstado?.historico.length === 2);
 
   /* ---- 7. votacao -------------------------------------------------------- */
-  console.log('\n  8) Votacao dos jogadores');
+  console.log('\n  7) Votacao dos jogadores');
   jogador1.emit('votar', { escolhaId: 'b' });
   jogador2.emit('votar', { escolhaId: 'b' });
   await esperar(350);
@@ -206,7 +188,7 @@ async function principal() {
   conferir('voto em opcao inexistente e ignorado', mestre.ultimoEstado?.apuracao?.total === 2);
 
   /* ---- 8. a carta de consequencia ---------------------------------------- */
-  console.log('\n  9) Consequencia da escolha');
+  console.log('\n  8) Consequencia da escolha');
   await pedir(mestre, 'mestre_avancar', { escolhaId: 'c' }); // carta1 opcao C
   await esperar(250);
   conferir('a escolha C leva para a consequencia r1c', mestre.ultimoEstado?.cena === 'r1c');
@@ -218,11 +200,12 @@ async function principal() {
   conferir('a consequencia tem uma saida so', mestre.ultimoEstado?.apuracao?.contagem?.b === undefined);
 
   /* ---- 9. tendencia dominante ------------------------------------------- */
-  console.log('\n  10) Tendencia e ramificacao');
+  console.log('\n  9) Tendencia e ramificacao');
   await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' }); // r1c -> carta2
   await esperar(200);
   conferir('a consequencia leva para a carta 2', mestre.ultimoEstado?.cena === 'carta2');
 
+  await votarTodos([jogador1, jogador2], 'b');
   await pedir(mestre, 'mestre_avancar', { escolhaId: 'b' }); // carta2 -> Kant -> r2b
   await esperar(250);
   conferir('escolha B leva para a consequencia r2b', mestre.ultimoEstado?.cena === 'r2b');
@@ -232,7 +215,7 @@ async function principal() {
   );
 
   /* ---- 10. voltar uma carta --------------------------------------------- */
-  console.log('\n  11) Salva-vidas do Mestre');
+  console.log('\n  10) Salva-vidas do Mestre');
   const antesDeVoltar = mestre.ultimoEstado.cena;
   const voltou = await pedir(mestre, 'mestre_voltar', {});
   await esperar(250);
@@ -240,7 +223,7 @@ async function principal() {
   conferir('a cena realmente mudou ao voltar', mestre.ultimoEstado?.cena !== antesDeVoltar);
 
   /* ---- 11. sessao completa ate o final ----------------------------------- */
-  console.log('\n  12) Sessao completa ate o final');
+  console.log('\n  11) Sessao completa ate o final');
   await pedir(mestre, 'mestre_reiniciar', {});
   await esperar(250);
   conferir('reiniciar volta para o prologo', mestre.ultimoEstado?.cena === 'prologo');
@@ -251,6 +234,11 @@ async function principal() {
   const roteiro = ['a', 'a', 'b', 'a', 'b', 'a', 'b', 'a', 'b', 'a', 'b', 'a'];
   const visitadas = [];
   for (const escolhaId of roteiro) {
+    // Nas cartas de decisao a turma vota primeiro -- sem isso o servidor
+    // recusa o avanco, e e exatamente essa recusa que queremos ter.
+    if (cartaEDecisao(mestre.ultimoEstado?.cena)) {
+      await votarTodos([jogador1, jogador2], escolhaId);
+    }
     const r = await pedir(mestre, 'mestre_avancar', { escolhaId });
     if (!r || !r.ok) break;
     await esperar(120);
@@ -266,7 +254,7 @@ async function principal() {
   );
 
   /* ---- 12. sair para o menu ---------------------------------------------- */
-  console.log('\n  13) Sair para o menu principal');
+  console.log('\n  12) Sair para o menu principal');
   const cenaAntesDeSair = mestre.ultimoEstado.cena;
   const passosAntesDeSair = mestre.ultimoEstado.historico.length;
 
@@ -303,7 +291,7 @@ async function principal() {
   conferir('e os comandos de Mestre voltam a funcionar', voltouAoPoder && voltouAoPoder.ok === true);
 
   /* ---- 13. jogador que sai deixa de votar --------------------------------- */
-  console.log('\n  14) Voto de quem saiu');
+  console.log('\n  13) Voto de quem saiu');
   await pedir(mestre, 'mestre_reiniciar', {});
   await esperar(200);
   await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' }); // abertura
@@ -323,7 +311,7 @@ async function principal() {
   await esperar(200);
 
   /* ---- 14. revelar o texto ------------------------------------------------ */
-  console.log('\n  15) Revelar o texto na tela');
+  console.log('\n  14) Revelar o texto na tela');
   await esperar(200);
   conferir('carta comeca com o texto escondido', jogador1.ultimoEstado?.textoRevelado === false);
 
@@ -341,6 +329,7 @@ async function principal() {
 
   await pedir(mestre, 'mestre_revelar', { revelar: true });
   await esperar(200);
+  await votarTodos([jogador1, jogador2], 'a'); // carta1 e decisao: precisa de votos
   await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' });
   await esperar(250);
   conferir(
@@ -349,7 +338,7 @@ async function principal() {
   );
 
   /* ---- 15. saltar de carta ------------------------------------------------ */
-  console.log('\n  16) Saltar para outra carta');
+  console.log('\n  15) Saltar para outra carta');
   const saltoProibido = await pedir(jogador1, 'mestre_ir_para', { cartaId: 'final' });
   conferir('jogador NAO pode saltar de carta', saltoProibido && saltoProibido.ok === false);
 
@@ -366,8 +355,78 @@ async function principal() {
     mestre.ultimoEstado?.historico.length === passosAntesDoSalto
   );
 
-  /* ---- 16. desconexao ---------------------------------------------------- */
-  console.log('\n  17) Alguem fecha o celular');
+  /* ---- 16. QUORUM: o jogo nao e single-player -----------------------------
+   * O bug que este bloco existe para impedir: o Mestre ia do prologo ao
+   * final com ZERO jogadores conectados e ZERO votos. Era, na pratica, um
+   * jogo de um jogador -- exatamente o que o trabalho nao pode ser.
+   * -------------------------------------------------------------------- */
+  console.log('\n  16) Quorum -- nao da para jogar sozinho');
+
+  await pedir(mestre, 'mestre_reiniciar', {});
+  await esperar(250);
+
+  // As cartas de leitura continuam livres: sem isso o Mestre nao conseguiria
+  // nem colocar o prologo na tela enquanto a turma ainda esta entrando.
+  const leitura1 = await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' });
+  const leitura2 = await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' });
+  await esperar(250);
+  conferir('carta de leitura avanca sem votos', leitura1?.ok === true && leitura2?.ok === true);
+  conferir('a sessao chegou na carta 1', mestre.ultimoEstado?.cena === 'carta1');
+
+  // Dois jogadores conectados, nenhum voto: a decisao trava.
+  const semVoto = await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' });
+  conferir('decisao SEM voto nenhum e recusada', semVoto?.ok === false);
+  conferir('a recusa explica o motivo', typeof semVoto?.erro === 'string' && semVoto.erro.length > 0);
+  await esperar(200);
+  conferir('a sessao nao saiu da carta 1', mestre.ultimoEstado?.cena === 'carta1');
+
+  // Um voto so tambem nao basta.
+  await votarTodos([jogador1], 'a');
+  const umVoto = await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' });
+  conferir(`decisao com 1 voto e recusada (minimo ${MINIMO_JOGADORES})`, umVoto?.ok === false);
+
+  // Com a turma junta, passa.
+  await votarTodos([jogador2], 'a');
+  const doisVotos = await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' });
+  await esperar(250);
+  conferir('decisao com 2 jogadores e 2 votos e aceita', doisVotos?.ok === true);
+  conferir('a sessao avancou para a consequencia', mestre.ultimoEstado?.cena === 'r1a');
+
+  /* ---- 17. Mestre realmente sozinho --------------------------------------- */
+  console.log('\n  17) Mestre sozinho na sessao');
+
+  await pedir(jogador1, 'sair', {});
+  await pedir(jogador2, 'sair', {});
+  await esperar(300);
+  conferir('nao ha mais jogador nenhum na sessao', mestre.ultimoEstado?.presenca?.jogadores === 0);
+
+  await pedir(mestre, 'mestre_reiniciar', {});
+  await esperar(200);
+  await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' }); // prologo -> abertura
+  await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' }); // abertura -> carta1
+  await esperar(250);
+  conferir('sozinho ele ainda le o prologo e a abertura', mestre.ultimoEstado?.cena === 'carta1');
+
+  const sozinho = await pedir(mestre, 'mestre_avancar', { escolhaId: 'a' });
+  conferir('MESTRE SOZINHO nao passa da primeira decisao', sozinho?.ok === false);
+  await esperar(200);
+  conferir('a sessao continua travada na carta 1', mestre.ultimoEstado?.cena === 'carta1');
+
+  // O salva-vidas da apresentacao: liberacao manual, so do Mestre.
+  const liberou = await pedir(mestre, 'mestre_avancar', { escolhaId: 'a', forcar: true });
+  await esperar(250);
+  conferir('a liberacao manual do Mestre funciona', liberou?.ok === true);
+  conferir('e a sessao avanca mesmo assim', mestre.ultimoEstado?.cena === 'r1a');
+
+  // E o buraco obvio: jogador comum nao pode usar a liberacao para comandar.
+  await pedir(jogador1, 'entrar_como_jogador', {});
+  await pedir(jogador2, 'entrar_como_jogador', {});
+  await esperar(250);
+  const forcarProibido = await pedir(jogador1, 'mestre_avancar', { escolhaId: 'a', forcar: true });
+  conferir('jogador NAO avanca nem usando a liberacao', forcarProibido?.ok === false);
+
+  /* ---- 18. desconexao ---------------------------------------------------- */
+  console.log('\n  18) Alguem fecha o celular');
   jogador2.close();
   await esperar(400);
   conferir('a contagem de presentes cai para 2', mestre.ultimoEstado?.presenca?.total === 2);

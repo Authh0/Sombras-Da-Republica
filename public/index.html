@@ -121,6 +121,15 @@
           </button>
         </div>
 
+        <!-- Liberação manual do quórum. Só aparece quando o avanço está
+             travado por falta de jogadores ou de votos: é a saída de
+             emergência para o wifi da escola cair no meio da apresentação. -->
+        <div class="painel-mestre-acoes painel-mestre-liberacao" id="area-forcar" hidden>
+          <button type="button" class="botao botao-forcar" id="btn-forcar">
+            Seguir mesmo assim
+          </button>
+        </div>
+
         <div class="painel-mestre-acoes painel-mestre-secundarias">
           <button type="button" class="botao botao-secundario" id="btn-voltar">Voltar uma carta</button>
           <button type="button" class="botao botao-secundario" id="btn-reiniciar">Reiniciar sessão</button>

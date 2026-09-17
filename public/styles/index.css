@@ -823,6 +823,19 @@ img { max-width: 100%; height: auto; display: block; }
   max-width: var(--medida);
 }
 
+/* Liberação manual do quórum. Fica discreta e de cor de aviso de propósito:
+   é saída de emergência, não um atalho de uso normal. */
+.botao-forcar {
+  border-color: var(--linha);
+  color: var(--texto-tenue);
+  background: none;
+  text-transform: none;
+  letter-spacing: .02em;
+  font-size: 13px;
+  min-height: 42px;
+  font-style: italic;
+}
+
 /* Botão de revelar: muda de cara quando o texto já está na tela da turma */
 .botao-revelar { border-color: var(--linha-forte); }
 .botao-revelar[data-revelado="true"] {
@@ -902,6 +915,12 @@ img { max-width: 100%; height: auto; display: block; }
 .painel-mestre-dica { font-size: 14px; color: var(--texto-fraco); margin: 0 0 18px; line-height: 1.6; }
 
 .painel-mestre-acoes { display: flex; flex-direction: column; gap: 10px; }
+
+/* Estas duas classes eram usadas no HTML e NAO tinham regra nenhuma no CSS:
+   as fileiras de botoes ficavam todas coladas, sem a separacao que o HTML
+   claramente pretendia. */
+.painel-mestre-secundarias { margin-top: 14px; }
+.painel-mestre-liberacao { margin-top: 12px; }
 
 /* -----------------------------------------------------------------------------
  *  FINAL
@@ -1175,6 +1194,7 @@ img { max-width: 100%; height: auto; display: block; }
   .botao:hover { background-color: #241d13; border-color: var(--texto-tenue); }
   .botao-confirmar:not(:disabled):hover { background-color: #3a0d0d; border-color: var(--vinho-claro); }
   .botao-secundario:hover { border-color: var(--linha-forte); color: var(--texto); }
+  .botao-forcar:not(:disabled):hover { border-color: var(--vinho-claro); color: var(--texto-fraco); }
   .botao-mestre:hover { border-color: var(--ouro); }
   .botao-painel:hover { color: var(--texto); border-color: var(--texto-tenue); }
   .link-discreto:hover { color: var(--texto); }

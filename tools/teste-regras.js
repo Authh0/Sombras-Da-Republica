@@ -23,6 +23,9 @@ import {
   indiceDaFase,
   CENA_INICIAL,
   CENA_FINAL,
+  MINIMO_JOGADORES,
+  cartaEDecisao,
+  conferirQuorum,
 } from '../src/regras.js';
 
 let passaram = 0;
@@ -206,6 +209,77 @@ conferir(
 conferir(
   'a consequencia fica na mesma fase da carta que a gerou',
   indiceDaFase(cartas.r1a.fase) === indiceDaFase(cartas.carta1.fase)
+);
+
+/* ---- quorum: o jogo nao e single-player ---------------------------------- */
+console.log('\n  8) Quorum -- o jogo nao e para um jogador so');
+
+conferir('o minimo de jogadores e pelo menos 2', MINIMO_JOGADORES >= 2);
+
+conferir('carta 1 e carta de decisao', cartaEDecisao('carta1') === true);
+conferir('as cinco cartas de decisao sao reconhecidas',
+  ['carta1', 'carta2', 'carta3', 'carta4', 'carta5'].every((id) => cartaEDecisao(id)));
+conferir('o prologo NAO e carta de decisao', cartaEDecisao('prologo') === false);
+conferir('a abertura NAO e carta de decisao', cartaEDecisao('abertura') === false);
+conferir('consequencia NAO e carta de decisao', cartaEDecisao('r1a') === false);
+conferir('a carta final NAO e carta de decisao', cartaEDecisao(CENA_FINAL) === false);
+conferir('carta inexistente NAO e carta de decisao', cartaEDecisao('nao-existe') === false);
+
+// Carta de leitura: nunca trava, senao o Mestre nao coloca nem o prologo na tela.
+conferir(
+  'carta de leitura avanca sem jogador nenhum',
+  conferirQuorum('prologo', { jogadores: 0 }, { total: 0 }).ok === true
+);
+conferir(
+  'carta de leitura nao exige quorum',
+  conferirQuorum('prologo', { jogadores: 0 }, { total: 0 }).exigido === false
+);
+conferir(
+  'consequencia avanca sem votos',
+  conferirQuorum('r3b', { jogadores: 0 }, { total: 0 }).ok === true
+);
+
+// O bug que existia: Mestre sozinho ia do prologo ao final.
+const sozinho = conferirQuorum('carta1', { jogadores: 0 }, { total: 0 });
+conferir('MESTRE SOZINHO nao avanca uma decisao', sozinho.ok === false);
+conferir('o motivo da recusa nao vem vazio', sozinho.motivo.length > 0);
+conferir('a recusa aponta falta de jogador', sozinho.faltaJogador === true);
+conferir('a recusa aponta falta de voto', sozinho.faltaVoto === true);
+
+conferir(
+  'um jogador so nao avanca uma decisao',
+  conferirQuorum('carta1', { jogadores: 1 }, { total: 1 }).ok === false
+);
+conferir(
+  'dois conectados mas um voto so nao avanca',
+  conferirQuorum('carta1', { jogadores: 2 }, { total: 1 }).ok === false
+);
+conferir(
+  'so a falta de voto e apontada quando ha gente suficiente',
+  conferirQuorum('carta1', { jogadores: 2 }, { total: 1 }).faltaJogador === false
+);
+conferir(
+  'um conectado com dois votos nao avanca',
+  conferirQuorum('carta1', { jogadores: 1 }, { total: 2 }).ok === false
+);
+conferir(
+  'dois conectados e dois votos avancam',
+  conferirQuorum('carta1', { jogadores: 2 }, { total: 2 }).ok === true
+);
+conferir(
+  'turma cheia avanca',
+  conferirQuorum('carta5', { jogadores: 12 }, { total: 9 }).ok === true
+);
+conferir(
+  'quando passa o quorum o motivo fica vazio',
+  conferirQuorum('carta1', { jogadores: 2 }, { total: 2 }).motivo === ''
+);
+
+// Chamada sem argumentos nao pode explodir nem liberar a passagem.
+conferir('sem dados de presenca a decisao continua travada', conferirQuorum('carta1').ok === false);
+conferir(
+  'valores estranhos contam como zero',
+  conferirQuorum('carta1', { jogadores: 'muitos' }, { total: null }).ok === false
 );
 
 /* ---- relatorio ----------------------------------------------------------- */
