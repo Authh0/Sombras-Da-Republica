@@ -156,8 +156,8 @@ conferir(
 );
 conferir(
   'o roteiro da carta 1 traz o texto e a pergunta',
-  semTags(narracaoDoMestre('carta1', [])).includes('Um militar influente procura vocês') &&
-    semTags(narracaoDoMestre('carta1', [])).includes('apoiar a derrubada da monarquia')
+  semTags(narracaoDoMestre('carta1', [])).includes('Duas pessoas procuraram o jornal na mesma semana') &&
+    semTags(narracaoDoMestre('carta1', [])).includes('O espaço nobre do jornal é um só')
 );
 conferir(
   'a linha de rotulo da consequencia NAO entra no roteiro',
@@ -165,28 +165,61 @@ conferir(
 );
 conferir(
   'mas o texto da consequencia entra inteiro',
-  semTags(narracaoDoMestre('r1a', [])).includes('Vocês entendem que uma mudança política')
+  semTags(narracaoDoMestre('r1a', [])).includes('As duas histórias saem na mesma página')
 );
 conferir(
-  'a Carta 4 usa a ordem do documento: pergunta no meio',
+  // A Carta 4 nao tem mais "narracao" propria (a versao antiga tinha): sem
+  // override, o roteiro cai na ordem padrao -- momento, depois texto, depois
+  // pergunta -- e e essa ordem que este teste garante que continua valendo.
+  'sem narracao propria, a Carta 4 segue a ordem padrao: momento, texto, pergunta',
   (() => {
     const t = semTags(narracaoDoMestre('carta4', []));
-    return t.indexOf('o que vale mais') < t.indexOf('Vocês estão diante do desfecho');
+    const iMomento = t.indexOf('Agora é oficial');
+    const iTexto = t.indexOf('Na Câmara Municipal');
+    const iPergunta = t.indexOf('Golpe, revolução ou proclamação');
+    return iMomento >= 0 && iTexto > iMomento && iPergunta > iTexto;
   })()
 );
 conferir(
-  'a abertura traz a frase inteira, sem corte',
+  'a abertura traz a frase inteira de Aristoteles, sem corte',
   semTags(narracaoDoMestre('abertura', [])).includes(
-    'A crise deixa de ser apenas a queda de um regime e passa a ser uma disputa por interesses'
+    'mas fazê-lo à pessoa que convém, na medida, na ocasião, pelo motivo e da maneira que convém, eis o que não é para qualquer um'
   )
 );
 conferir(
-  'a ponte para a Carta 5 aparece nas tres consequencias da Carta 4',
-  ['r4a', 'r4b', 'r4c'].every((id) =>
-    semTags(narracaoDoMestre(id, [])).includes('Com a queda da monarquia, o problema não termina')
-  )
+  'cada consequencia da Carta 4 carrega seu proprio fecho ate o fim do roteiro',
+  semTags(narracaoDoMestre('r4a', [])).includes('Os rótulos ficaram em aberto') &&
+    semTags(narracaoDoMestre('r4b', [])).includes('decreto do novo governo vai passar a punir') &&
+    semTags(narracaoDoMestre('r4c', [])).includes('A porta ficou aberta')
 );
 conferir('carta inexistente devolve roteiro vazio', narracaoDoMestre('nao-existe', []) === '');
+
+/* ---- as quatro citacoes reais nao podem mudar ----------------------------
+ * Sao as unicas citacoes de verdade no jogo (as tres da abertura e a de
+ * Aristides Lobo na carta5). O resto do texto e ficcao/parafrase e pode
+ * mudar a vontade -- estas quatro, nao. Se uma delas for editada ou cortada
+ * por engano, este bloco quebra. */
+console.log('\n  6b) As citacoes reais nao mudam');
+
+const textoAbertura = semTags(cartas.abertura.texto);
+conferir(
+  'a citacao real de Aristoteles (Etica a Nicomaco) esta intacta',
+  textoAbertura.includes(
+    'qualquer um pode encolerizar-se, dar ou gastar dinheiro — isso é fácil; mas fazê-lo à pessoa que convém, na medida, na ocasião, pelo motivo e da maneira que convém, eis o que não é para qualquer um'
+  ) && textoAbertura.includes('Ética a Nicômaco, Livro II, capítulo 9')
+);
+conferir(
+  'a citacao real de Kant (Fundamentacao da Metafisica dos Costumes) esta intacta',
+  textoAbertura.includes(
+    'Age apenas segundo uma máxima tal que possas ao mesmo tempo querer que ela se torne lei universal'
+  ) && textoAbertura.includes('Fundamentação da Metafísica dos Costumes')
+);
+conferir(
+  'a citacao real de Maquiavel (O Principe, XV) esta intacta',
+  textoAbertura.includes(
+    'há tanta diferença de como se vive e como se deveria viver, que aquele que abandone o que se faz por aquilo que se deveria fazer, aprenderá antes o caminho de sua ruína do que o de sua preservação'
+  ) && textoAbertura.includes('O Príncipe, capítulo XV')
+);
 
 /* ---- trilha das fases ----------------------------------------------------- */
 console.log('\n  7) Trilha das fases');

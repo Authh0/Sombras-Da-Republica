@@ -15,33 +15,50 @@
  *  SEMPRE rodem isso antes da apresentacao.
  *
  * -----------------------------------------------------------------------------
- *  COMO O MEIO DA HISTORIA RAMIFICA
+ *  QUEM SAO OS JOGADORES
  * -----------------------------------------------------------------------------
- *  O texto que voces escreveram ("Texto DEFINITIVO do Mestre") tem uma
- *  RESPOSTA propria para cada escolha de cada carta. Entao a ramificacao
- *  funciona assim:
+ *  A turma e a redacao de "O Ouvidor", um jornal pequeno da Rua do Ouvidor, no
+ *  Rio de Janeiro, em 1889. Eles nao derrubam o Imperio e nao proclamam nada.
+ *  Eles decidem o que sai impresso -- que e o unico poder que um jornal tem, e
+ *  e mais poder do que parece.
  *
- *      CARTA 1  ->  o grupo vota  ->  RESPOSTA 1A, 1B ou 1C  ->  CARTA 2
- *
- *  A carta de resposta e uma carta de verdade: ela aparece na tela de todo
- *  mundo, mostra a consequencia daquela decisao especifica e so entao leva a
- *  proxima carta. Sao 15 caminhos diferentes pelo meio da historia.
- *
- *  O FINAL E UNICO. Todos os caminhos chegam na mesma carta final. O que fica
- *  registrado e o caminho filosofico percorrido, mostrado no encerramento.
+ *  O jornal e ficticio de proposito. Colocar decisoes inventadas na boca de um
+ *  jornal que existiu de verdade (a Gazeta de Noticias, o Jornal do Commercio,
+ *  O Paiz, a Cidade do Rio) seria falsificar a historia deles. A rua, as datas,
+ *  os nomes publicos e os documentos sao reais; a redacao e nossa.
  *
  * -----------------------------------------------------------------------------
- *  AS VARIANTES POR TENDENCIA (opcional, ainda vazias)
+ *  AS CITACOES  --  LEIA ANTES DE MEXER
  * -----------------------------------------------------------------------------
- *  Alem das respostas acima, o jogo soma as escolhas e sabe qual filosofo esta
- *  dominando a sessao. Se voces quiserem que o TEXTO DA PROPRIA CARTA tambem
- *  mude conforme essa tendencia, e so preencher o bloco "variantes".
+ *  Ha QUATRO citacoes reais no arquivo, todas com a fonte indicada logo depois:
  *
- *  Campo vazio cai no texto base. O jogo nunca quebra por falta de texto.
+ *    - as tres da carta "abertura" (Aristoteles, Kant e Maquiavel);
+ *    - a frase de Aristides Lobo, na "carta5".
+ *
+ *  NAO invente citacao nova e NAO mexa nessas quatro. E o que separa um
+ *  trabalho de Filosofia de uma colagem de frase de internet, e ha teste
+ *  automatico guardando as tres da abertura (tools/teste-regras.js).
+ *
+ *  As outras aspas do arquivo NAO sao citacao de filosofo: sao chamadas de
+ *  primeira pagina ("REPUBLICA", "GOLPE"), fala de personagem ficticio e
+ *  palavra posta em destaque. Pode editar essas a vontade.
+ *
+ * -----------------------------------------------------------------------------
+ *  UMA SIMPLIFICACAO ASSUMIDA: "PRIMEIRA PAGINA"
+ * -----------------------------------------------------------------------------
+ *  Jornal brasileiro de 1889 nao tinha manchete. A primeira pagina era coluna
+ *  de tipo miudo: folhetim, artigo de fundo, secoes fixas e anuncio. Titulo
+ *  grande atravessando colunas so vira pratica corrente por volta de 1905.
+ *
+ *  O jogo fala em "alto da primeira coluna" e "corpo de cartaz", que e o que
+ *  de fato dava para fazer. Se o professor perguntar, a resposta e essa -- e
+ *  ela conta ponto, porque mostra que voces sabiam.
  * ========================================================================== */
 
 /* -----------------------------------------------------------------------------
  *  OS TRES FILOSOFOS
+ *
+ *  O campo "lema" e parafrase, nao citacao. Nao coloque aspas nele.
  * -------------------------------------------------------------------------- */
 export const FILOSOFOS = {
   aristoteles: {
@@ -49,24 +66,27 @@ export const FILOSOFOS = {
     nome: 'Aristoteles',
     nomeExibicao: 'Aristóteles',
     cor: '#c9a227',
-    lema: 'A prudência é encontrar a medida certa entre os extremos.',
-    resumo: 'Prudência e equilíbrio: evitar os extremos e buscar o caminho mais moderado.',
+    lema: 'A medida certa não é a média: é o que aquela situação exige.',
+    resumo:
+      'Prudência prática (phronesis): julgar este caso, agora, com o que se tem — sem cair no excesso, sem cair na falta e sem fugir da decisão.',
   },
   kant: {
     id: 'kant',
     nome: 'Kant',
     nomeExibicao: 'Kant',
     cor: '#4a7fb5',
-    lema: 'A verdade deve ser defendida mesmo quando o momento é difícil.',
-    resumo: 'Dever moral: fazer o que é correto, mesmo que traga consequências negativas.',
+    lema: 'Aja só segundo uma regra que você possa querer que valha para todos.',
+    resumo:
+      'Dever moral: existe o que é certo, e ele não deixa de ser certo porque sai caro. Pessoas são fim, nunca só meio.',
   },
   maquiavel: {
     id: 'maquiavel',
     nome: 'Maquiavel',
     nomeExibicao: 'Maquiavel',
     cor: '#a52020',
-    lema: 'O poder não espera quem hesita.',
-    resumo: 'Estratégia política: alcançar resultados eficazes e manter o controle da situação.',
+    lema: 'Quem parte do mundo como ele deveria ser costuma perder para quem parte do mundo como ele é.',
+    resumo:
+      'Eficácia política: quem é derrubado não muda nada. Cuidar primeiro de sobreviver e de conseguir resultado — inclusive quando quem precisa sobreviver é uma república livre.',
   },
 };
 
@@ -79,18 +99,16 @@ export const CENA_FINAL = 'final';
  * -----------------------------------------------------------------------------
  *  Campos de cada carta:
  *
- *    fase      -> nome curto que aparece no painel de status e no mapa
+ *    fase      -> nome curto que aparece no painel de status e na trilha
  *    tipo      -> 'cena' (padrao) ou 'consequencia' (as cartas de resposta)
  *    filosofo  -> so nas consequencias: pinta o selo com a cor do filosofo
  *    titulo    -> titulo grande da carta
  *    momento   -> linha em italico logo abaixo do titulo
  *    texto     -> corpo da carta (aceita HTML simples: <br>, <b>, <i>)
  *    pergunta  -> a pergunta em destaque, na caixa com bordas vermelhas
- *    narracao  -> OPCIONAL. O que o Mestre le em voz alta, quando isso precisa
- *                 ser diferente do que aparece na tela (ordem ou corte). Se
- *                 ficar de fora, o roteiro e montado sozinho a partir de
- *                 momento + texto + pergunta.
- *    mapa      -> posicao do marcador no mapa tatico (ou null para esconder)
+ *    narracao  -> OPCIONAL. So use quando o que o Mestre le precisa estar em
+ *                 ordem diferente da tela. Nesta versao nenhuma carta precisa.
+ *    mapa      -> posicao do marcador no mapa (ou null para esconder)
  *    variantes -> versoes alternativas do texto por tendencia (opcional)
  *    escolhas  -> as opcoes de voto
  *
@@ -99,22 +117,30 @@ export const CENA_FINAL = 'final';
  *    id       -> letra da opcao ('a', 'b', 'c')
  *    filosofo -> 'aristoteles', 'kant', 'maquiavel' ou null (nao conta ponto)
  *    titulo   -> o que aparece em negrito no botao
- *    citacao  -> a frase em italico
- *    desc     -> a explicacao embaixo
+ *    citacao  -> a frase em italico (parafrase, nunca citacao real)
+ *    desc     -> UMA linha dizendo o que sai impresso. NAO defenda a opcao:
+ *                o argumento e da turma, nao do jogo. Se o desc convence, a
+ *                sala para de discutir e so escolhe a frase mais bonita.
  *    destino  -> id da proxima carta (TEM que existir neste arquivo)
+ *
+ *  SOBRE O MAPA: toda a historia acontece dentro do Rio, entao o mapa regional
+ *  antigo nao ajuda mais e esta com "mapa: null" em todas as cartas. Se voces
+ *  trocarem a imagem por uma planta do Rio de 1888-1889, da para voltar a
+ *  marcar: Campo de Santana, Rua do Ouvidor, Camara Municipal e o Cais
+ *  Pharoux, de onde a familia imperial partiu.
  * -------------------------------------------------------------------------- */
 export const cartas = {
   /* ========================================================================= *
    *  PROLOGO
    * ========================================================================= */
   prologo: {
-    fase: 'O Tabuleiro',
-    titulo: 'As Sombras do Império',
-    momento: 'Rio de Janeiro, 1889.',
+    fase: 'A Redação',
+    titulo: 'A Rua do Ouvidor',
+    momento: 'Rio de Janeiro, 1889. Quatro quarteirões onde o Brasil fica sabendo das coisas.',
     mapa: null,
-    texto: `O Império do Brasil está enfraquecido. A monarquia ainda existe, mas sua base política já não é sólida. Militares, elites agrárias, coronéis e grupos urbanos começam a disputar espaço e influência. Por fora, a ordem continua; por dentro, o poder já está sendo negociado.<br><br>
-Neste momento, a questão não é apenas se o regime vai mudar. A questão é quem vai se beneficiar dessa mudança. Em um país marcado por interesses, favores e controle local, cada decisão pode fortalecer um grupo e enfraquecer outro.<br><br>
-Vocês estão no centro dessa disputa. A História ainda não decidiu como vai lembrar esses dias, e cada escolha pode aproximar o Brasil de uma República de interesses.`,
+    texto: `A Rua do Ouvidor tem cafés, livrarias, chapelarias e jornal — muito jornal. Quem quer espalhar um boato entra aqui de manhã. À tarde, o boato já virou notícia no resto do país.<br><br>
+Num sobrado que range, funciona <b>O Ouvidor</b>: quatro páginas, uma prensa velha e uma tiragem que não assusta ninguém. Vocês são a redação. Não têm dinheiro, não têm padrinho e, por isso mesmo, ainda têm a única coisa que os jornais grandes venderam faz tempo — a liberdade de escolher o que sai no alto da primeira coluna.<br><br>
+O Império está rachando. Nos próximos meses, cinco decisões vão passar por esta mesa. Nenhuma delas é sobre quem vai governar o Brasil. Todas são sobre o que vocês vão imprimir.`,
     pergunta: null,
     variantes: {},
     escolhas: [
@@ -130,16 +156,18 @@ Vocês estão no centro dessa disputa. A História ainda não decidiu como vai l
   },
 
   /* ========================================================================= *
-   *  ABERTURA  (o "INICIO POS PROLOGO" do texto do Mestre)
+   *  ABERTURA  --  as tres vozes, com as tres citacoes reais
    * ========================================================================= */
   abertura: {
-    fase: 'O Tabuleiro',
-    titulo: 'A Disputa de Interesses',
-    momento: 'A crise deixa de ser apenas a queda de um regime e passa a ser uma disputa por interesses.',
+    fase: 'A Redação',
+    titulo: 'Três Vozes na Mesa',
+    momento: 'Antes de virar a primeira carta, três mortos entram na discussão.',
     mapa: null,
-    texto: `O Império enfraquece, mas isso não significa que todos desejem o mesmo futuro. Uns querem proteger privilégios antigos. Outros querem acelerar a mudança para assumir o controle do que vem depois. Há quem veja a República como esperança, mas também há quem a enxergue apenas como uma nova forma de manter o poder nas mesmas mãos.<br><br>
-No Brasil do fim do século XIX, a política não era feita só de ideias. Ela também era feita de alianças, favores, medo, influência e vantagens. A República nasce nesse ambiente: uma mudança histórica que, ao mesmo tempo em que promete renovação, esconde disputas intensas entre militares, elites, coronéis e grupos que não queriam perder espaço.`,
-    pergunta: 'Agora vocês precisam decidir como agir diante disso.',
+    texto: `Toda redação tem aquela briga que nunca termina: até onde vai a verdade e onde começa o estrago. Para não repetir a briga cinco vezes, vamos dar nome a ela.<br><br>
+<b>Aristóteles</b> diria que a virtude está no meio-termo — e cuidado, meio-termo não é média nem é ficar em cima do muro. É a medida certa para <i>aquela</i> situação, e quem julga é a prudência, a <i>phronesis</i>. Ele avisa que a parte difícil é acertar: <i>"qualquer um pode encolerizar-se, dar ou gastar dinheiro — isso é fácil; mas fazê-lo à pessoa que convém, na medida, na ocasião, pelo motivo e da maneira que convém, eis o que não é para qualquer um."</i> (Ética a Nicômaco, Livro II, capítulo 9).<br><br>
+<b>Kant</b> diria que com o dever não se negocia: <i>"Age apenas segundo uma máxima tal que possas ao mesmo tempo querer que ela se torne lei universal."</i> (Fundamentação da Metafísica dos Costumes). Se mentir é útil hoje, mentir virou lei — e aí acabou o jornalismo.<br><br>
+<b>Maquiavel</b> diria que os dois estão descrevendo um mundo que não existe: <i>"há tanta diferença de como se vive e como se deveria viver, que aquele que abandone o que se faz por aquilo que se deveria fazer, aprenderá antes o caminho de sua ruína do que o de sua preservação."</i> (O Príncipe, capítulo XV). Jornal fechado não informa ninguém.`,
+    pergunta: 'Guardem as três vozes. Nenhuma delas é a vilã — e a primeira carta já está na mesa.',
     variantes: {},
     escolhas: [
       {
@@ -154,41 +182,45 @@ No Brasil do fim do século XIX, a política não era feita só de ideias. Ela t
   },
 
   /* ========================================================================= *
-   *  CARTA 1
+   *  CARTA 1  --  a Abolicao, um ano depois
    * ========================================================================= */
   carta1: {
-    fase: 'A Faísca',
-    titulo: 'Carta 1 — O Apoio ao Movimento',
-    momento: 'Um militar influente procura vocês.',
-    mapa: { top: '58%', left: '46%' },
-    texto: `Ele fala com segurança e diz que o momento de agir chegou. Segundo ele, o Império está fraco demais para continuar, e apenas uma ruptura rápida pode evitar mais caos.<br><br>
-Mas apoiar esse movimento significa entrar numa mudança que não nasceu de um consenso, e sim da disputa entre grupos que querem controlar o futuro.`,
-    pergunta:
-      'A pergunta agora é simples, mas pesada: vocês vão apoiar a derrubada da monarquia ou recusar participar dessa movimentação?',
-    variantes: {},
+    fase: 'A Herança',
+    titulo: 'Carta 1 — O Ano Depois da Lei',
+    momento: 'Maio de 1889. Faz um ano que a escravidão acabou no papel.',
+    mapa: null,
+    texto: `Duas pessoas procuraram o jornal na mesma semana. As duas estão dizendo a verdade.<br><br>
+Uma é um fazendeiro do Vale do Paraíba. Perdeu de um dia para o outro tudo o que chamava de patrimônio, sem um mil-réis de indenização, e hoje fala em República. Traz escrituras, nomes e números, e tudo o que ele quer publicado dá para conferir. Traz também anúncios pagos por seis meses — e a redação está devendo o papel.<br><br>
+A outra é uma mulher liberta que trabalha três casas abaixo. Diz que a lei acabou com a escravidão e não acabou com mais nada: sem terra, sem salário que dê para viver, sem escola para os filhos, e o mesmo capataz de antes agora se chamando patrão. Ela não tem documento nenhum. Tem a própria história e a de mais trinta pessoas dispostas a falar — e publicar isso é pedir ao leitor que acredite em trinta pessoas.`,
+    pergunta: 'O espaço nobre do jornal é um só, e o anúncio está em cima da mesa. O que vocês fazem?',
+    variantes: {
+      aristoteles: { momento: '', texto: '', pergunta: '' },
+      kant: { momento: '', texto: '', pergunta: '' },
+      maquiavel: { momento: '', texto: '', pergunta: '' },
+    },
     escolhas: [
       {
         id: 'a',
         filosofo: 'aristoteles',
-        titulo: 'Apoiar com equilíbrio',
-        citacao: 'A prudência é encontrar a medida certa entre os extremos.',
-        desc: 'Você aceita dialogar com o oficial, mas busca agir com cautela. A mudança precisa acontecer de forma equilibrada e sem excessos.',
+        titulo: 'As duas, com peso diferente',
+        citacao: 'Não é dividir ao meio: é dar a cada versão o que as provas dela bancam.',
+        desc: 'Aceitar o anúncio e ainda assim dividir a página entre as duas histórias, dizendo qual tem papel e qual tem testemunha.',
         destino: 'r1a',
       },
       {
         id: 'b',
         filosofo: 'kant',
-        titulo: 'Recusar por dever e princípio',
-        citacao: 'A verdade deve ser defendida mesmo quando o momento é difícil.',
-        desc: 'Você avalia a proposta com base em princípios morais. O mais importante é agir corretamente, independentemente das vantagens políticas.',
+        titulo: 'Recusar o dinheiro, publicar os libertos',
+        citacao: 'Jornal que vende cobertura deixa de ser jornal.',
+        desc: 'Devolver o anúncio e dar a página inteira às trinta pessoas.',
         destino: 'r1b',
       },
       {
         id: 'c',
         filosofo: 'maquiavel',
-        titulo: 'Apoiar pela eficiência da crise',
-        citacao: 'Quando o tempo aperta, a astúcia pesa mais que a delicadeza.',
-        desc: 'Você acredita que momentos de crise exigem decisões rápidas e eficientes. Se a mudança é inevitável, é melhor participar dela.',
+        titulo: 'Aceitar o anúncio e publicar o fazendeiro',
+        citacao: 'Jornal que fecha não publica mais nada, nunca mais.',
+        desc: 'Seis meses de caixa garantido e a história dela marcada para depois.',
         destino: 'r1c',
       },
     ],
@@ -196,67 +228,62 @@ Mas apoiar esse movimento significa entrar numa mudança que não nasceu de um c
 
   /* ---- consequencias da carta 1 ------------------------------------------ */
   r1a: {
-    fase: 'A Faísca',
+    fase: 'A Herança',
     tipo: 'consequencia',
     filosofo: 'aristoteles',
-    titulo: 'Consequência — O Apoio ao Movimento',
+    titulo: 'Consequência — O Ano Depois da Lei',
     momento: 'O grupo escolheu a prudência.',
-    mapa: { top: '58%', left: '46%' },
-    texto: `Vocês entendem que uma mudança política precisa ser pensada com cuidado, porque por trás de cada decisão existem interesses diferentes tentando dominar o país. Não basta derrubar o Império; é preciso observar quem vai se aproveitar disso depois.<br><br>
-Por isso, vocês aceitam ouvir o militar, mas tentam agir com prudência. Procuram reduzir os excessos e impedir que a mudança seja usada como simples ferramenta de vantagem para poucos.<br><br>
-Essa postura não impede a crise, mas mostra que vocês não querem entregar o país a uma troca de poder sem reflexão.<br><br>
-<i>Os dias seguintes deixam claro que nada fica parado por muito tempo. O que era conversa reservada começa a escapar para os corredores, para os jornais e para as ruas.</i>`,
+    mapa: null,
+    texto: `As duas histórias saem na mesma página, e a página deixa explícito o que é escritura e o que é depoimento. Vocês não fingiram que as duas dores pesam igual, e também não apagaram nenhuma.<br><br>
+O fazendeiro cancela metade dos anúncios: diz que pagou para ser ouvido, não para dividir espaço. A liberta manda avisar que a matéria ficou correta, mas fria. Só que tem uma armadilha aqui: a medida não ficou certa <b>porque</b> os dois reclamaram. Isso seria o velho truque "se irritei os dois lados, acertei", que é a média aritmética vestida de prudência. Ela ficou certa, se ficou, porque cada versão pesou o que as provas dela aguentavam.<br><br>
+<i>A conta do papel fecha raspando. E o Império, lá fora, continua rachando.</i>`,
     pergunta: null,
     variantes: {},
     escolhas: [{ id: 'a', filosofo: null, titulo: 'Continuar', citacao: null, desc: null, destino: 'carta2' }],
   },
 
   r1b: {
-    fase: 'A Faísca',
+    fase: 'A Herança',
     tipo: 'consequencia',
     filosofo: 'kant',
-    titulo: 'Consequência — O Apoio ao Movimento',
+    titulo: 'Consequência — O Ano Depois da Lei',
     momento: 'O grupo escolheu o dever.',
-    mapa: { top: '58%', left: '46%' },
-    texto: `Vocês recusam participar de qualquer movimento que dependa de pressão, traição ou oportunismo. Para vocês, uma mudança política só tem valor se puder ser defendida como correta em si mesma. Não importa se o momento é difícil: agir errado continua sendo errado.<br><br>
-A recusa incomoda o militar e outros grupos interessados na queda do Império, mas vocês mantêm a posição. Não vale trocar princípio por conveniência.<br><br>
-Essa firmeza cria tensão, e a discussão passa para outro ponto: o que o povo vai saber sobre essa crise?<br><br>
-<i>A recusa de vocês não encerra a disputa. Pelo contrário: ela torna ainda mais claro que a crise agora também é uma batalha pela informação.</i>`,
+    mapa: null,
+    texto: `A página sai inteira para os libertos, com nome e sobrenome de quem falou. O dinheiro do fazendeiro é recusado na frente dele, o que foi um prazer curto e caro.<br><br>
+A edição vende como nenhuma outra em dois anos. Três dias depois, o fornecedor de papel passa a exigir pagamento à vista — e duas das trinta pessoas perdem o lugar na semana seguinte. Vocês trataram aquela gente como gente com história própria, e não como argumento de alguém. Elas dirão que ninguém as avisou do preço. As duas coisas são verdade ao mesmo tempo.<br><br>
+<i>A prensa continua rodando, por enquanto. E o Império, lá fora, continua rachando.</i>`,
     pergunta: null,
     variantes: {},
     escolhas: [{ id: 'a', filosofo: null, titulo: 'Continuar', citacao: null, desc: null, destino: 'carta2' }],
   },
 
   r1c: {
-    fase: 'A Faísca',
+    fase: 'A Herança',
     tipo: 'consequencia',
     filosofo: 'maquiavel',
-    titulo: 'Consequência — O Apoio ao Movimento',
+    titulo: 'Consequência — O Ano Depois da Lei',
     momento: 'O grupo escolheu a estratégia.',
-    mapa: { top: '58%', left: '46%' },
-    texto: `Vocês percebem que a política real não espera pureza. O Império está enfraquecido, os grupos de poder já estão se movendo e hesitar demais pode significar perder a chance de influenciar o futuro.<br><br>
-Então vocês aceitam a proposta e pensam em como usar esse momento a favor de seus objetivos.<br><br>
-A decisão é pragmática. Vocês entendem que, numa crise como essa, quem não age acaba sendo guiado pelos interesses dos outros.<br><br>
-<i>Agora a cidade começa a ouvir rumores. A disputa sai dos bastidores e começa a aparecer nas ruas.</i>`,
+    mapa: null,
+    texto: `O anúncio é aceito e a matéria do fazendeiro sai no alto da primeira coluna. Bem escrita, honesta dentro do que conta — e silenciosa sobre tudo o que ele preferiu não contar.<br><br>
+Pela primeira vez em dois anos, O Ouvidor tem seis meses de caixa garantido. Isso significa uma prensa que ninguém derruba de um dia para o outro. Também significa que a mulher liberta voltou ao trabalho três casas abaixo sem sair no jornal, e que ela viu a página na mão do jornaleiro. A matéria dela fica marcada para depois. "Depois" é uma palavra que envelhece rápido em redação.<br><br>
+<i>O caixa está firme. E o Império, lá fora, continua rachando.</i>`,
     pergunta: null,
     variantes: {},
     escolhas: [{ id: 'a', filosofo: null, titulo: 'Continuar', citacao: null, desc: null, destino: 'carta2' }],
   },
 
   /* ========================================================================= *
-   *  CARTA 2
+   *  CARTA 2  --  a conspiracao militar
    * ========================================================================= */
   carta2: {
-    fase: 'O Baile',
-    titulo: 'Carta 2 — O Que Contar ao Povo',
-    momento: 'A decisão de apoiar ou rejeitar o movimento já começou a espalhar efeitos.',
-    mapa: { top: '68%', left: '68%' },
-    texto: `As pessoas comentam, desconfiam e tentam entender o que está acontecendo. Jornais recebem informações contraditórias. Alguns querem publicar tudo. Outros preferem esperar.<br><br>
-Há quem diga que a população precisa saber a verdade imediatamente. Há também quem acredite que divulgar rápido demais pode causar pânico e facilitar o controle da situação por certos grupos.`,
-    pergunta:
-      'A pergunta agora é: vocês vão contar tudo, dizer apenas parte da verdade ou usar a informação para influenciar o rumo da crise?',
-    /* Opcional: texto da carta mudando conforme a tendencia acumulada.
-       Deixe '' para usar o texto base acima. */
+    fase: 'O Segredo',
+    titulo: 'Carta 2 — O Rapaz Que Falou Demais',
+    momento: 'Começo de novembro de 1889. Um aluno da Escola Militar entra pelos fundos.',
+    mapa: null,
+    texto: `Ele é da Praia Vermelha, não tem vinte e cinco anos e não deveria estar aqui. Fala rápido, olhando para a porta: o Exército vai se mover. Não é conversa de café — ele dá a data aproximada, o lugar e o nome de dois oficiais graduados. Pede uma coisa só: que não o citem. Depois vai embora e não volta mais.<br><br>
+Se for verdade, vocês têm em cima da mesa a maior notícia desde a Independência.<br><br>
+O Império não censura antes: a Constituição proíbe. Ele cobra depois. O gerente do jornal responde por abuso da liberdade de imprensa e a edição é apreendida na rua. E existe o que ninguém põe no papel: a turba que invade a tipografia e espalha os tipos pelo chão. Chama-se empastelamento e acontece. Se vocês não publicarem nada, amanhã a notícia sai em outro lugar, com outra assinatura.`,
+    pergunta: 'A informação está com vocês. Por quanto tempo?',
     variantes: {
       aristoteles: { momento: '', texto: '', pergunta: '' },
       kant: { momento: '', texto: '', pergunta: '' },
@@ -266,25 +293,25 @@ Há quem diga que a população precisa saber a verdade imediatamente. Há tamb�
       {
         id: 'a',
         filosofo: 'aristoteles',
-        titulo: 'Informar com equilíbrio',
-        citacao: 'Nem toda verdade precisa ser lançada sem medida.',
-        desc: 'Você procura divulgar as informações de maneira responsável, evitando tanto o pânico quanto a omissão.',
+        titulo: 'Publicar o que o leitor precisa',
+        citacao: 'Nem o silêncio nem o estouro: o quanto serve a quem lê.',
+        desc: 'Uma nota sobre a tensão nos quartéis, sem data, sem nome e sem o rapaz.',
         destino: 'r2a',
       },
       {
         id: 'b',
         filosofo: 'kant',
-        titulo: 'Contar toda a verdade',
-        citacao: 'A verdade não deve ser escondida por conveniência.',
-        desc: 'Você acredita que a população tem o direito de saber exatamente o que está acontecendo, sem distorções.',
+        titulo: 'Publicar tudo, assinado',
+        citacao: 'A verdade não fica melhor guardada na gaveta.',
+        desc: 'A história inteira, com data, nomes e a promessa ao rapaz desfeita.',
         destino: 'r2b',
       },
       {
         id: 'c',
         filosofo: 'maquiavel',
-        titulo: 'Controlar a informação',
-        citacao: 'A informação pode ser uma ferramenta de poder.',
-        desc: 'Você decide divulgar apenas o que for útil para conduzir a crise na direção desejada.',
+        titulo: 'Guardar e escolher a hora',
+        citacao: 'Notícia guardada ainda é sua. Publicada, é de todo mundo.',
+        desc: 'Nada impresso, e um recado discreto para os dois lados de que vocês sabem.',
         destino: 'r2c',
       },
     ],
@@ -292,65 +319,65 @@ Há quem diga que a população precisa saber a verdade imediatamente. Há tamb�
 
   /* ---- consequencias da carta 2 ------------------------------------------ */
   r2a: {
-    fase: 'O Baile',
+    fase: 'O Segredo',
     tipo: 'consequencia',
     filosofo: 'aristoteles',
-    titulo: 'Consequência — O Que Contar ao Povo',
-    momento: 'O grupo escolheu a medida certa.',
-    mapa: { top: '68%', left: '68%' },
-    texto: `Vocês procuram um meio seguro de lidar com a situação. Não querem mentir, mas também não querem jogar o país no caos sem necessidade. Então tentam organizar a informação de forma equilibrada, evitando exageros e pensando no menor dano possível.<br><br>
-Essa escolha mostra que vocês percebem que até a verdade pode ser usada como instrumento de interesse. Por isso, o jeito de apresentar a informação também importa.<br><br>
-Enquanto isso, a cidade continua avançando em direção ao momento decisivo.<br><br>
-<i>A crise não está mais escondida. Agora ela circula em voz alta, e cada palavra dita pode mudar o rumo dos acontecimentos.</i>`,
+    titulo: 'Consequência — O Rapaz Que Falou Demais',
+    momento: 'O grupo escolheu a prudência.',
+    mapa: null,
+    texto: `Sai uma nota discreta na página três: os quartéis estão inquietos, oficiais falam em mudança, o governo faz de conta que não ouve. Nenhum nome, nenhuma data. Nada que quebre a palavra dada ao rapaz.<br><br>
+Ninguém prende ninguém. Nenhum jornal repercute. Dez dias depois, ele tinha razão sobre tudo — e vocês tinham publicado dez por cento disso. Foi medida ou foi <b>falta</b>? Aristóteles não deixa responder isso pelo que aconteceu depois. Responde-se pelo que dava para julgar naquela hora, com o que estava na mesa.<br><br>
+<i>Guardem a resposta. O dia 15 chega na próxima carta.</i>`,
     pergunta: null,
     variantes: {},
     escolhas: [{ id: 'a', filosofo: null, titulo: 'Continuar', citacao: null, desc: null, destino: 'carta3' }],
   },
 
   r2b: {
-    fase: 'O Baile',
+    fase: 'O Segredo',
     tipo: 'consequencia',
     filosofo: 'kant',
-    titulo: 'Consequência — O Que Contar ao Povo',
-    momento: 'O grupo escolheu a verdade sem cálculo.',
-    mapa: { top: '68%', left: '68%' },
-    texto: `Vocês defendem que a verdade não pode ser manipulada. Se a população precisa saber o que está acontecendo, então ela deve saber de forma limpa, sem distorções. Mesmo que isso cause choque ou acelere a instabilidade, mentir seria pior.<br><br>
-A decisão é dura, mas clara. Vocês não aceitam tratar as pessoas como ferramenta política. O dever de dizer a verdade vem antes de qualquer cálculo sobre vantagem imediata.<br><br>
-A cidade reage ao que foi revelado. Agora fica mais difícil esconder os interesses por trás da crise.<br><br>
-<i>A partir daqui, já não basta falar em mudança. Agora todos precisam encarar o que essa mudança realmente significa.</i>`,
+    titulo: 'Consequência — O Rapaz Que Falou Demais',
+    momento: 'O grupo escolheu o dever.',
+    mapa: null,
+    texto: `A história sai inteira, assinada, com data e nome. A edição é apreendida na rua e o gerente é chamado a depor. Dois jornais grandes copiam a notícia sem citar a fonte, e um deles ainda escreve que O Ouvidor foi irresponsável.<br><br>
+E aqui vem a parte incômoda: é fácil sair desta mesa achando que Kant assinou embaixo. Ele não assinaria. Calar não é mentir — o dever é não afirmar o falso, não é contar tudo o que se sabe. Não havia dever de publicar. Havia uma promessa, e promessa não se desmancha por conveniência. Vocês usaram um rapaz de vinte e poucos anos como meio para informar o país.<br><br>
+<i>Dias depois, ele não apareceu mais em lugar nenhum. Vocês não sabem se foi medo ou se foi pior.</i>`,
     pergunta: null,
     variantes: {},
     escolhas: [{ id: 'a', filosofo: null, titulo: 'Continuar', citacao: null, desc: null, destino: 'carta3' }],
   },
 
   r2c: {
-    fase: 'O Baile',
+    fase: 'O Segredo',
     tipo: 'consequencia',
     filosofo: 'maquiavel',
-    titulo: 'Consequência — O Que Contar ao Povo',
-    momento: 'O grupo escolheu controlar a narrativa.',
-    mapa: { top: '68%', left: '68%' },
-    texto: `Vocês entendem que a informação é uma ferramenta poderosa demais para ser deixada ao acaso. Em vez de apenas divulgar ou esconder, vocês decidem controlar o momento e o efeito da notícia.<br><br>
-Talvez isso sirva para pressionar alguém. Talvez sirva para proteger um lado. Talvez sirva para preparar o terreno para a mudança.<br><br>
-A atitude é estratégica. Vocês percebem que controlar a narrativa também é uma forma de controlar o poder.<br><br>
-<i>O país entra numa fase ainda mais instável. Agora já não se trata só de apoiar ou não uma mudança, mas de decidir quem vai se beneficiar dela.</i>`,
+    titulo: 'Consequência — O Rapaz Que Falou Demais',
+    momento: 'O grupo escolheu a estratégia.',
+    mapa: null,
+    texto: `A informação vai para a gaveta e um recado discreto circula: O Ouvidor sabe. O efeito é imediato e desconfortável. Um secretário do ministro manda perguntar o que exatamente vocês sabem. Um oficial manda dizer que não esqueceria a gentileza.<br><br>
+Em três dias, o jornal passou de espectador a peça no tabuleiro. Maquiavel aprovaria o cálculo e faria uma pergunta incômoda: peça de quem?<br><br>
+<i>A notícia continua guardada. O tempo, a partir de agora, anda mais rápido do que a redação.</i>`,
     pergunta: null,
     variantes: {},
     escolhas: [{ id: 'a', filosofo: null, titulo: 'Continuar', citacao: null, desc: null, destino: 'carta3' }],
   },
 
   /* ========================================================================= *
-   *  CARTA 3
+   *  CARTA 3  --  a manha do dia 15
+   *  As tres consequencias desta carta quebram a forma de proposito: dois
+   *  paragrafos, sem fecho em italico. E o pico da sessao; corta seco.
    * ========================================================================= */
   carta3: {
-    fase: 'A Conspiração',
-    titulo: 'Carta 3 — Quem Vai Se Beneficiar',
-    momento: 'A queda do Império já parece próxima.',
-    mapa: { top: '25%', left: '68%' },
-    texto: `O problema é que nem todos querem a mesma República. Alguns desejam ordem. Outros desejam liberdade. Outros querem apenas manter poder e influência, mudando o nome do regime sem mudar a estrutura por trás dele.<br><br>
-Vocês percebem que a crise não é apenas sobre derrubar a monarquia. É sobre quem vai ocupar o espaço deixado por ela.`,
+    fase: 'A Manhã',
+    titulo: 'Carta 3 — A Manhã em Que Ninguém Sabia',
+    momento: '15 de novembro de 1889, pouco depois das oito da manhã.',
+    mapa: null,
+    texto: `Tropa no Campo de Santana. O marechal Deodoro da Fonseca saiu de casa doente e foi até lá assim mesmo. A tropa cercou o Quartel-General, e o ministério do Visconde de Ouro Preto está caindo lá dentro agora.<br><br>
+Só que ninguém na rua sabe dizer o que isso é. Derrubaram o gabinete, como já derrubaram tantos outros — ou derrubaram o Império? O telégrafo está nas mãos dos militares. Dom Pedro II está em Petrópolis, e ninguém sabe se já desceu a serra. E o próprio Deodoro, até este momento, não disse a palavra <i>república</i> em lugar nenhum.<br><br>
+A edição da tarde fecha ao meio-dia, e o grosso dela já está composto desde a madrugada. O que ainda dá para trocar é o alto da primeira coluna. Para muita gente, aquelas poucas linhas vão ser tudo o que se lê hoje sobre hoje.`,
     pergunta:
-      'Agora surge uma nova decisão: vocês vão buscar equilíbrio entre os lados, expor todas as intenções ou usar a mudança para garantir vantagem?',
+      'Ninguém ainda pronunciou essa palavra. O Ouvidor imprime primeiro, ou imprime só o que já está confirmado?',
     variantes: {
       aristoteles: { momento: '', texto: '', pergunta: '' },
       kant: { momento: '', texto: '', pergunta: '' },
@@ -360,25 +387,25 @@ Vocês percebem que a crise não é apenas sobre derrubar a monarquia. É sobre 
       {
         id: 'a',
         filosofo: 'aristoteles',
-        titulo: 'Buscar o bem comum e evitar extremos',
-        citacao: 'A melhor decisão é aquela que reduz o dano e preserva a cidade.',
-        desc: 'Você tenta impedir a mentira, mas também evita transformar a crise em uma guerra aberta. A saída ideal é a mais prudente.',
+        titulo: '"O ministério caiu"',
+        citacao: 'Dizer o que se viu, e só isso, também é uma decisão.',
+        desc: 'O fato confirmado, as duas hipóteses embaixo e a admissão de que ainda é cedo.',
         destino: 'r3a',
       },
       {
         id: 'b',
         filosofo: 'kant',
-        titulo: 'Expor a verdade sem esconder nada',
-        citacao: 'A verdade não deve ser usada como ferramenta; ela deve ser respeitada.',
-        desc: 'Você decide revelar tudo ao público, mesmo sabendo que isso pode causar desordem e acelerar o conflito.',
+        titulo: '"Não sabemos o que está acontecendo"',
+        citacao: 'Fingir certeza é mentir com outra roupa.',
+        desc: 'A ignorância do jornal no espaço mais visível, com fato e boato em colunas separadas.',
         destino: 'r3b',
       },
       {
         id: 'c',
         filosofo: 'maquiavel',
-        titulo: 'Usar a informação para vencer a disputa',
-        citacao: 'Num momento de crise, quem controla a informação controla o destino.',
-        desc: 'Você permite ou manipula a divulgação para garantir que seu lado saia fortalecido, mesmo que isso custe a verdade.',
+        titulo: '"República"',
+        citacao: 'Quem chega primeiro escolhe a palavra que todos vão repetir.',
+        desc: 'Uma palavra em corpo de cartaz, impressa antes de alguém tê-la dito.',
         destino: 'r3c',
       },
     ],
@@ -386,99 +413,102 @@ Vocês percebem que a crise não é apenas sobre derrubar a monarquia. É sobre 
 
   /* ---- consequencias da carta 3 ------------------------------------------ */
   r3a: {
-    fase: 'A Conspiração',
+    fase: 'A Manhã',
     tipo: 'consequencia',
     filosofo: 'aristoteles',
-    titulo: 'Consequência — Quem Vai Se Beneficiar',
-    momento: 'O grupo tentou impedir outro extremo.',
-    mapa: { top: '25%', left: '68%' },
-    texto: `Vocês tentam evitar que o país caia em outro extremo. A mudança precisa acontecer, mas sem virar um terreno de dominação total de um único grupo.<br><br>
-Em vez de alimentar a disputa mais agressiva, vocês tentam reduzir os danos e buscar um caminho mais justo para todos.<br><br>
-Essa postura não resolve tudo, mas impede que a crise se transforme em uma troca de poder sem controle. Vocês entendem que governar também é impedir que os interesses destruam o bem comum.<br><br>
-<i>A República começa a tomar forma, mas ainda sem mostrar com clareza quem realmente vai comandá-la.</i>`,
+    titulo: 'Consequência — A Manhã em Que Ninguém Sabia',
+    momento: 'O grupo escolheu a prudência.',
+    mapa: null,
+    texto: `"O MINISTÉRIO CAIU." Embaixo, em corpo miúdo, as duas hipóteses e uma frase que poucos jornais imprimiram naquele dia: ainda não é possível afirmar o que vem depois.<br><br>
+A edição vende devagar. À noite, quando o desfecho já é público, leitor nenhum pode dizer que O Ouvidor errou. Também ninguém corre para contar que leu aqui primeiro. Prudência quase nunca parece coragem no dia em que é praticada.`,
     pergunta: null,
     variantes: {},
     escolhas: [{ id: 'a', filosofo: null, titulo: 'Continuar', citacao: null, desc: null, destino: 'carta4' }],
   },
 
   r3b: {
-    fase: 'A Conspiração',
+    fase: 'A Manhã',
     tipo: 'consequencia',
     filosofo: 'kant',
-    titulo: 'Consequência — Quem Vai Se Beneficiar',
-    momento: 'O grupo escolheu a sinceridade total.',
-    mapa: { top: '25%', left: '68%' },
-    texto: `Vocês decidem enfrentar a situação com sinceridade total. Se há interesses escondidos, eles devem ser revelados. Se há manipulação, ela deve ser exposta. Se há acordos secretos, ninguém deve fingir que não viu.<br><br>
-A verdade, porém, cobra um preço. Ao revelar tudo, vocês abalam alianças, enfraquecem certezas e tornam impossível esconder o que estava acontecendo.<br><br>
-A tensão cresce, mas o princípio permanece intacto: não se constrói justiça sobre mentira.<br><br>
-<i>A partir desse ponto, a crise deixa de ser apenas política. Ela se torna também moral.</i>`,
+    titulo: 'Consequência — A Manhã em Que Ninguém Sabia',
+    momento: 'O grupo escolheu o dever.',
+    mapa: null,
+    texto: `"NÃO SABEMOS O QUE ESTÁ ACONTECENDO." Em corpo de cartaz. Do lado, duas colunas: <b>o que é fato</b> e <b>o que é boato</b>, com os boatos nomeados um por um.<br><br>
+Metade da rua acha uma piada, e quatro assinantes anuais cancelam — um deles escreve que paga jornal para ser informado, não para ser acompanhado na dúvida. Um redator de jornal grande comenta no café que aquilo não é jornalismo, é confissão, e não percebe que acabou de descrever o que faltava na primeira página dele. Ao cair da tarde, nenhum boato precisou ser desmentido, porque nenhum tinha sido afirmado.`,
     pergunta: null,
     variantes: {},
     escolhas: [{ id: 'a', filosofo: null, titulo: 'Continuar', citacao: null, desc: null, destino: 'carta4' }],
   },
 
   r3c: {
-    fase: 'A Conspiração',
+    fase: 'A Manhã',
     tipo: 'consequencia',
     filosofo: 'maquiavel',
-    titulo: 'Consequência — Quem Vai Se Beneficiar',
-    momento: 'O grupo escolheu agir com cálculo.',
-    mapa: { top: '25%', left: '68%' },
-    texto: `Vocês escolhem agir com cálculo. Se a República vai nascer, então é melhor que ela nasça sob uma direção que vocês consideram favorável.<br><br>
-A crise deixa de ser apenas um problema e passa a ser uma oportunidade de conduzir o futuro.<br><br>
-Essa decisão mostra que, em tempos de mudança, quem hesita perde espaço. Vocês passam a pensar não só no que é certo ou prudente, mas no que é eficaz para moldar o resultado.<br><br>
-<i>O país está prestes a mudar de vez. Falta apenas decidir como vocês vão chegar ao fim disso.</i>`,
+    titulo: 'Consequência — A Manhã em Que Ninguém Sabia',
+    momento: 'O grupo escolheu a estratégia.',
+    mapa: null,
+    texto: `"REPÚBLICA." Uma palavra só, em corpo de cartaz, impressa quando ainda era aposta. Durante quatro horas, foi a coisa mais irresponsável já feita nesta redação. Às cinco da tarde, virou a página mais lembrada do dia — e em São Paulo O Estado de S. Paulo daria a página inteira a "Viva a República!".<br><br>
+A tiragem acaba, a segunda leva acaba, e gente que nunca comprou O Ouvidor passa a comprar. Vem junto uma dívida que ninguém pediu: a partir de amanhã, tudo o que sair aqui vai ser lido como certeza. O próximo boato que entrar por aquela porta chega ao leitor com peso de fato antes de ter sido conferido. Acertar por sorte e acertar por análise produzem a mesma página — e só um dos dois dá para repetir amanhã.`,
     pergunta: null,
     variantes: {},
     escolhas: [{ id: 'a', filosofo: null, titulo: 'Continuar', citacao: null, desc: null, destino: 'carta4' }],
   },
 
   /* ========================================================================= *
-   *  CARTA 4
+   *  CARTA 4  --  como chamar o que aconteceu
    * ========================================================================= */
   carta4: {
-    fase: 'O Dia 15',
-    titulo: 'Carta 4 — O Nascimento da Nova Ordem',
-    momento: 'Chega 15 de novembro de 1889.',
-    mapa: { top: '40%', left: '50%' },
-    texto: `As tropas se movem, os boatos aumentam e o Império finalmente cede. A República está prestes a ser proclamada.<br><br>
-Vocês estão diante do desfecho. O que fizerem agora vai definir não só o fato histórico em si, mas também a forma como esse novo Brasil vai ser organizado e dominado.`,
-    pergunta:
-      'Mas mesmo no instante final, a pergunta continua de pé: o que vale mais, a prudência, o dever ou a estratégia?',
-    /* O documento do Mestre traz a pergunta NO MEIO desta carta, e a tela a
-       mostra no fim, na caixa destacada. Para o Mestre nao ler fora de ordem,
-       a narracao dele e escrita aqui na ordem do documento original. */
-    narracao: `Chega 15 de novembro de 1889.<br><br>
-As tropas se movem, os boatos aumentam e o Império finalmente cede. A República está prestes a ser proclamada. Mas mesmo no instante final, a pergunta continua de pé: o que vale mais, a prudência, o dever ou a estratégia?<br><br>
-Vocês estão diante do desfecho. O que fizerem agora vai definir não só o fato histórico em si, mas também a forma como esse novo Brasil vai ser organizado e dominado.`,
+    fase: 'A Palavra',
+    titulo: 'Carta 4 — A Palavra Certa',
+    momento: '15 de novembro, fim da tarde. Agora é oficial.',
+    mapa: null,
+    texto: `Na Câmara Municipal, por volta das seis da tarde, o vereador José do Patrocínio toma a palavra e lê a moção que declara extinta a monarquia. Patrocínio é jornalista, abolicionista e dono da Cidade do Rio. É também um homem negro, e é ele quem proclama a República civil um ano e meio depois da Abolição.<br><br>
+À noite chega o texto do <b>Decreto nº 1</b>: fica proclamada <i>provisoriamente</i> a República Federativa, as províncias viram estados, um Governo Provisório manda até a Constituinte. Assinam Deodoro da Fonseca, Rui Barbosa, Quintino Bocaiúva, Benjamin Constant, Aristides Lobo e Wandenkolk.<br><br>
+Nenhuma urna foi aberta. Nenhuma pergunta foi feita a ninguém — embora, desde a Lei Saraiva de 1881, as urnas do Império já falassem em nome de um por cento do país. Amanhã O Ouvidor tem que chamar isso de alguma coisa, e o governo que acabou de nascer lê jornal.`,
+    pergunta: 'Golpe, revolução ou proclamação? Qual palavra O Ouvidor assina?',
     variantes: {
-      aristoteles: { momento: '', texto: '', pergunta: '' },
-      kant: { momento: '', texto: '', pergunta: '' },
-      maquiavel: { momento: '', texto: '', pergunta: '' },
+      aristoteles: {
+        momento: '',
+        texto: '',
+        pergunta:
+          'Três vezes esta mesa preferiu medir antes de falar. Golpe, revolução ou proclamação: qual palavra O Ouvidor assina?',
+      },
+      kant: {
+        momento: '',
+        texto: '',
+        pergunta:
+          'Três vezes esta mesa pagou para dizer a verdade. Golpe, revolução ou proclamação: qual palavra O Ouvidor assina?',
+      },
+      maquiavel: {
+        momento: '',
+        texto: '',
+        pergunta:
+          'Três vezes esta mesa jogou para continuar existindo. Golpe, revolução ou proclamação: qual palavra O Ouvidor assina?',
+      },
     },
     escolhas: [
       {
         id: 'a',
         filosofo: 'aristoteles',
-        titulo: 'Guiar o país com prudência',
-        citacao: 'A virtude política está em evitar os excessos.',
-        desc: 'Você tenta reduzir os danos, unir grupos diferentes e escolher a saída mais equilibrada para o país.',
+        titulo: 'Nomear só o que já se sustenta',
+        citacao: 'Nomear até onde os fatos chegam — e parar ali.',
+        desc: 'A manhã contada em ordem, sem usar nenhum dos três rótulos, e dizendo por quê.',
         destino: 'r4a',
       },
       {
         id: 'b',
         filosofo: 'kant',
-        titulo: 'Agir pelo dever e pela verdade',
-        citacao: 'A dignidade da ação está em seguir o princípio correto.',
-        desc: 'Você defende que a decisão final precisa ser moralmente justa, mesmo que o resultado seja difícil.',
+        titulo: '"Golpe"',
+        citacao: 'Chamar de outra coisa o que a gente viu é mentir com letra grande.',
+        desc: 'A palavra que descreve o que aconteceu, na mesa do Governo Provisório amanhã cedo.',
         destino: 'r4b',
       },
       {
         id: 'c',
         filosofo: 'maquiavel',
-        titulo: 'Garantir a vitória custe o que custar',
-        citacao: 'O poder não espera quem hesita.',
-        desc: 'Você escolhe a solução mais eficiente para vencer a disputa política e manter o controle da situação.',
+        titulo: '"Proclamação"',
+        citacao: 'A palavra que mantém a porta aberta vale mais que a que a fecha.',
+        desc: 'O termo oficial, seco, e o jornal continua entrando nos gabinetes para perguntar depois.',
         destino: 'r4c',
       },
     ],
@@ -486,93 +516,105 @@ Vocês estão diante do desfecho. O que fizerem agora vai definir não só o fat
 
   /* ---- consequencias da carta 4 ------------------------------------------ */
   r4a: {
-    fase: 'O Dia 15',
+    fase: 'A Palavra',
     tipo: 'consequencia',
     filosofo: 'aristoteles',
-    titulo: 'Consequência — O Nascimento da Nova Ordem',
-    momento: 'A nova ordem nasce sob a prudência.',
-    mapa: { top: '40%', left: '50%' },
-    texto: `Vocês escolhem o caminho do equilíbrio. O país precisa mudar, mas não precisa se destruir nessa mudança. Em vez de alimentar o caos, vocês tentam dar ao novo tempo um começo menos violento, mais racional e mais estável.<br><br>
-A escolha de vocês mostra que a política pode ser feita com cuidado. Não existe solução perfeita, mas existe a tentativa de reduzir os extremos e limitar os abusos.<br><br>
-<i>A nova ordem nasce com a ideia de que prudência também é força.</i><br><br>
-Com a queda da monarquia, o problema não termina. Na verdade, ele apenas muda de forma.`,
+    titulo: 'Consequência — A Palavra Certa',
+    momento: 'O grupo escolheu a prudência.',
+    mapa: null,
+    texto: `A página traz a manhã inteira em ordem: a tropa, o ministério caído, a moção lida na Câmara, o decreto assinado por seis homens. Os três rótulos em disputa ficam de fora, e o jornal diz por quê.<br><br>
+Um republicano escreve dizendo que faltou comemorar. Um monarquista escreve dizendo que faltou denunciar. Os dois leram covardia onde houve juízo. Vocês penduram as duas cartas na parede.<br><br>
+<i>Os rótulos ficaram em aberto. Não vão ficar por muito tempo.</i>`,
     pergunta: null,
     variantes: {},
     escolhas: [{ id: 'a', filosofo: null, titulo: 'Continuar', citacao: null, desc: null, destino: 'carta5' }],
   },
 
   r4b: {
-    fase: 'O Dia 15',
+    fase: 'A Palavra',
     tipo: 'consequencia',
     filosofo: 'kant',
-    titulo: 'Consequência — O Nascimento da Nova Ordem',
-    momento: 'A nova ordem nasce sob o dever.',
-    mapa: { top: '40%', left: '50%' },
-    texto: `Vocês insistem que a decisão final precisa ser moralmente correta. Mesmo que o momento seja difícil, vocês não abandonam o dever. O importante é não trair aquilo que consideram justo, especialmente quando o poder costuma favorecer poucos.<br><br>
-Essa postura pode parecer rígida, mas é o que impede que a mudança vire apenas continuação da dominação antiga.<br><br>
-Vocês deixam claro que nem todo resultado vale qualquer método.<br><br>
-<i>A República nasce, mas vocês não aceitam que ela se sustente sobre atalhos morais.</i><br><br>
-Com a queda da monarquia, o problema não termina. Na verdade, ele apenas muda de forma.`,
+    titulo: 'Consequência — A Palavra Certa',
+    momento: 'O grupo escolheu o dever.',
+    mapa: null,
+    texto: `"GOLPE." Cinco letras em corpo de cartaz, num jornal pequeno, no segundo dia de um governo armado.<br><br>
+A edição some das mãos dos jornaleiros antes do meio-dia, e é impossível saber quanto disso foi leitor e quanto foi gente comprando para que ninguém lesse. À tarde, um oficial de baixa patente aparece na redação apenas para anotar nomes. Não ameaça, não prende, não explica. Anota e vai embora.<br><br>
+<i>Vocês chamaram a coisa pelo nome no único mês em que isso ainda era barato. Em 23 de dezembro, um decreto do novo governo vai passar a punir quem atacar a República pela imprensa.</i>`,
     pergunta: null,
     variantes: {},
     escolhas: [{ id: 'a', filosofo: null, titulo: 'Continuar', citacao: null, desc: null, destino: 'carta5' }],
   },
 
   r4c: {
-    fase: 'O Dia 15',
+    fase: 'A Palavra',
     tipo: 'consequencia',
     filosofo: 'maquiavel',
-    titulo: 'Consequência — O Nascimento da Nova Ordem',
-    momento: 'A nova ordem nasce sob o cálculo.',
-    mapa: { top: '40%', left: '50%' },
-    texto: `Vocês escolhem a eficiência. O país precisa de direção, e hesitar pode custar tudo. Então vocês aceitam que a mudança política também é uma disputa de poder, e que vencer essa disputa é a única forma de garantir o novo cenário.<br><br>
-A escolha é dura, mas coerente com a lógica da crise. Vocês fazem o necessário para que o lado de vocês prevaleça.<br><br>
-<i>A República nasce sob cálculo, interesse e decisão. E é exatamente isso que torna esse momento histórico tão humano.</i><br><br>
-Com a queda da monarquia, o problema não termina. Na verdade, ele apenas muda de forma.`,
+    titulo: 'Consequência — A Palavra Certa',
+    momento: 'O grupo escolheu a estratégia.',
+    mapa: null,
+    texto: `"PROCLAMAÇÃO DA REPÚBLICA." O termo oficial, seco, sem um adjetivo de elogio. Quem quiser ler entusiasmo não acha; quem quiser ler crítica também não.<br><br>
+Funciona. Na quinta-feira seguinte, O Ouvidor recebe pela primeira vez um comunicado do Governo Provisório antes dos jornais grandes, e o nome do jornal passa a circular em sala que antes não sabia que ele existia.<br><br>
+<i>A porta ficou aberta. Falta descobrir para que lado ela abre.</i>`,
     pergunta: null,
     variantes: {},
     escolhas: [{ id: 'a', filosofo: null, titulo: 'Continuar', citacao: null, desc: null, destino: 'carta5' }],
   },
 
   /* ========================================================================= *
-   *  CARTA 5
+   *  CARTA 5  --  "o povo assistiu aquilo bestializado"
    * ========================================================================= */
   carta5: {
-    fase: 'Os Interesses',
-    titulo: 'Carta 5 — A República dos Interesses',
-    momento: 'A República já foi proclamada, mas o jogo do poder está longe de terminar.',
-    mapa: { top: '62%', left: '34%' },
-    texto: `Agora o foco se desloca para o interior, para os coronéis, para os acordos locais e para o controle do voto. Em muitos lugares, a mudança no nome do regime não muda a vida de quem trabalha, de quem obedece e de quem depende dos grandes proprietários.`,
-    pergunta:
-      'A nova pergunta é: essa República vai servir ao povo ou vai continuar sendo guiada pelos interesses de poucos?',
+    fase: 'O Povo',
+    titulo: 'Carta 5 — Bestializado',
+    momento: '20 de novembro. A família imperial já partiu.',
+    mapa: null,
+    texto: `Na madrugada do dia 17, no Cais Pharoux, Dom Pedro II e a família embarcaram para a Europa. Foi rápido e discreto, para não dar plateia a ninguém.<br><br>
+E chega à redação, pelo trem de São Paulo, o <i>Diário Popular</i> do dia 18, com um texto de <b>Aristides Lobo</b> escrito no calor do dia 15: <i>"O povo assistiu àquilo bestializado, atônito, surpreso, sem conhecer o que significava. Muitos acreditaram seriamente estar vendo uma parada."</i><br><br>
+Lobo é republicano antigo e agora é ministro do Governo Provisório — o nome dele está no Decreto nº 1. Quem diz que o povo não entendeu nada é um dos donos da situação. Reproduzir a frase é dizer na cara do novo governo que a República nasceu sem o povo, e dizer isso com as palavras de um homem que está no governo.`,
+    pergunta: 'Última edição desta sessão. O que o Ouvidor imprime sobre o dia 15?',
     variantes: {
-      aristoteles: { momento: '', texto: '', pergunta: '' },
-      kant: { momento: '', texto: '', pergunta: '' },
-      maquiavel: { momento: '', texto: '', pergunta: '' },
+      aristoteles: {
+        momento: '',
+        texto: '',
+        pergunta:
+          'Quatro vezes esta mesa mediu antes de falar. Última edição: o que o Ouvidor imprime sobre o dia 15?',
+      },
+      kant: {
+        momento: '',
+        texto: '',
+        pergunta:
+          'Quatro vezes esta mesa pagou o preço de dizer. Última edição: o que o Ouvidor imprime sobre o dia 15?',
+      },
+      maquiavel: {
+        momento: '',
+        texto: '',
+        pergunta:
+          'Quatro vezes esta mesa escolheu a hora certa. Última edição: o que o Ouvidor imprime sobre o dia 15?',
+      },
     },
     escolhas: [
       {
         id: 'a',
         filosofo: 'aristoteles',
-        titulo: 'Defender limites ao poder local',
-        citacao: 'Uma República só é justa quando reduz os abusos.',
-        desc: 'Você tenta impedir que a nova ordem repita a lógica da velha dominação e busca uma organização mais equilibrada.',
+        titulo: 'A rua, sem a frase',
+        citacao: 'Frase sozinha vira slogan; com gente dentro, vira notícia.',
+        desc: 'Trinta depoimentos sobre o que cada um estava fazendo no dia 15. A frase de Lobo fica de fora.',
         destino: 'r5a',
       },
       {
         id: 'b',
         filosofo: 'kant',
-        titulo: 'Denunciar a manipulação dos poderosos',
-        citacao: 'Sem verdade, a justiça vira aparência.',
-        desc: 'Você expõe a lógica de favores, coerção e controle que sustenta a nova ordem.',
+        titulo: 'A frase inteira, e a cobrança',
+        citacao: 'Se é verdade, não interessa quem se incomoda.',
+        desc: 'A frase em destaque, com a assinatura do ministro e uma pergunta ao lado.',
         destino: 'r5b',
       },
       {
         id: 'c',
         filosofo: 'maquiavel',
-        titulo: 'Entrar no jogo para sobreviver',
-        citacao: 'Quem não participa do jogo, é excluído por ele.',
-        desc: 'Você aceita a realidade do sistema e passa a agir dentro dele para manter influência e poder.',
+        titulo: 'Guardar a frase',
+        citacao: 'Munição gasta cedo é munição desperdiçada.',
+        desc: 'Uma edição correta e inofensiva, e o recorte arquivado para quando valer mais.',
         destino: 'r5c',
       },
     ],
@@ -580,51 +622,48 @@ Com a queda da monarquia, o problema não termina. Na verdade, ele apenas muda d
 
   /* ---- consequencias da carta 5 ------------------------------------------ */
   r5a: {
-    fase: 'Os Interesses',
+    fase: 'O Povo',
     tipo: 'consequencia',
     filosofo: 'aristoteles',
-    titulo: 'Consequência — A República dos Interesses',
-    momento: 'O grupo cobrou limites ao poder local.',
-    mapa: { top: '62%', left: '34%' },
-    texto: `Vocês percebem que uma República de verdade precisa limitar os abusos locais e impedir que o poder continue concentrado nas mesmas mãos. Não basta mudar o regime se os mecanismos de dominação continuarem funcionando do mesmo jeito.<br><br>
-Por isso, vocês tentam defender uma organização mais justa, em que o país não seja apenas dividido entre manda-chuvas e dependentes.<br><br>
-Essa atitude mostra que a mudança só vale se atingir também a estrutura do poder.<br><br>
-<i>A República, para vocês, só faz sentido se trouxer algum equilíbrio real.</i>`,
+    titulo: 'Consequência — Bestializado',
+    momento: 'O grupo escolheu a prudência.',
+    mapa: null,
+    texto: `A página sai cheia de gente: o carregador que não pôde parar, a professora que aplaudiu sem saber direito o quê, o cocheiro que achou mesmo que era parada militar, o estudante que sabia de tudo fazia uma semana. A frase de Lobo fica de fora, porque sozinha ela vira slogan.<br><br>
+Prudência é isso: olhar caso a caso. "O povo" não é um caso, é um saco onde cabe todo mundo. É a versão mais difícil de escrever e a menos citada depois.<br><br>
+<i>Nos livros de história, "bestializado" vira a palavra do dia 15. A rua que vocês imprimiram no lugar dela some.</i>`,
     pergunta: null,
     variantes: {},
-    escolhas: [{ id: 'a', filosofo: null, titulo: 'Ver o desfecho', citacao: null, desc: null, destino: 'final' }],
+    escolhas: [{ id: 'a', filosofo: null, titulo: 'Fechar a edição', citacao: null, desc: null, destino: 'final' }],
   },
 
   r5b: {
-    fase: 'Os Interesses',
+    fase: 'O Povo',
     tipo: 'consequencia',
     filosofo: 'kant',
-    titulo: 'Consequência — A República dos Interesses',
-    momento: 'O grupo denunciou a lógica da nova ordem.',
-    mapa: { top: '62%', left: '34%' },
-    texto: `Vocês decidem denunciar a lógica por trás da nova ordem. Se a República está nascendo, mas continua baseada em favores, coerção e controle, então alguém precisa dizer isso em voz alta.<br><br>
-A denúncia causa desconforto, porque mexe com interesses fortes. Mas vocês mantêm a posição: não existe liberdade verdadeira se o poder continua sendo usado para manipular pessoas e territórios.<br><br>
-A crise deixa de ser só uma mudança de governo e passa a ser também uma disputa sobre legitimidade.<br><br>
-<i>Vocês mostram que uma nova ordem não se sustenta apenas com nomes novos. Ela precisa enfrentar os vícios antigos.</i>`,
+    titulo: 'Consequência — Bestializado',
+    momento: 'O grupo escolheu o dever.',
+    mapa: null,
+    texto: `A frase ocupa o alto da primeira coluna, do tamanho que merece, com a assinatura de Aristides Lobo embaixo e uma pergunta ao lado: se o povo não entendeu, o que exatamente foi proclamado em nome dele?<br><br>
+O ministro não responde. Não precisa. Na sexta-feira o fornecedor de papel corta o crédito sem explicar por quê, e a redação passa a tarde decidindo se a próxima edição sai em duas páginas ou não sai. Vocês cobraram do poder a mesma régua que ele usou para se elogiar. É a régua única de Kant, e ela caiu bem onde dói.<br><br>
+<i>A pergunta está impressa. Papel não se retrata.</i>`,
     pergunta: null,
     variantes: {},
-    escolhas: [{ id: 'a', filosofo: null, titulo: 'Ver o desfecho', citacao: null, desc: null, destino: 'final' }],
+    escolhas: [{ id: 'a', filosofo: null, titulo: 'Fechar a edição', citacao: null, desc: null, destino: 'final' }],
   },
 
   r5c: {
-    fase: 'Os Interesses',
+    fase: 'O Povo',
     tipo: 'consequencia',
     filosofo: 'maquiavel',
-    titulo: 'Consequência — A República dos Interesses',
-    momento: 'O grupo entrou no jogo do novo sistema.',
-    mapa: { top: '62%', left: '34%' },
-    texto: `Vocês escolhem entrar no novo sistema da forma mais eficiente possível. Se o poder agora depende de alianças locais, então vocês constroem alianças. Se o voto é controlado por interesses, vocês aprendem a jogar esse jogo.<br><br>
-A decisão é pragmática. Vocês não ignoram a realidade: numa República de interesses, quem recusa o jogo pode acabar fora dele.<br><br>
-Isso mostra que o novo regime nasce com promessas, mas também com velhas estruturas de influência.<br><br>
-<i>A República muda de forma, mas não abandona de imediato sua lógica de poder.</i>`,
+    titulo: 'Consequência — Bestializado',
+    momento: 'O grupo escolheu a estratégia.',
+    mapa: null,
+    texto: `A frase desce para a gaveta de baixo, numa pasta com data. A edição do dia sai correta, informativa e completamente inofensiva.<br><br>
+Onze dias depois, um jornal grande reproduz a mesma frase de Lobo em página inteira e leva o crédito da pergunta que vocês tinham formulado primeiro. O recorte na gaveta vale zero. Maquiavel avisa no capítulo III do Príncipe: esperar o momento certo é ilusão, porque o tempo empurra tudo para a frente e traz o mal junto com o bem. Sempre há um momento melhor logo adiante. É assim que arquivo vira cemitério.<br><br>
+<i>A frase está guardada. Ninguém nesta mesa sabe dizer o dia em que ela sai.</i>`,
     pergunta: null,
     variantes: {},
-    escolhas: [{ id: 'a', filosofo: null, titulo: 'Ver o desfecho', citacao: null, desc: null, destino: 'final' }],
+    escolhas: [{ id: 'a', filosofo: null, titulo: 'Fechar a edição', citacao: null, desc: null, destino: 'final' }],
   },
 
   /* =========================================================================
@@ -632,17 +671,18 @@ Isso mostra que o novo regime nasce com promessas, mas também com velhas estrut
    *  O que muda e o registro do caminho percorrido, montado pelo jogo.
    * ====================================================================== */
   final: {
-    fase: 'O Legado',
-    titulo: 'Fim de Jogo',
-    momento: 'No fim, o Brasil mudou.',
+    fase: 'O Que Ficou',
+    titulo: 'A Edição de Amanhã',
+    momento: 'A República existe. A prensa não para.',
     mapa: null,
-    texto: `A monarquia caiu, a República surgiu e o país entrou em uma nova fase. Mas a história que vocês viveram mostra algo importante: essa mudança não foi apenas uma troca de governo.<br><br>
-<b>Ela foi uma disputa de interesses.</b><br><br>
-Cada decisão revelou quem queria prudência, quem queria princípio, quem queria vantagem e quem queria apenas continuar mandando. A República nasceu, mas não nasceu pura. Ela também foi moldada por alianças, controle e pela luta para definir quem teria voz no novo país.`,
+    texto: `<b>O que esteve em disputa nesta mesa foi uma coisa só: que jornal O Ouvidor virou no caminho.</b><br><br>
+Um jornal que mede antes de falar. Um jornal que fala e paga a conta. Um jornal que sobrevive e cobra depois. Nenhum dos três é desprezível, e nenhum dos três sai limpo — porque em novembro de 1889 não havia escolha limpa. Fingir que havia seria a única mentira deste jogo.<br><br>
+O resto não dependia de vocês. Dom Pedro II está em alto-mar a caminho da Europa, as províncias viraram estados e um governo que ninguém elegeu está governando o Brasil. A História não estava esperando a votação desta sala.<br><br>
+A República foi proclamada numa sexta-feira de novembro: de manhã caiu o ministério, e só à tarde apareceu a palavra. Boa parte da cidade foi entender o tamanho da coisa nos dias seguintes, lendo jornal. Tem historiador que diz que aquele povo estava alheio; tem historiador que diz que ele estava é desconfiado de um jogo cujas regras não eram dele.`,
     pergunta: null,
     variantes: {},
     citacaoFinal:
-      'A grande lição desta experiência é que a História não é feita só de datas e fatos. Ela é feita de escolhas, conflitos e disputas por poder.',
+      'A pergunta nunca foi se a República ia existir. Foi quem teria o direito de contar como ela nasceu — e vocês decidiram isso cinco vezes.',
     escolhas: [],
   },
 };

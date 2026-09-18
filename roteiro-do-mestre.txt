@@ -23,718 +23,741 @@ segundo aparelho.
 INDICE
 ------------------------------------------------------------------------------
 
-   1. [cena] As Sombras do Império
-   2. [cena] A Disputa de Interesses
-   3. [cena] Carta 1 — O Apoio ao Movimento
-   4. [consequencia] Consequência — O Apoio ao Movimento
-   5. [consequencia] Consequência — O Apoio ao Movimento
-   6. [consequencia] Consequência — O Apoio ao Movimento
-   7. [cena] Carta 2 — O Que Contar ao Povo
-   8. [consequencia] Consequência — O Que Contar ao Povo
-   9. [consequencia] Consequência — O Que Contar ao Povo
-  10. [consequencia] Consequência — O Que Contar ao Povo
-  11. [cena] Carta 3 — Quem Vai Se Beneficiar
-  12. [consequencia] Consequência — Quem Vai Se Beneficiar
-  13. [consequencia] Consequência — Quem Vai Se Beneficiar
-  14. [consequencia] Consequência — Quem Vai Se Beneficiar
-  15. [cena] Carta 4 — O Nascimento da Nova Ordem
-  16. [consequencia] Consequência — O Nascimento da Nova Ordem
-  17. [consequencia] Consequência — O Nascimento da Nova Ordem
-  18. [consequencia] Consequência — O Nascimento da Nova Ordem
-  19. [cena] Carta 5 — A República dos Interesses
-  20. [consequencia] Consequência — A República dos Interesses
-  21. [consequencia] Consequência — A República dos Interesses
-  22. [consequencia] Consequência — A República dos Interesses
-  23. [cena] Fim de Jogo
+   1. [cena] A Rua do Ouvidor
+   2. [cena] Três Vozes na Mesa
+   3. [cena] Carta 1 — O Ano Depois da Lei
+   4. [consequencia] Consequência — O Ano Depois da Lei
+   5. [consequencia] Consequência — O Ano Depois da Lei
+   6. [consequencia] Consequência — O Ano Depois da Lei
+   7. [cena] Carta 2 — O Rapaz Que Falou Demais
+   8. [consequencia] Consequência — O Rapaz Que Falou Demais
+   9. [consequencia] Consequência — O Rapaz Que Falou Demais
+  10. [consequencia] Consequência — O Rapaz Que Falou Demais
+  11. [cena] Carta 3 — A Manhã em Que Ninguém Sabia
+  12. [consequencia] Consequência — A Manhã em Que Ninguém Sabia
+  13. [consequencia] Consequência — A Manhã em Que Ninguém Sabia
+  14. [consequencia] Consequência — A Manhã em Que Ninguém Sabia
+  15. [cena] Carta 4 — A Palavra Certa
+  16. [consequencia] Consequência — A Palavra Certa
+  17. [consequencia] Consequência — A Palavra Certa
+  18. [consequencia] Consequência — A Palavra Certa
+  19. [cena] Carta 5 — Bestializado
+  20. [consequencia] Consequência — Bestializado
+  21. [consequencia] Consequência — Bestializado
+  22. [consequencia] Consequência — Bestializado
+  23. [cena] A Edição de Amanhã
 
 
 ==============================================================================
- 1.  AS SOMBRAS DO IMPÉRIO
-     fase: O Tabuleiro
+ 1.  A RUA DO OUVIDOR
+     fase: A Redação
 ==============================================================================
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Rio de Janeiro, 1889.
+     Rio de Janeiro, 1889. Quatro quarteirões onde o Brasil fica sabendo das
+     coisas.
 
-     O Império do Brasil está enfraquecido. A monarquia ainda existe, mas sua base
-     política já não é sólida. Militares, elites agrárias, coronéis e grupos
-     urbanos começam a disputar espaço e influência. Por fora, a ordem continua;
-     por dentro, o poder já está sendo negociado.
+     A Rua do Ouvidor tem cafés, livrarias, chapelarias e jornal — muito jornal.
+     Quem quer espalhar um boato entra aqui de manhã. À tarde, o boato já virou
+     notícia no resto do país.
 
-     Neste momento, a questão não é apenas se o regime vai mudar. A questão é quem
-     vai se beneficiar dessa mudança. Em um país marcado por interesses, favores e
-     controle local, cada decisão pode fortalecer um grupo e enfraquecer outro.
+     Num sobrado que range, funciona O Ouvidor: quatro páginas, uma prensa velha e
+     uma tiragem que não assusta ninguém. Vocês são a redação. Não têm dinheiro,
+     não têm padrinho e, por isso mesmo, ainda têm a única coisa que os jornais
+     grandes venderam faz tempo — a liberdade de escolher o que sai no alto da
+     primeira coluna.
 
-     Vocês estão no centro dessa disputa. A História ainda não decidiu como vai
-     lembrar esses dias, e cada escolha pode aproximar o Brasil de uma República de
-     interesses.
+     O Império está rachando. Nos próximos meses, cinco decisões vão passar por
+     esta mesa. Nenhuma delas é sobre quem vai governar o Brasil. Todas são sobre o
+     que vocês vão imprimir.
 
      ---------- SEM VOTACAO ----------
 
      Toque em "Começar a sessão" e confirme.
-     A tela vai para: A Disputa de Interesses
+     A tela vai para: Três Vozes na Mesa
 
 
 ==============================================================================
- 2.  A DISPUTA DE INTERESSES
-     fase: O Tabuleiro
+ 2.  TRÊS VOZES NA MESA
+     fase: A Redação
 ==============================================================================
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     A crise deixa de ser apenas a queda de um regime e passa a ser uma disputa por
-     interesses.
+     Antes de virar a primeira carta, três mortos entram na discussão.
 
-     O Império enfraquece, mas isso não significa que todos desejem o mesmo futuro.
-     Uns querem proteger privilégios antigos. Outros querem acelerar a mudança para
-     assumir o controle do que vem depois. Há quem veja a República como esperança,
-     mas também há quem a enxergue apenas como uma nova forma de manter o poder nas
-     mesmas mãos.
+     Toda redação tem aquela briga que nunca termina: até onde vai a verdade e onde
+     começa o estrago. Para não repetir a briga cinco vezes, vamos dar nome a ela.
 
-     No Brasil do fim do século XIX, a política não era feita só de ideias. Ela
-     também era feita de alianças, favores, medo, influência e vantagens. A
-     República nasce nesse ambiente: uma mudança histórica que, ao mesmo tempo em
-     que promete renovação, esconde disputas intensas entre militares, elites,
-     coronéis e grupos que não queriam perder espaço.
+     Aristóteles diria que a virtude está no meio-termo — e cuidado, meio-termo não
+     é média nem é ficar em cima do muro. É a medida certa para aquela situação, e
+     quem julga é a prudência, a phronesis. Ele avisa que a parte difícil é
+     acertar: "qualquer um pode encolerizar-se, dar ou gastar dinheiro — isso é
+     fácil; mas fazê-lo à pessoa que convém, na medida, na ocasião, pelo motivo e
+     da maneira que convém, eis o que não é para qualquer um." (Ética a Nicômaco,
+     Livro II, capítulo 9).
 
-     Agora vocês precisam decidir como agir diante disso.
+     Kant diria que com o dever não se negocia: "Age apenas segundo uma máxima tal
+     que possas ao mesmo tempo querer que ela se torne lei universal."
+     (Fundamentação da Metafísica dos Costumes). Se mentir é útil hoje, mentir
+     virou lei — e aí acabou o jornalismo.
+
+     Maquiavel diria que os dois estão descrevendo um mundo que não existe: "há
+     tanta diferença de como se vive e como se deveria viver, que aquele que
+     abandone o que se faz por aquilo que se deveria fazer, aprenderá antes o
+     caminho de sua ruína do que o de sua preservação." (O Príncipe, capítulo XV).
+     Jornal fechado não informa ninguém.
+
+     Guardem as três vozes. Nenhuma delas é a vilã — e a primeira carta já está na
+     mesa.
 
      ---------- SEM VOTACAO ----------
 
      Toque em "Virar a primeira carta" e confirme.
-     A tela vai para: Carta 1 — O Apoio ao Movimento
+     A tela vai para: Carta 1 — O Ano Depois da Lei
 
 
 ==============================================================================
- 3.  CARTA 1 — O APOIO AO MOVIMENTO
-     fase: A Faísca
+ 3.  CARTA 1 — O ANO DEPOIS DA LEI
+     fase: A Herança
 ==============================================================================
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Um militar influente procura vocês.
+     Maio de 1889. Faz um ano que a escravidão acabou no papel.
 
-     Ele fala com segurança e diz que o momento de agir chegou. Segundo ele, o
-     Império está fraco demais para continuar, e apenas uma ruptura rápida pode
-     evitar mais caos.
+     Duas pessoas procuraram o jornal na mesma semana. As duas estão dizendo a
+     verdade.
 
-     Mas apoiar esse movimento significa entrar numa mudança que não nasceu de um
-     consenso, e sim da disputa entre grupos que querem controlar o futuro.
+     Uma é um fazendeiro do Vale do Paraíba. Perdeu de um dia para o outro tudo o
+     que chamava de patrimônio, sem um mil-réis de indenização, e hoje fala em
+     República. Traz escrituras, nomes e números, e tudo o que ele quer publicado
+     dá para conferir. Traz também anúncios pagos por seis meses — e a redação está
+     devendo o papel.
 
-     A pergunta agora é simples, mas pesada: vocês vão apoiar a derrubada da
-     monarquia ou recusar participar dessa movimentação?
+     A outra é uma mulher liberta que trabalha três casas abaixo. Diz que a lei
+     acabou com a escravidão e não acabou com mais nada: sem terra, sem salário que
+     dê para viver, sem escola para os filhos, e o mesmo capataz de antes agora se
+     chamando patrão. Ela não tem documento nenhum. Tem a própria história e a de
+     mais trinta pessoas dispostas a falar — e publicar isso é pedir ao leitor que
+     acredite em trinta pessoas.
+
+     O espaço nobre do jornal é um só, e o anúncio está em cima da mesa. O que
+     vocês fazem?
 
      ---------- A TURMA VOTA ENTRE ----------
 
-     A) Apoiar com equilíbrio  —  Aristóteles
-        depois do voto, va para: Consequência — O Apoio ao Movimento (consequencia A)
+     A) As duas, com peso diferente  —  Aristóteles
+        depois do voto, va para: Consequência — O Ano Depois da Lei (consequencia A)
 
-     B) Recusar por dever e princípio  —  Kant
-        depois do voto, va para: Consequência — O Apoio ao Movimento (consequencia B)
+     B) Recusar o dinheiro, publicar os libertos  —  Kant
+        depois do voto, va para: Consequência — O Ano Depois da Lei (consequencia B)
 
-     C) Apoiar pela eficiência da crise  —  Maquiavel
-        depois do voto, va para: Consequência — O Apoio ao Movimento (consequencia C)
+     C) Aceitar o anúncio e publicar o fazendeiro  —  Maquiavel
+        depois do voto, va para: Consequência — O Ano Depois da Lei (consequencia C)
 
      Em caso de empate, quem decide e voce.
 
 
 ==============================================================================
- 4.  CONSEQUÊNCIA — O APOIO AO MOVIMENTO
+ 4.  CONSEQUÊNCIA — O ANO DEPOIS DA LEI
      caminho de ARISTÓTELES
-     fase: A Faísca
+     fase: A Herança
 ==============================================================================
 
      >> Leia isto SOMENTE se a turma escolheu a opcao A.
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Vocês entendem que uma mudança política precisa ser pensada com cuidado,
-     porque por trás de cada decisão existem interesses diferentes tentando dominar
-     o país. Não basta derrubar o Império; é preciso observar quem vai se
-     aproveitar disso depois.
+     As duas histórias saem na mesma página, e a página deixa explícito o que é
+     escritura e o que é depoimento. Vocês não fingiram que as duas dores pesam
+     igual, e também não apagaram nenhuma.
 
-     Por isso, vocês aceitam ouvir o militar, mas tentam agir com prudência.
-     Procuram reduzir os excessos e impedir que a mudança seja usada como simples
-     ferramenta de vantagem para poucos.
+     O fazendeiro cancela metade dos anúncios: diz que pagou para ser ouvido, não
+     para dividir espaço. A liberta manda avisar que a matéria ficou correta, mas
+     fria. Só que tem uma armadilha aqui: a medida não ficou certa porque os dois
+     reclamaram. Isso seria o velho truque "se irritei os dois lados, acertei", que
+     é a média aritmética vestida de prudência. Ela ficou certa, se ficou, porque
+     cada versão pesou o que as provas dela aguentavam.
 
-     Essa postura não impede a crise, mas mostra que vocês não querem entregar o
-     país a uma troca de poder sem reflexão.
-
-     Os dias seguintes deixam claro que nada fica parado por muito tempo. O que era
-     conversa reservada começa a escapar para os corredores, para os jornais e para
-     as ruas.
+     A conta do papel fecha raspando. E o Império, lá fora, continua rachando.
 
      ---------- SIGA ----------
 
      Toque em "Continuar" e confirme.
-     A tela vai para: Carta 2 — O Que Contar ao Povo
+     A tela vai para: Carta 2 — O Rapaz Que Falou Demais
 
 
 ==============================================================================
- 5.  CONSEQUÊNCIA — O APOIO AO MOVIMENTO
+ 5.  CONSEQUÊNCIA — O ANO DEPOIS DA LEI
      caminho de KANT
-     fase: A Faísca
+     fase: A Herança
 ==============================================================================
 
      >> Leia isto SOMENTE se a turma escolheu a opcao B.
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Vocês recusam participar de qualquer movimento que dependa de pressão, traição
-     ou oportunismo. Para vocês, uma mudança política só tem valor se puder ser
-     defendida como correta em si mesma. Não importa se o momento é difícil: agir
-     errado continua sendo errado.
+     A página sai inteira para os libertos, com nome e sobrenome de quem falou. O
+     dinheiro do fazendeiro é recusado na frente dele, o que foi um prazer curto e
+     caro.
 
-     A recusa incomoda o militar e outros grupos interessados na queda do Império,
-     mas vocês mantêm a posição. Não vale trocar princípio por conveniência.
+     A edição vende como nenhuma outra em dois anos. Três dias depois, o fornecedor
+     de papel passa a exigir pagamento à vista — e duas das trinta pessoas perdem o
+     lugar na semana seguinte. Vocês trataram aquela gente como gente com história
+     própria, e não como argumento de alguém. Elas dirão que ninguém as avisou do
+     preço. As duas coisas são verdade ao mesmo tempo.
 
-     Essa firmeza cria tensão, e a discussão passa para outro ponto: o que o povo
-     vai saber sobre essa crise?
-
-     A recusa de vocês não encerra a disputa. Pelo contrário: ela torna ainda mais
-     claro que a crise agora também é uma batalha pela informação.
+     A prensa continua rodando, por enquanto. E o Império, lá fora, continua
+     rachando.
 
      ---------- SIGA ----------
 
      Toque em "Continuar" e confirme.
-     A tela vai para: Carta 2 — O Que Contar ao Povo
+     A tela vai para: Carta 2 — O Rapaz Que Falou Demais
 
 
 ==============================================================================
- 6.  CONSEQUÊNCIA — O APOIO AO MOVIMENTO
+ 6.  CONSEQUÊNCIA — O ANO DEPOIS DA LEI
      caminho de MAQUIAVEL
-     fase: A Faísca
+     fase: A Herança
 ==============================================================================
 
      >> Leia isto SOMENTE se a turma escolheu a opcao C.
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Vocês percebem que a política real não espera pureza. O Império está
-     enfraquecido, os grupos de poder já estão se movendo e hesitar demais pode
-     significar perder a chance de influenciar o futuro.
+     O anúncio é aceito e a matéria do fazendeiro sai no alto da primeira coluna.
+     Bem escrita, honesta dentro do que conta — e silenciosa sobre tudo o que ele
+     preferiu não contar.
 
-     Então vocês aceitam a proposta e pensam em como usar esse momento a favor de
-     seus objetivos.
+     Pela primeira vez em dois anos, O Ouvidor tem seis meses de caixa garantido.
+     Isso significa uma prensa que ninguém derruba de um dia para o outro. Também
+     significa que a mulher liberta voltou ao trabalho três casas abaixo sem sair
+     no jornal, e que ela viu a página na mão do jornaleiro. A matéria dela fica
+     marcada para depois. "Depois" é uma palavra que envelhece rápido em redação.
 
-     A decisão é pragmática. Vocês entendem que, numa crise como essa, quem não age
-     acaba sendo guiado pelos interesses dos outros.
-
-     Agora a cidade começa a ouvir rumores. A disputa sai dos bastidores e começa a
-     aparecer nas ruas.
+     O caixa está firme. E o Império, lá fora, continua rachando.
 
      ---------- SIGA ----------
 
      Toque em "Continuar" e confirme.
-     A tela vai para: Carta 2 — O Que Contar ao Povo
+     A tela vai para: Carta 2 — O Rapaz Que Falou Demais
 
 
 ==============================================================================
- 7.  CARTA 2 — O QUE CONTAR AO POVO
-     fase: O Baile
+ 7.  CARTA 2 — O RAPAZ QUE FALOU DEMAIS
+     fase: O Segredo
 ==============================================================================
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     A decisão de apoiar ou rejeitar o movimento já começou a espalhar efeitos.
+     Começo de novembro de 1889. Um aluno da Escola Militar entra pelos fundos.
 
-     As pessoas comentam, desconfiam e tentam entender o que está acontecendo.
-     Jornais recebem informações contraditórias. Alguns querem publicar tudo.
-     Outros preferem esperar.
+     Ele é da Praia Vermelha, não tem vinte e cinco anos e não deveria estar aqui.
+     Fala rápido, olhando para a porta: o Exército vai se mover. Não é conversa de
+     café — ele dá a data aproximada, o lugar e o nome de dois oficiais graduados.
+     Pede uma coisa só: que não o citem. Depois vai embora e não volta mais.
 
-     Há quem diga que a população precisa saber a verdade imediatamente. Há também
-     quem acredite que divulgar rápido demais pode causar pânico e facilitar o
-     controle da situação por certos grupos.
+     Se for verdade, vocês têm em cima da mesa a maior notícia desde a
+     Independência.
 
-     A pergunta agora é: vocês vão contar tudo, dizer apenas parte da verdade ou
-     usar a informação para influenciar o rumo da crise?
+     O Império não censura antes: a Constituição proíbe. Ele cobra depois. O
+     gerente do jornal responde por abuso da liberdade de imprensa e a edição é
+     apreendida na rua. E existe o que ninguém põe no papel: a turba que invade a
+     tipografia e espalha os tipos pelo chão. Chama-se empastelamento e acontece.
+     Se vocês não publicarem nada, amanhã a notícia sai em outro lugar, com outra
+     assinatura.
+
+     A informação está com vocês. Por quanto tempo?
 
      ---------- A TURMA VOTA ENTRE ----------
 
-     A) Informar com equilíbrio  —  Aristóteles
-        depois do voto, va para: Consequência — O Que Contar ao Povo (consequencia A)
+     A) Publicar o que o leitor precisa  —  Aristóteles
+        depois do voto, va para: Consequência — O Rapaz Que Falou Demais (consequencia A)
 
-     B) Contar toda a verdade  —  Kant
-        depois do voto, va para: Consequência — O Que Contar ao Povo (consequencia B)
+     B) Publicar tudo, assinado  —  Kant
+        depois do voto, va para: Consequência — O Rapaz Que Falou Demais (consequencia B)
 
-     C) Controlar a informação  —  Maquiavel
-        depois do voto, va para: Consequência — O Que Contar ao Povo (consequencia C)
+     C) Guardar e escolher a hora  —  Maquiavel
+        depois do voto, va para: Consequência — O Rapaz Que Falou Demais (consequencia C)
 
      Em caso de empate, quem decide e voce.
 
 
 ==============================================================================
- 8.  CONSEQUÊNCIA — O QUE CONTAR AO POVO
+ 8.  CONSEQUÊNCIA — O RAPAZ QUE FALOU DEMAIS
      caminho de ARISTÓTELES
-     fase: O Baile
+     fase: O Segredo
 ==============================================================================
 
      >> Leia isto SOMENTE se a turma escolheu a opcao A.
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Vocês procuram um meio seguro de lidar com a situação. Não querem mentir, mas
-     também não querem jogar o país no caos sem necessidade. Então tentam organizar
-     a informação de forma equilibrada, evitando exageros e pensando no menor dano
-     possível.
+     Sai uma nota discreta na página três: os quartéis estão inquietos, oficiais
+     falam em mudança, o governo faz de conta que não ouve. Nenhum nome, nenhuma
+     data. Nada que quebre a palavra dada ao rapaz.
 
-     Essa escolha mostra que vocês percebem que até a verdade pode ser usada como
-     instrumento de interesse. Por isso, o jeito de apresentar a informação também
-     importa.
+     Ninguém prende ninguém. Nenhum jornal repercute. Dez dias depois, ele tinha
+     razão sobre tudo — e vocês tinham publicado dez por cento disso. Foi medida ou
+     foi falta? Aristóteles não deixa responder isso pelo que aconteceu depois.
+     Responde-se pelo que dava para julgar naquela hora, com o que estava na mesa.
 
-     Enquanto isso, a cidade continua avançando em direção ao momento decisivo.
-
-     A crise não está mais escondida. Agora ela circula em voz alta, e cada palavra
-     dita pode mudar o rumo dos acontecimentos.
+     Guardem a resposta. O dia 15 chega na próxima carta.
 
      ---------- SIGA ----------
 
      Toque em "Continuar" e confirme.
-     A tela vai para: Carta 3 — Quem Vai Se Beneficiar
+     A tela vai para: Carta 3 — A Manhã em Que Ninguém Sabia
 
 
 ==============================================================================
- 9.  CONSEQUÊNCIA — O QUE CONTAR AO POVO
+ 9.  CONSEQUÊNCIA — O RAPAZ QUE FALOU DEMAIS
      caminho de KANT
-     fase: O Baile
+     fase: O Segredo
 ==============================================================================
 
      >> Leia isto SOMENTE se a turma escolheu a opcao B.
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Vocês defendem que a verdade não pode ser manipulada. Se a população precisa
-     saber o que está acontecendo, então ela deve saber de forma limpa, sem
-     distorções. Mesmo que isso cause choque ou acelere a instabilidade, mentir
-     seria pior.
+     A história sai inteira, assinada, com data e nome. A edição é apreendida na
+     rua e o gerente é chamado a depor. Dois jornais grandes copiam a notícia sem
+     citar a fonte, e um deles ainda escreve que O Ouvidor foi irresponsável.
 
-     A decisão é dura, mas clara. Vocês não aceitam tratar as pessoas como
-     ferramenta política. O dever de dizer a verdade vem antes de qualquer cálculo
-     sobre vantagem imediata.
+     E aqui vem a parte incômoda: é fácil sair desta mesa achando que Kant assinou
+     embaixo. Ele não assinaria. Calar não é mentir — o dever é não afirmar o
+     falso, não é contar tudo o que se sabe. Não havia dever de publicar. Havia uma
+     promessa, e promessa não se desmancha por conveniência. Vocês usaram um rapaz
+     de vinte e poucos anos como meio para informar o país.
 
-     A cidade reage ao que foi revelado. Agora fica mais difícil esconder os
-     interesses por trás da crise.
-
-     A partir daqui, já não basta falar em mudança. Agora todos precisam encarar o
-     que essa mudança realmente significa.
+     Dias depois, ele não apareceu mais em lugar nenhum. Vocês não sabem se foi
+     medo ou se foi pior.
 
      ---------- SIGA ----------
 
      Toque em "Continuar" e confirme.
-     A tela vai para: Carta 3 — Quem Vai Se Beneficiar
+     A tela vai para: Carta 3 — A Manhã em Que Ninguém Sabia
 
 
 ==============================================================================
-10.  CONSEQUÊNCIA — O QUE CONTAR AO POVO
+10.  CONSEQUÊNCIA — O RAPAZ QUE FALOU DEMAIS
      caminho de MAQUIAVEL
-     fase: O Baile
+     fase: O Segredo
 ==============================================================================
 
      >> Leia isto SOMENTE se a turma escolheu a opcao C.
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Vocês entendem que a informação é uma ferramenta poderosa demais para ser
-     deixada ao acaso. Em vez de apenas divulgar ou esconder, vocês decidem
-     controlar o momento e o efeito da notícia.
+     A informação vai para a gaveta e um recado discreto circula: O Ouvidor sabe. O
+     efeito é imediato e desconfortável. Um secretário do ministro manda perguntar
+     o que exatamente vocês sabem. Um oficial manda dizer que não esqueceria a
+     gentileza.
 
-     Talvez isso sirva para pressionar alguém. Talvez sirva para proteger um lado.
-     Talvez sirva para preparar o terreno para a mudança.
+     Em três dias, o jornal passou de espectador a peça no tabuleiro. Maquiavel
+     aprovaria o cálculo e faria uma pergunta incômoda: peça de quem?
 
-     A atitude é estratégica. Vocês percebem que controlar a narrativa também é uma
-     forma de controlar o poder.
-
-     O país entra numa fase ainda mais instável. Agora já não se trata só de apoiar
-     ou não uma mudança, mas de decidir quem vai se beneficiar dela.
+     A notícia continua guardada. O tempo, a partir de agora, anda mais rápido do
+     que a redação.
 
      ---------- SIGA ----------
 
      Toque em "Continuar" e confirme.
-     A tela vai para: Carta 3 — Quem Vai Se Beneficiar
+     A tela vai para: Carta 3 — A Manhã em Que Ninguém Sabia
 
 
 ==============================================================================
-11.  CARTA 3 — QUEM VAI SE BENEFICIAR
-     fase: A Conspiração
+11.  CARTA 3 — A MANHÃ EM QUE NINGUÉM SABIA
+     fase: A Manhã
 ==============================================================================
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     A queda do Império já parece próxima.
+     15 de novembro de 1889, pouco depois das oito da manhã.
 
-     O problema é que nem todos querem a mesma República. Alguns desejam ordem.
-     Outros desejam liberdade. Outros querem apenas manter poder e influência,
-     mudando o nome do regime sem mudar a estrutura por trás dele.
+     Tropa no Campo de Santana. O marechal Deodoro da Fonseca saiu de casa doente e
+     foi até lá assim mesmo. A tropa cercou o Quartel-General, e o ministério do
+     Visconde de Ouro Preto está caindo lá dentro agora.
 
-     Vocês percebem que a crise não é apenas sobre derrubar a monarquia. É sobre
-     quem vai ocupar o espaço deixado por ela.
+     Só que ninguém na rua sabe dizer o que isso é. Derrubaram o gabinete, como já
+     derrubaram tantos outros — ou derrubaram o Império? O telégrafo está nas mãos
+     dos militares. Dom Pedro II está em Petrópolis, e ninguém sabe se já desceu a
+     serra. E o próprio Deodoro, até este momento, não disse a palavra república em
+     lugar nenhum.
 
-     Agora surge uma nova decisão: vocês vão buscar equilíbrio entre os lados,
-     expor todas as intenções ou usar a mudança para garantir vantagem?
+     A edição da tarde fecha ao meio-dia, e o grosso dela já está composto desde a
+     madrugada. O que ainda dá para trocar é o alto da primeira coluna. Para muita
+     gente, aquelas poucas linhas vão ser tudo o que se lê hoje sobre hoje.
+
+     Ninguém ainda pronunciou essa palavra. O Ouvidor imprime primeiro, ou imprime
+     só o que já está confirmado?
 
      ---------- A TURMA VOTA ENTRE ----------
 
-     A) Buscar o bem comum e evitar extremos  —  Aristóteles
-        depois do voto, va para: Consequência — Quem Vai Se Beneficiar (consequencia A)
+     A) "O ministério caiu"  —  Aristóteles
+        depois do voto, va para: Consequência — A Manhã em Que Ninguém Sabia (consequencia A)
 
-     B) Expor a verdade sem esconder nada  —  Kant
-        depois do voto, va para: Consequência — Quem Vai Se Beneficiar (consequencia B)
+     B) "Não sabemos o que está acontecendo"  —  Kant
+        depois do voto, va para: Consequência — A Manhã em Que Ninguém Sabia (consequencia B)
 
-     C) Usar a informação para vencer a disputa  —  Maquiavel
-        depois do voto, va para: Consequência — Quem Vai Se Beneficiar (consequencia C)
+     C) "República"  —  Maquiavel
+        depois do voto, va para: Consequência — A Manhã em Que Ninguém Sabia (consequencia C)
 
      Em caso de empate, quem decide e voce.
 
 
 ==============================================================================
-12.  CONSEQUÊNCIA — QUEM VAI SE BENEFICIAR
+12.  CONSEQUÊNCIA — A MANHÃ EM QUE NINGUÉM SABIA
      caminho de ARISTÓTELES
-     fase: A Conspiração
+     fase: A Manhã
 ==============================================================================
 
      >> Leia isto SOMENTE se a turma escolheu a opcao A.
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Vocês tentam evitar que o país caia em outro extremo. A mudança precisa
-     acontecer, mas sem virar um terreno de dominação total de um único grupo.
+     "O MINISTÉRIO CAIU." Embaixo, em corpo miúdo, as duas hipóteses e uma frase
+     que poucos jornais imprimiram naquele dia: ainda não é possível afirmar o que
+     vem depois.
 
-     Em vez de alimentar a disputa mais agressiva, vocês tentam reduzir os danos e
-     buscar um caminho mais justo para todos.
-
-     Essa postura não resolve tudo, mas impede que a crise se transforme em uma
-     troca de poder sem controle. Vocês entendem que governar também é impedir que
-     os interesses destruam o bem comum.
-
-     A República começa a tomar forma, mas ainda sem mostrar com clareza quem
-     realmente vai comandá-la.
+     A edição vende devagar. À noite, quando o desfecho já é público, leitor nenhum
+     pode dizer que O Ouvidor errou. Também ninguém corre para contar que leu aqui
+     primeiro. Prudência quase nunca parece coragem no dia em que é praticada.
 
      ---------- SIGA ----------
 
      Toque em "Continuar" e confirme.
-     A tela vai para: Carta 4 — O Nascimento da Nova Ordem
+     A tela vai para: Carta 4 — A Palavra Certa
 
 
 ==============================================================================
-13.  CONSEQUÊNCIA — QUEM VAI SE BENEFICIAR
+13.  CONSEQUÊNCIA — A MANHÃ EM QUE NINGUÉM SABIA
      caminho de KANT
-     fase: A Conspiração
+     fase: A Manhã
 ==============================================================================
 
      >> Leia isto SOMENTE se a turma escolheu a opcao B.
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Vocês decidem enfrentar a situação com sinceridade total. Se há interesses
-     escondidos, eles devem ser revelados. Se há manipulação, ela deve ser exposta.
-     Se há acordos secretos, ninguém deve fingir que não viu.
+     "NÃO SABEMOS O QUE ESTÁ ACONTECENDO." Em corpo de cartaz. Do lado, duas
+     colunas: o que é fato e o que é boato, com os boatos nomeados um por um.
 
-     A verdade, porém, cobra um preço. Ao revelar tudo, vocês abalam alianças,
-     enfraquecem certezas e tornam impossível esconder o que estava acontecendo.
-
-     A tensão cresce, mas o princípio permanece intacto: não se constrói justiça
-     sobre mentira.
-
-     A partir desse ponto, a crise deixa de ser apenas política. Ela se torna
-     também moral.
+     Metade da rua acha uma piada, e quatro assinantes anuais cancelam — um deles
+     escreve que paga jornal para ser informado, não para ser acompanhado na
+     dúvida. Um redator de jornal grande comenta no café que aquilo não é
+     jornalismo, é confissão, e não percebe que acabou de descrever o que faltava
+     na primeira página dele. Ao cair da tarde, nenhum boato precisou ser
+     desmentido, porque nenhum tinha sido afirmado.
 
      ---------- SIGA ----------
 
      Toque em "Continuar" e confirme.
-     A tela vai para: Carta 4 — O Nascimento da Nova Ordem
+     A tela vai para: Carta 4 — A Palavra Certa
 
 
 ==============================================================================
-14.  CONSEQUÊNCIA — QUEM VAI SE BENEFICIAR
+14.  CONSEQUÊNCIA — A MANHÃ EM QUE NINGUÉM SABIA
      caminho de MAQUIAVEL
-     fase: A Conspiração
+     fase: A Manhã
 ==============================================================================
 
      >> Leia isto SOMENTE se a turma escolheu a opcao C.
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Vocês escolhem agir com cálculo. Se a República vai nascer, então é melhor que
-     ela nasça sob uma direção que vocês consideram favorável.
+     "REPÚBLICA." Uma palavra só, em corpo de cartaz, impressa quando ainda era
+     aposta. Durante quatro horas, foi a coisa mais irresponsável já feita nesta
+     redação. Às cinco da tarde, virou a página mais lembrada do dia — e em São
+     Paulo O Estado de S. Paulo daria a página inteira a "Viva a República!".
 
-     A crise deixa de ser apenas um problema e passa a ser uma oportunidade de
-     conduzir o futuro.
-
-     Essa decisão mostra que, em tempos de mudança, quem hesita perde espaço. Vocês
-     passam a pensar não só no que é certo ou prudente, mas no que é eficaz para
-     moldar o resultado.
-
-     O país está prestes a mudar de vez. Falta apenas decidir como vocês vão chegar
-     ao fim disso.
+     A tiragem acaba, a segunda leva acaba, e gente que nunca comprou O Ouvidor
+     passa a comprar. Vem junto uma dívida que ninguém pediu: a partir de amanhã,
+     tudo o que sair aqui vai ser lido como certeza. O próximo boato que entrar por
+     aquela porta chega ao leitor com peso de fato antes de ter sido conferido.
+     Acertar por sorte e acertar por análise produzem a mesma página — e só um dos
+     dois dá para repetir amanhã.
 
      ---------- SIGA ----------
 
      Toque em "Continuar" e confirme.
-     A tela vai para: Carta 4 — O Nascimento da Nova Ordem
+     A tela vai para: Carta 4 — A Palavra Certa
 
 
 ==============================================================================
-15.  CARTA 4 — O NASCIMENTO DA NOVA ORDEM
-     fase: O Dia 15
+15.  CARTA 4 — A PALAVRA CERTA
+     fase: A Palavra
 ==============================================================================
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Chega 15 de novembro de 1889.
+     15 de novembro, fim da tarde. Agora é oficial.
 
-     As tropas se movem, os boatos aumentam e o Império finalmente cede. A
-     República está prestes a ser proclamada. Mas mesmo no instante final, a
-     pergunta continua de pé: o que vale mais, a prudência, o dever ou a
-     estratégia?
+     Na Câmara Municipal, por volta das seis da tarde, o vereador José do
+     Patrocínio toma a palavra e lê a moção que declara extinta a monarquia.
+     Patrocínio é jornalista, abolicionista e dono da Cidade do Rio. É também um
+     homem negro, e é ele quem proclama a República civil um ano e meio depois da
+     Abolição.
 
-     Vocês estão diante do desfecho. O que fizerem agora vai definir não só o fato
-     histórico em si, mas também a forma como esse novo Brasil vai ser organizado e
-     dominado.
+     À noite chega o texto do Decreto nº 1: fica proclamada provisoriamente a
+     República Federativa, as províncias viram estados, um Governo Provisório manda
+     até a Constituinte. Assinam Deodoro da Fonseca, Rui Barbosa, Quintino
+     Bocaiúva, Benjamin Constant, Aristides Lobo e Wandenkolk.
+
+     Nenhuma urna foi aberta. Nenhuma pergunta foi feita a ninguém — embora, desde
+     a Lei Saraiva de 1881, as urnas do Império já falassem em nome de um por cento
+     do país. Amanhã O Ouvidor tem que chamar isso de alguma coisa, e o governo que
+     acabou de nascer lê jornal.
+
+     Golpe, revolução ou proclamação? Qual palavra O Ouvidor assina?
 
      ---------- A TURMA VOTA ENTRE ----------
 
-     A) Guiar o país com prudência  —  Aristóteles
-        depois do voto, va para: Consequência — O Nascimento da Nova Ordem (consequencia A)
+     A) Nomear só o que já se sustenta  —  Aristóteles
+        depois do voto, va para: Consequência — A Palavra Certa (consequencia A)
 
-     B) Agir pelo dever e pela verdade  —  Kant
-        depois do voto, va para: Consequência — O Nascimento da Nova Ordem (consequencia B)
+     B) "Golpe"  —  Kant
+        depois do voto, va para: Consequência — A Palavra Certa (consequencia B)
 
-     C) Garantir a vitória custe o que custar  —  Maquiavel
-        depois do voto, va para: Consequência — O Nascimento da Nova Ordem (consequencia C)
+     C) "Proclamação"  —  Maquiavel
+        depois do voto, va para: Consequência — A Palavra Certa (consequencia C)
 
      Em caso de empate, quem decide e voce.
 
 
 ==============================================================================
-16.  CONSEQUÊNCIA — O NASCIMENTO DA NOVA ORDEM
+16.  CONSEQUÊNCIA — A PALAVRA CERTA
      caminho de ARISTÓTELES
-     fase: O Dia 15
+     fase: A Palavra
 ==============================================================================
 
      >> Leia isto SOMENTE se a turma escolheu a opcao A.
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Vocês escolhem o caminho do equilíbrio. O país precisa mudar, mas não precisa
-     se destruir nessa mudança. Em vez de alimentar o caos, vocês tentam dar ao
-     novo tempo um começo menos violento, mais racional e mais estável.
+     A página traz a manhã inteira em ordem: a tropa, o ministério caído, a moção
+     lida na Câmara, o decreto assinado por seis homens. Os três rótulos em disputa
+     ficam de fora, e o jornal diz por quê.
 
-     A escolha de vocês mostra que a política pode ser feita com cuidado. Não
-     existe solução perfeita, mas existe a tentativa de reduzir os extremos e
-     limitar os abusos.
+     Um republicano escreve dizendo que faltou comemorar. Um monarquista escreve
+     dizendo que faltou denunciar. Os dois leram covardia onde houve juízo. Vocês
+     penduram as duas cartas na parede.
 
-     A nova ordem nasce com a ideia de que prudência também é força.
-
-     Com a queda da monarquia, o problema não termina. Na verdade, ele apenas muda
-     de forma.
+     Os rótulos ficaram em aberto. Não vão ficar por muito tempo.
 
      ---------- SIGA ----------
 
      Toque em "Continuar" e confirme.
-     A tela vai para: Carta 5 — A República dos Interesses
+     A tela vai para: Carta 5 — Bestializado
 
 
 ==============================================================================
-17.  CONSEQUÊNCIA — O NASCIMENTO DA NOVA ORDEM
+17.  CONSEQUÊNCIA — A PALAVRA CERTA
      caminho de KANT
-     fase: O Dia 15
+     fase: A Palavra
 ==============================================================================
 
      >> Leia isto SOMENTE se a turma escolheu a opcao B.
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Vocês insistem que a decisão final precisa ser moralmente correta. Mesmo que o
-     momento seja difícil, vocês não abandonam o dever. O importante é não trair
-     aquilo que consideram justo, especialmente quando o poder costuma favorecer
-     poucos.
+     "GOLPE." Cinco letras em corpo de cartaz, num jornal pequeno, no segundo dia
+     de um governo armado.
 
-     Essa postura pode parecer rígida, mas é o que impede que a mudança vire apenas
-     continuação da dominação antiga.
+     A edição some das mãos dos jornaleiros antes do meio-dia, e é impossível saber
+     quanto disso foi leitor e quanto foi gente comprando para que ninguém lesse. À
+     tarde, um oficial de baixa patente aparece na redação apenas para anotar
+     nomes. Não ameaça, não prende, não explica. Anota e vai embora.
 
-     Vocês deixam claro que nem todo resultado vale qualquer método.
-
-     A República nasce, mas vocês não aceitam que ela se sustente sobre atalhos
-     morais.
-
-     Com a queda da monarquia, o problema não termina. Na verdade, ele apenas muda
-     de forma.
+     Vocês chamaram a coisa pelo nome no único mês em que isso ainda era barato. Em
+     23 de dezembro, um decreto do novo governo vai passar a punir quem atacar a
+     República pela imprensa.
 
      ---------- SIGA ----------
 
      Toque em "Continuar" e confirme.
-     A tela vai para: Carta 5 — A República dos Interesses
+     A tela vai para: Carta 5 — Bestializado
 
 
 ==============================================================================
-18.  CONSEQUÊNCIA — O NASCIMENTO DA NOVA ORDEM
+18.  CONSEQUÊNCIA — A PALAVRA CERTA
      caminho de MAQUIAVEL
-     fase: O Dia 15
+     fase: A Palavra
 ==============================================================================
 
      >> Leia isto SOMENTE se a turma escolheu a opcao C.
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Vocês escolhem a eficiência. O país precisa de direção, e hesitar pode custar
-     tudo. Então vocês aceitam que a mudança política também é uma disputa de
-     poder, e que vencer essa disputa é a única forma de garantir o novo cenário.
+     "PROCLAMAÇÃO DA REPÚBLICA." O termo oficial, seco, sem um adjetivo de elogio.
+     Quem quiser ler entusiasmo não acha; quem quiser ler crítica também não.
 
-     A escolha é dura, mas coerente com a lógica da crise. Vocês fazem o necessário
-     para que o lado de vocês prevaleça.
+     Funciona. Na quinta-feira seguinte, O Ouvidor recebe pela primeira vez um
+     comunicado do Governo Provisório antes dos jornais grandes, e o nome do jornal
+     passa a circular em sala que antes não sabia que ele existia.
 
-     A República nasce sob cálculo, interesse e decisão. E é exatamente isso que
-     torna esse momento histórico tão humano.
-
-     Com a queda da monarquia, o problema não termina. Na verdade, ele apenas muda
-     de forma.
+     A porta ficou aberta. Falta descobrir para que lado ela abre.
 
      ---------- SIGA ----------
 
      Toque em "Continuar" e confirme.
-     A tela vai para: Carta 5 — A República dos Interesses
+     A tela vai para: Carta 5 — Bestializado
 
 
 ==============================================================================
-19.  CARTA 5 — A REPÚBLICA DOS INTERESSES
-     fase: Os Interesses
+19.  CARTA 5 — BESTIALIZADO
+     fase: O Povo
 ==============================================================================
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     A República já foi proclamada, mas o jogo do poder está longe de terminar.
+     20 de novembro. A família imperial já partiu.
 
-     Agora o foco se desloca para o interior, para os coronéis, para os acordos
-     locais e para o controle do voto. Em muitos lugares, a mudança no nome do
-     regime não muda a vida de quem trabalha, de quem obedece e de quem depende dos
-     grandes proprietários.
+     Na madrugada do dia 17, no Cais Pharoux, Dom Pedro II e a família embarcaram
+     para a Europa. Foi rápido e discreto, para não dar plateia a ninguém.
 
-     A nova pergunta é: essa República vai servir ao povo ou vai continuar sendo
-     guiada pelos interesses de poucos?
+     E chega à redação, pelo trem de São Paulo, o Diário Popular do dia 18, com um
+     texto de Aristides Lobo escrito no calor do dia 15: "O povo assistiu àquilo
+     bestializado, atônito, surpreso, sem conhecer o que significava. Muitos
+     acreditaram seriamente estar vendo uma parada."
+
+     Lobo é republicano antigo e agora é ministro do Governo Provisório — o nome
+     dele está no Decreto nº 1. Quem diz que o povo não entendeu nada é um dos
+     donos da situação. Reproduzir a frase é dizer na cara do novo governo que a
+     República nasceu sem o povo, e dizer isso com as palavras de um homem que está
+     no governo.
+
+     Última edição desta sessão. O que o Ouvidor imprime sobre o dia 15?
 
      ---------- A TURMA VOTA ENTRE ----------
 
-     A) Defender limites ao poder local  —  Aristóteles
-        depois do voto, va para: Consequência — A República dos Interesses (consequencia A)
+     A) A rua, sem a frase  —  Aristóteles
+        depois do voto, va para: Consequência — Bestializado (consequencia A)
 
-     B) Denunciar a manipulação dos poderosos  —  Kant
-        depois do voto, va para: Consequência — A República dos Interesses (consequencia B)
+     B) A frase inteira, e a cobrança  —  Kant
+        depois do voto, va para: Consequência — Bestializado (consequencia B)
 
-     C) Entrar no jogo para sobreviver  —  Maquiavel
-        depois do voto, va para: Consequência — A República dos Interesses (consequencia C)
+     C) Guardar a frase  —  Maquiavel
+        depois do voto, va para: Consequência — Bestializado (consequencia C)
 
      Em caso de empate, quem decide e voce.
 
 
 ==============================================================================
-20.  CONSEQUÊNCIA — A REPÚBLICA DOS INTERESSES
+20.  CONSEQUÊNCIA — BESTIALIZADO
      caminho de ARISTÓTELES
-     fase: Os Interesses
+     fase: O Povo
 ==============================================================================
 
      >> Leia isto SOMENTE se a turma escolheu a opcao A.
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Vocês percebem que uma República de verdade precisa limitar os abusos locais e
-     impedir que o poder continue concentrado nas mesmas mãos. Não basta mudar o
-     regime se os mecanismos de dominação continuarem funcionando do mesmo jeito.
+     A página sai cheia de gente: o carregador que não pôde parar, a professora que
+     aplaudiu sem saber direito o quê, o cocheiro que achou mesmo que era parada
+     militar, o estudante que sabia de tudo fazia uma semana. A frase de Lobo fica
+     de fora, porque sozinha ela vira slogan.
 
-     Por isso, vocês tentam defender uma organização mais justa, em que o país não
-     seja apenas dividido entre manda-chuvas e dependentes.
+     Prudência é isso: olhar caso a caso. "O povo" não é um caso, é um saco onde
+     cabe todo mundo. É a versão mais difícil de escrever e a menos citada depois.
 
-     Essa atitude mostra que a mudança só vale se atingir também a estrutura do
-     poder.
-
-     A República, para vocês, só faz sentido se trouxer algum equilíbrio real.
+     Nos livros de história, "bestializado" vira a palavra do dia 15. A rua que
+     vocês imprimiram no lugar dela some.
 
      ---------- SIGA ----------
 
-     Toque em "Ver o desfecho" e confirme.
-     A tela vai para: Fim de Jogo
+     Toque em "Fechar a edição" e confirme.
+     A tela vai para: A Edição de Amanhã
 
 
 ==============================================================================
-21.  CONSEQUÊNCIA — A REPÚBLICA DOS INTERESSES
+21.  CONSEQUÊNCIA — BESTIALIZADO
      caminho de KANT
-     fase: Os Interesses
+     fase: O Povo
 ==============================================================================
 
      >> Leia isto SOMENTE se a turma escolheu a opcao B.
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Vocês decidem denunciar a lógica por trás da nova ordem. Se a República está
-     nascendo, mas continua baseada em favores, coerção e controle, então alguém
-     precisa dizer isso em voz alta.
+     A frase ocupa o alto da primeira coluna, do tamanho que merece, com a
+     assinatura de Aristides Lobo embaixo e uma pergunta ao lado: se o povo não
+     entendeu, o que exatamente foi proclamado em nome dele?
 
-     A denúncia causa desconforto, porque mexe com interesses fortes. Mas vocês
-     mantêm a posição: não existe liberdade verdadeira se o poder continua sendo
-     usado para manipular pessoas e territórios.
+     O ministro não responde. Não precisa. Na sexta-feira o fornecedor de papel
+     corta o crédito sem explicar por quê, e a redação passa a tarde decidindo se a
+     próxima edição sai em duas páginas ou não sai. Vocês cobraram do poder a mesma
+     régua que ele usou para se elogiar. É a régua única de Kant, e ela caiu bem
+     onde dói.
 
-     A crise deixa de ser só uma mudança de governo e passa a ser também uma
-     disputa sobre legitimidade.
-
-     Vocês mostram que uma nova ordem não se sustenta apenas com nomes novos. Ela
-     precisa enfrentar os vícios antigos.
+     A pergunta está impressa. Papel não se retrata.
 
      ---------- SIGA ----------
 
-     Toque em "Ver o desfecho" e confirme.
-     A tela vai para: Fim de Jogo
+     Toque em "Fechar a edição" e confirme.
+     A tela vai para: A Edição de Amanhã
 
 
 ==============================================================================
-22.  CONSEQUÊNCIA — A REPÚBLICA DOS INTERESSES
+22.  CONSEQUÊNCIA — BESTIALIZADO
      caminho de MAQUIAVEL
-     fase: Os Interesses
+     fase: O Povo
 ==============================================================================
 
      >> Leia isto SOMENTE se a turma escolheu a opcao C.
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     Vocês escolhem entrar no novo sistema da forma mais eficiente possível. Se o
-     poder agora depende de alianças locais, então vocês constroem alianças. Se o
-     voto é controlado por interesses, vocês aprendem a jogar esse jogo.
+     A frase desce para a gaveta de baixo, numa pasta com data. A edição do dia sai
+     correta, informativa e completamente inofensiva.
 
-     A decisão é pragmática. Vocês não ignoram a realidade: numa República de
-     interesses, quem recusa o jogo pode acabar fora dele.
+     Onze dias depois, um jornal grande reproduz a mesma frase de Lobo em página
+     inteira e leva o crédito da pergunta que vocês tinham formulado primeiro. O
+     recorte na gaveta vale zero. Maquiavel avisa no capítulo III do Príncipe:
+     esperar o momento certo é ilusão, porque o tempo empurra tudo para a frente e
+     traz o mal junto com o bem. Sempre há um momento melhor logo adiante. É assim
+     que arquivo vira cemitério.
 
-     Isso mostra que o novo regime nasce com promessas, mas também com velhas
-     estruturas de influência.
-
-     A República muda de forma, mas não abandona de imediato sua lógica de poder.
+     A frase está guardada. Ninguém nesta mesa sabe dizer o dia em que ela sai.
 
      ---------- SIGA ----------
 
-     Toque em "Ver o desfecho" e confirme.
-     A tela vai para: Fim de Jogo
+     Toque em "Fechar a edição" e confirme.
+     A tela vai para: A Edição de Amanhã
 
 
 ==============================================================================
-23.  FIM DE JOGO
-     fase: O Legado
+23.  A EDIÇÃO DE AMANHÃ
+     fase: O Que Ficou
 ==============================================================================
 
      ---------- LEIA EM VOZ ALTA ----------
 
-     No fim, o Brasil mudou.
+     A República existe. A prensa não para.
 
-     A monarquia caiu, a República surgiu e o país entrou em uma nova fase. Mas a
-     história que vocês viveram mostra algo importante: essa mudança não foi apenas
-     uma troca de governo.
+     O que esteve em disputa nesta mesa foi uma coisa só: que jornal O Ouvidor
+     virou no caminho.
 
-     Ela foi uma disputa de interesses.
+     Um jornal que mede antes de falar. Um jornal que fala e paga a conta. Um
+     jornal que sobrevive e cobra depois. Nenhum dos três é desprezível, e nenhum
+     dos três sai limpo — porque em novembro de 1889 não havia escolha limpa.
+     Fingir que havia seria a única mentira deste jogo.
 
-     Cada decisão revelou quem queria prudência, quem queria princípio, quem queria
-     vantagem e quem queria apenas continuar mandando. A República nasceu, mas não
-     nasceu pura. Ela também foi moldada por alianças, controle e pela luta para
-     definir quem teria voz no novo país.
+     O resto não dependia de vocês. Dom Pedro II está em alto-mar a caminho da
+     Europa, as províncias viraram estados e um governo que ninguém elegeu está
+     governando o Brasil. A História não estava esperando a votação desta sala.
 
-     A grande lição desta experiência é que a História não é feita só de datas e
-     fatos. Ela é feita de escolhas, conflitos e disputas por poder.
+     A República foi proclamada numa sexta-feira de novembro: de manhã caiu o
+     ministério, e só à tarde apareceu a palavra. Boa parte da cidade foi entender
+     o tamanho da coisa nos dias seguintes, lendo jornal. Tem historiador que diz
+     que aquele povo estava alheio; tem historiador que diz que ele estava é
+     desconfiado de um jogo cujas regras não eram dele.
+
+     A pergunta nunca foi se a República ia existir. Foi quem teria o direito de
+     contar como ela nasceu — e vocês decidiram isso cinco vezes.
 
      ---------- FIM DA SESSAO ----------
 
