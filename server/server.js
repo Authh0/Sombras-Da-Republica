@@ -32,6 +32,7 @@ import {
   acharEscolha,
   apurarVotos,
   tendenciaDominante,
+  conferirQuorum,
 } from '../src/regras.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -116,6 +117,13 @@ function contarPapeis() {
     else jogadores += 1;
   }
   return { jogadores, mestres, total: jogadores + mestres };
+}
+
+/* O quorum da carta que esta no ar agora. Usa a mesma funcao de regras.js que
+   o navegador usa, entao o motivo mostrado na tela do Mestre e literalmente o
+   motivo pelo qual o servidor recusaria o avanco. */
+function quorumAtual() {
+  return conferirQuorum(estado.cena, contarPapeis(), apurarVotos(estado.cena, estado.votos));
 }
 
 function snapshot() {
@@ -235,6 +243,28 @@ io.on('connection', (socket) => {
     // declarado da carta atual.
     if (!cartas[escolha.destino] || !destinosValidos(estado.cena).includes(escolha.destino)) {
       return responder({ ok: false, erro: 'Destino inválido.' });
+    }
+
+    /* ---- QUORUM: este jogo nao e single-player --------------------------
+     * Numa carta de decisao a turma precisa estar junto: no minimo
+     * MINIMO_JOGADORES conectados E o mesmo numero de votos dados.
+     *
+     * A liberacao manual ("forcar") existe para a apresentacao ao vivo: se o
+     * wifi da escola derrubar meia turma no meio da sessao, o Mestre nao pode
+     * ficar preso na frente da sala. Ela e so do Mestre (o papel ja foi
+     * conferido acima) e fica registrada no log do servidor.
+     * ------------------------------------------------------------------ */
+    const quorum = quorumAtual();
+    const forcar = dados && dados.forcar === true;
+
+    if (!quorum.ok && !forcar) {
+      return responder({ ok: false, erro: quorum.motivo, quorum });
+    }
+    if (!quorum.ok && forcar) {
+      console.log(
+        `  [quorum] liberacao manual do Mestre em "${estado.cena}" ` +
+          `(jogadores=${quorum.jogadores}, votos=${quorum.votos}, minimo=${quorum.minimo}).`
+      );
     }
 
     estado.historico.push({

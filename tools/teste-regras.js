@@ -23,6 +23,9 @@ import {
   indiceDaFase,
   CENA_INICIAL,
   CENA_FINAL,
+  MINIMO_JOGADORES,
+  cartaEDecisao,
+  conferirQuorum,
 } from '../src/regras.js';
 
 let passaram = 0;
@@ -153,8 +156,8 @@ conferir(
 );
 conferir(
   'o roteiro da carta 1 traz o texto e a pergunta',
-  semTags(narracaoDoMestre('carta1', [])).includes('Um militar influente procura vocês') &&
-    semTags(narracaoDoMestre('carta1', [])).includes('apoiar a derrubada da monarquia')
+  semTags(narracaoDoMestre('carta1', [])).includes('Duas pessoas procuraram o jornal na mesma semana') &&
+    semTags(narracaoDoMestre('carta1', [])).includes('O espaço nobre do jornal é um só')
 );
 conferir(
   'a linha de rotulo da consequencia NAO entra no roteiro',
@@ -162,28 +165,61 @@ conferir(
 );
 conferir(
   'mas o texto da consequencia entra inteiro',
-  semTags(narracaoDoMestre('r1a', [])).includes('Vocês entendem que uma mudança política')
+  semTags(narracaoDoMestre('r1a', [])).includes('As duas histórias saem na mesma página')
 );
 conferir(
-  'a Carta 4 usa a ordem do documento: pergunta no meio',
+  // A Carta 4 nao tem mais "narracao" propria (a versao antiga tinha): sem
+  // override, o roteiro cai na ordem padrao -- momento, depois texto, depois
+  // pergunta -- e e essa ordem que este teste garante que continua valendo.
+  'sem narracao propria, a Carta 4 segue a ordem padrao: momento, texto, pergunta',
   (() => {
     const t = semTags(narracaoDoMestre('carta4', []));
-    return t.indexOf('o que vale mais') < t.indexOf('Vocês estão diante do desfecho');
+    const iMomento = t.indexOf('Agora é oficial');
+    const iTexto = t.indexOf('Na Câmara Municipal');
+    const iPergunta = t.indexOf('Golpe, revolução ou proclamação');
+    return iMomento >= 0 && iTexto > iMomento && iPergunta > iTexto;
   })()
 );
 conferir(
-  'a abertura traz a frase inteira, sem corte',
+  'a abertura traz a frase inteira de Aristoteles, sem corte',
   semTags(narracaoDoMestre('abertura', [])).includes(
-    'A crise deixa de ser apenas a queda de um regime e passa a ser uma disputa por interesses'
+    'mas fazê-lo à pessoa que convém, na medida, na ocasião, pelo motivo e da maneira que convém, eis o que não é para qualquer um'
   )
 );
 conferir(
-  'a ponte para a Carta 5 aparece nas tres consequencias da Carta 4',
-  ['r4a', 'r4b', 'r4c'].every((id) =>
-    semTags(narracaoDoMestre(id, [])).includes('Com a queda da monarquia, o problema não termina')
-  )
+  'cada consequencia da Carta 4 carrega seu proprio fecho ate o fim do roteiro',
+  semTags(narracaoDoMestre('r4a', [])).includes('Os rótulos ficaram em aberto') &&
+    semTags(narracaoDoMestre('r4b', [])).includes('decreto do novo governo vai passar a punir') &&
+    semTags(narracaoDoMestre('r4c', [])).includes('A porta ficou aberta')
 );
 conferir('carta inexistente devolve roteiro vazio', narracaoDoMestre('nao-existe', []) === '');
+
+/* ---- as quatro citacoes reais nao podem mudar ----------------------------
+ * Sao as unicas citacoes de verdade no jogo (as tres da abertura e a de
+ * Aristides Lobo na carta5). O resto do texto e ficcao/parafrase e pode
+ * mudar a vontade -- estas quatro, nao. Se uma delas for editada ou cortada
+ * por engano, este bloco quebra. */
+console.log('\n  6b) As citacoes reais nao mudam');
+
+const textoAbertura = semTags(cartas.abertura.texto);
+conferir(
+  'a citacao real de Aristoteles (Etica a Nicomaco) esta intacta',
+  textoAbertura.includes(
+    'qualquer um pode encolerizar-se, dar ou gastar dinheiro — isso é fácil; mas fazê-lo à pessoa que convém, na medida, na ocasião, pelo motivo e da maneira que convém, eis o que não é para qualquer um'
+  ) && textoAbertura.includes('Ética a Nicômaco, Livro II, capítulo 9')
+);
+conferir(
+  'a citacao real de Kant (Fundamentacao da Metafisica dos Costumes) esta intacta',
+  textoAbertura.includes(
+    'Age apenas segundo uma máxima tal que possas ao mesmo tempo querer que ela se torne lei universal'
+  ) && textoAbertura.includes('Fundamentação da Metafísica dos Costumes')
+);
+conferir(
+  'a citacao real de Maquiavel (O Principe, XV) esta intacta',
+  textoAbertura.includes(
+    'há tanta diferença de como se vive e como se deveria viver, que aquele que abandone o que se faz por aquilo que se deveria fazer, aprenderá antes o caminho de sua ruína do que o de sua preservação'
+  ) && textoAbertura.includes('O Príncipe, capítulo XV')
+);
 
 /* ---- trilha das fases ----------------------------------------------------- */
 console.log('\n  7) Trilha das fases');
@@ -206,6 +242,77 @@ conferir(
 conferir(
   'a consequencia fica na mesma fase da carta que a gerou',
   indiceDaFase(cartas.r1a.fase) === indiceDaFase(cartas.carta1.fase)
+);
+
+/* ---- quorum: o jogo nao e single-player ---------------------------------- */
+console.log('\n  8) Quorum -- o jogo nao e para um jogador so');
+
+conferir('o minimo de jogadores e pelo menos 2', MINIMO_JOGADORES >= 2);
+
+conferir('carta 1 e carta de decisao', cartaEDecisao('carta1') === true);
+conferir('as cinco cartas de decisao sao reconhecidas',
+  ['carta1', 'carta2', 'carta3', 'carta4', 'carta5'].every((id) => cartaEDecisao(id)));
+conferir('o prologo NAO e carta de decisao', cartaEDecisao('prologo') === false);
+conferir('a abertura NAO e carta de decisao', cartaEDecisao('abertura') === false);
+conferir('consequencia NAO e carta de decisao', cartaEDecisao('r1a') === false);
+conferir('a carta final NAO e carta de decisao', cartaEDecisao(CENA_FINAL) === false);
+conferir('carta inexistente NAO e carta de decisao', cartaEDecisao('nao-existe') === false);
+
+// Carta de leitura: nunca trava, senao o Mestre nao coloca nem o prologo na tela.
+conferir(
+  'carta de leitura avanca sem jogador nenhum',
+  conferirQuorum('prologo', { jogadores: 0 }, { total: 0 }).ok === true
+);
+conferir(
+  'carta de leitura nao exige quorum',
+  conferirQuorum('prologo', { jogadores: 0 }, { total: 0 }).exigido === false
+);
+conferir(
+  'consequencia avanca sem votos',
+  conferirQuorum('r3b', { jogadores: 0 }, { total: 0 }).ok === true
+);
+
+// O bug que existia: Mestre sozinho ia do prologo ao final.
+const sozinho = conferirQuorum('carta1', { jogadores: 0 }, { total: 0 });
+conferir('MESTRE SOZINHO nao avanca uma decisao', sozinho.ok === false);
+conferir('o motivo da recusa nao vem vazio', sozinho.motivo.length > 0);
+conferir('a recusa aponta falta de jogador', sozinho.faltaJogador === true);
+conferir('a recusa aponta falta de voto', sozinho.faltaVoto === true);
+
+conferir(
+  'um jogador so nao avanca uma decisao',
+  conferirQuorum('carta1', { jogadores: 1 }, { total: 1 }).ok === false
+);
+conferir(
+  'dois conectados mas um voto so nao avanca',
+  conferirQuorum('carta1', { jogadores: 2 }, { total: 1 }).ok === false
+);
+conferir(
+  'so a falta de voto e apontada quando ha gente suficiente',
+  conferirQuorum('carta1', { jogadores: 2 }, { total: 1 }).faltaJogador === false
+);
+conferir(
+  'um conectado com dois votos nao avanca',
+  conferirQuorum('carta1', { jogadores: 1 }, { total: 2 }).ok === false
+);
+conferir(
+  'dois conectados e dois votos avancam',
+  conferirQuorum('carta1', { jogadores: 2 }, { total: 2 }).ok === true
+);
+conferir(
+  'turma cheia avanca',
+  conferirQuorum('carta5', { jogadores: 12 }, { total: 9 }).ok === true
+);
+conferir(
+  'quando passa o quorum o motivo fica vazio',
+  conferirQuorum('carta1', { jogadores: 2 }, { total: 2 }).motivo === ''
+);
+
+// Chamada sem argumentos nao pode explodir nem liberar a passagem.
+conferir('sem dados de presenca a decisao continua travada', conferirQuorum('carta1').ok === false);
+conferir(
+  'valores estranhos contam como zero',
+  conferirQuorum('carta1', { jogadores: 'muitos' }, { total: null }).ok === false
 );
 
 /* ---- relatorio ----------------------------------------------------------- */

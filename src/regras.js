@@ -215,6 +215,78 @@ export function apurarVotos(cartaId, votos = {}) {
 }
 
 /* -----------------------------------------------------------------------------
+ *  QUORUM  --  este jogo NAO e para um jogador so
+ * -----------------------------------------------------------------------------
+ *  O jogo e cooperativo: a turma delibera e vota, e o Mestre confirma. Sem
+ *  esta regra o Mestre conseguia ir do prologo ao final com ZERO jogadores
+ *  conectados e ZERO votos -- na pratica um single-player, que e exatamente o
+ *  que o trabalho nao pode ser.
+ *
+ *  A regra vale so nas CARTAS DE DECISAO. As cartas de leitura (prologo,
+ *  abertura e as consequencias) tem uma saida so e nao tem o que votar: se
+ *  elas fossem travadas, o Mestre nao conseguiria nem colocar o prologo na
+ *  tela enquanto a turma ainda esta entrando.
+ * -------------------------------------------------------------------------- */
+export const MINIMO_JOGADORES = 2;
+
+/* Carta de decisao e a que oferece mais de um caminho. O teste sai da propria
+   historia, entao carta nova em historia.js ja entra na regra sozinha. */
+export function cartaEDecisao(cartaId) {
+  const carta = cartas[cartaId];
+  if (!carta || !Array.isArray(carta.escolhas)) return false;
+  return carta.escolhas.length > 1;
+}
+
+/* -----------------------------------------------------------------------------
+ *  Confere se a sessao pode avancar desta carta.
+ *
+ *  Exige as DUAS coisas: gente conectada e voto dado. Sao checagens
+ *  diferentes -- dois celulares abertos e ninguem votando nao e deliberacao.
+ *
+ *  Quem chama passa os numeros que ja tem em maos:
+ *    presenca  = { jogadores, mestres, total }   (do servidor)
+ *    apuracao  = { total, ... }                  (de apurarVotos)
+ *
+ *  Servidor e navegador chamam esta MESMA funcao, entao a mensagem que o
+ *  Mestre le na tela e exatamente o motivo pelo qual o servidor recusaria.
+ * -------------------------------------------------------------------------- */
+export function conferirQuorum(cartaId, presenca = {}, apuracao = {}) {
+  const jogadores = Number(presenca && presenca.jogadores) || 0;
+  const votos = Number(apuracao && apuracao.total) || 0;
+  const minimo = MINIMO_JOGADORES;
+
+  if (!cartaEDecisao(cartaId)) {
+    return { ok: true, exigido: false, jogadores, votos, minimo, faltaJogador: false, faltaVoto: false, motivo: '' };
+  }
+
+  const faltaJogador = jogadores < minimo;
+  const faltaVoto = votos < minimo;
+
+  let motivo = '';
+  if (faltaJogador && faltaVoto) {
+    motivo =
+      `Decisão da turma: precisa de pelo menos ${minimo} jogadores na sessão e ${minimo} votos. ` +
+      `Agora há ${jogadores} jogador(es) e ${votos} voto(s).`;
+  } else if (faltaJogador) {
+    motivo =
+      `Decisão da turma: precisa de pelo menos ${minimo} jogadores na sessão. Agora há ${jogadores}.`;
+  } else if (faltaVoto) {
+    motivo = `Faltam votos: precisa de pelo menos ${minimo}, e há ${votos}.`;
+  }
+
+  return {
+    ok: !faltaJogador && !faltaVoto,
+    exigido: true,
+    jogadores,
+    votos,
+    minimo,
+    faltaJogador,
+    faltaVoto,
+    motivo,
+  };
+}
+
+/* -----------------------------------------------------------------------------
  *  O caminho filosofico da sessao, em nomes bonitos, para mostrar no final.
  * -------------------------------------------------------------------------- */
 export function caminhoEmNomes(historico = []) {

@@ -20,6 +20,7 @@ import {
   narracaoDoMestre,
   tendenciaDominante,
   contarFilosofos,
+  conferirQuorum,
 } from '/src/regras.js';
 
 import { emblema } from './emblemas.js';
@@ -59,6 +60,8 @@ const el = {
   painelMestre: $('painel-mestre'),
   dicaMestre: $('dica-mestre'),
   btnConfirmar: $('btn-confirmar'),
+  areaForcar: $('area-forcar'),
+  btnForcar: $('btn-forcar'),
   btnVoltar: $('btn-voltar'),
   btnReiniciar: $('btn-reiniciar'),
   btnRevelar: $('btn-revelar'),
@@ -271,9 +274,14 @@ socket.on('apuracao', (dados) => {
   if (!local.entrou) return atualizarPresencaLobby();
 
   atualizarContagens();
-  // a dica do Mestre mostra a apuracao em texto, entao precisa acompanhar
-  // cada voto que chega -- nao so as trocas de carta
-  if (local.papel === 'mestre') atualizarDicaMestre();
+  // A dica do Mestre mostra a apuracao em texto, e o quorum depende do numero
+  // de votos e de jogadores -- os dois mudam aqui, e nao na troca de carta.
+  // Sem esta chamada o segundo voto chegava e o botao Confirmar continuava
+  // travado ate a proxima carta.
+  if (local.papel === 'mestre') {
+    atualizarAcoesMestre();
+    atualizarDicaMestre();
+  }
 });
 
 function atualizarPresencaLobby() {
@@ -561,11 +569,39 @@ function votar(escolhaId) {
   atualizarContagens();
 }
 
+/* -----------------------------------------------------------------------------
+ *  O quorum da carta que esta no ar.
+ *  Calculado com a MESMA funcao de regras.js que o servidor chama, entao o
+ *  que o botao permite e exatamente o que o servidor vai aceitar -- a tela
+ *  nunca promete um avanco que seria recusado.
+ * -------------------------------------------------------------------------- */
+function quorumDaCena() {
+  const estado = local.servidor;
+  if (!estado) return { ok: true, exigido: false, motivo: '' };
+  return conferirQuorum(estado.cena, estado.presenca, estado.apuracao);
+}
+
 function selecionarComoMestre(escolhaId) {
   local.selecionada = escolhaId;
-  el.btnConfirmar.disabled = false;
   atualizarContagens();
+  atualizarAcoesMestre();
   atualizarDicaMestre();
+}
+
+/* Liga e desliga os botoes de avanco conforme a selecao e o quorum. */
+function atualizarAcoesMestre() {
+  const estado = local.servidor;
+  if (!estado || local.papel !== 'mestre') return;
+
+  const noFinal = estado.cena === CENA_FINAL;
+  const travado = !quorumDaCena().ok;
+
+  el.btnConfirmar.hidden = noFinal;
+  el.btnConfirmar.disabled = !local.selecionada || travado;
+
+  // A liberacao manual so existe enquanto o avanco esta travado.
+  el.areaForcar.hidden = noFinal || !travado;
+  el.btnForcar.disabled = !local.selecionada;
 }
 
 el.btnConfirmar.addEventListener('click', () => {
@@ -579,6 +615,33 @@ el.btnConfirmar.addEventListener('click', () => {
       if (!r || !r.ok) {
         aviso((r && r.erro) || 'Não foi possível avançar.');
         el.btnConfirmar.disabled = false;
+      }
+    }
+  );
+});
+
+/* Liberação manual do quórum: pede confirmação antes, porque o normal é o
+   jogo ser jogado em grupo. Serve para o wifi cair no meio da apresentação. */
+el.btnForcar.addEventListener('click', async () => {
+  if (!local.selecionada || !local.servidor) return;
+
+  const quorum = quorumDaCena();
+  const certeza = await confirmar(
+    'Seguir sem a turma toda?',
+    `${quorum.motivo} Este jogo é para ser jogado em grupo — use isto só se algo ` +
+      `deu errado de verdade, como o wifi cair ou alguém fechar o celular.`,
+    'Sim, seguir'
+  );
+  if (!certeza) return;
+
+  el.btnForcar.disabled = true;
+  socket.emit(
+    'mestre_avancar',
+    { escolhaId: local.selecionada, versao: local.servidor.versao, forcar: true },
+    (r) => {
+      if (!r || !r.ok) {
+        aviso((r && r.erro) || 'Não foi possível avançar.');
+        el.btnForcar.disabled = false;
       }
     }
   );
@@ -629,8 +692,7 @@ function atualizarPainelMestre(carta, estado) {
   if (!ehMestre) return;
 
   el.btnVoltar.disabled = !estado.historico || estado.historico.length === 0;
-  el.btnConfirmar.disabled = !local.selecionada;
-  el.btnConfirmar.hidden = estado.cena === CENA_FINAL;
+  atualizarAcoesMestre();
 
   el.btnRevelar.textContent = estado.textoRevelado
     ? 'Esconder o texto da tela'
@@ -692,9 +754,17 @@ function atualizarDicaMestre() {
     return;
   }
 
+  // Sem quorum o servidor recusa o avanco, e o Mestre precisa ver o porque.
+  // A mensagem vem da mesma funcao que o servidor usa para recusar.
+  const quorum = quorumDaCena();
+  if (!quorum.ok) {
+    el.dicaMestre.textContent = `${quorum.motivo} Espere a turma entrar e votar.`;
+    return;
+  }
+
   const ap = estado.apuracao || { total: 0, vencedor: null, empate: false };
   if (ap.total === 0) {
-    el.dicaMestre.textContent = 'Ninguém votou ainda. Você pode esperar ou decidir por conta.';
+    el.dicaMestre.textContent = 'Aguardando os votos da turma.';
   } else if (ap.empate) {
     el.dicaMestre.textContent = `${ap.total} voto(s), empate — o desempate é seu.`;
   } else {
